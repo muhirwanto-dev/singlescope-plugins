@@ -1,0 +1,9 @@
+﻿﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+  <style name="AppThemeOverlay.AlertDialog.Loading" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+    <item name="android:windowElevation">@dimen/m3_sys_elevation_level0</item>
+  </style>
+  <style name="AppThemeOverlay.AlertDialog.Loading.Transparent">
+    <item name="android:backgroundTint">@android:color/transparent</item>
+  </style>
+</resources>
