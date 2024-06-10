@@ -17,8 +17,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Layout\popup_loading.xml" />
-    <None Remove="Resources\Values\themes.xml" />
+    <AndroidResource Include="Resources\Android\Layout\popup_loading.xml" />
+    <AndroidResource Include="Resources\Android\Values\themes.xml" />
   </ItemGroup>
 
   <ItemGroup>
