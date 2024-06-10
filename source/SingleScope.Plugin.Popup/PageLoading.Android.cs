@@ -1,7 +1,10 @@
-﻿using Google.Android.Material.Dialog;
+﻿#if ANDROID
+using Android.Widget;
+using Google.Android.Material.Dialog;
 using Google.Android.Material.ProgressIndicator;
 using SingleScope.Plugin.Core.Enums;
 using SingleScope.Plugin.Core.Exceptions.Popup;
+using AlertDialog = AndroidX.AppCompat.App.AlertDialog;
 
 namespace SingleScope.Plugin.Popup
 {
@@ -66,9 +69,10 @@ namespace SingleScope.Plugin.Popup
             _dialog = builder
                 .SetCancelable(false)?
                 .SetView(body)?
-            .Create();
+                .Create();
 
             return _dialog;
         }
     }
 }
+#endif // ANDROID
