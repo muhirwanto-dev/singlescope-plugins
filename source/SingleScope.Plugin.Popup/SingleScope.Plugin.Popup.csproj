@@ -5,8 +5,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionSuffix>alpha</VersionSuffix>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <PackageTags>SingleScope;Plugin;Popup</PackageTags>
+    <PackageTags>SingleScope;Plugin;Popup;MAUI</PackageTags>
     <Title>SingleScope.Plugin.Popup</Title>
     <Authors>muhirwanto.dev</Authors>
     <Description>Popups plugin for .NET MAUI</Description>
@@ -15,11 +16,6 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Copyright>Copyright (c)  muhirwanto.dev 2024</Copyright>
   </PropertyGroup>
-
-  <ItemGroup>
-    <AndroidResource Include="Resources\Android\Layout\popup_loading.xml" />
-    <AndroidResource Include="Resources\Android\Values\themes.xml" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.3" />
@@ -35,4 +31,19 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-android'">
+    <AndroidResource Include="Resources\Android\Layout\popup_loading.xml" />
+    <AndroidResource Include="Resources\Android\Values\themes.xml" />
+  </ItemGroup>
+  
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-ios'">
+    <Compile Remove="**\**\*.Android.cs" />
+  </ItemGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(TargetFramework)|$(Platform)' == 'Debug|net8.0-android|AnyCPU' ">
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(TargetFramework)|$(Platform)' == 'Release|net8.0-android|AnyCPU' ">
+    <AndroidPackageFormat>bundle</AndroidPackageFormat>
+  </PropertyGroup>
 </Project>
