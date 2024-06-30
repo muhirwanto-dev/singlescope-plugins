@@ -67,17 +67,17 @@ namespace SingleScope.Plugin.Popup
             return _interactiveDialog.ShowConfirmationDialogAsync(message, title, accept, cancel);
         }
 
-        public void ShowLoading(string message, string scope = "")
+        public void ShowLoading(string message, string? scope = null)
         {
             _pageLoading.Show(message, scope);
         }
 
-        public void ShowPageLoading(string scope = "")
+        public void ShowPageLoading(string? scope = null)
         {
             _pageLoading.ShowTransparent(scope);
         }
 
-        public void HideLoading(string scope = "")
+        public void HideLoading(string? scope = null)
         {
             _pageLoading.Hide(scope);
         }

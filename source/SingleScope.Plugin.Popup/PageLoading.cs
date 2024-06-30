@@ -10,7 +10,7 @@ namespace SingleScope.Plugin.Popup
         /// </summary>
         private string? _scope = null;
 
-        public void Show(string message, string scope = "")
+        public void Show(string message, string? scope = null)
         {
             if (_scope != null)
             {
@@ -32,7 +32,7 @@ namespace SingleScope.Plugin.Popup
             });
         }
 
-        public void ShowTransparent(string scope = "")
+        public void ShowTransparent(string? scope = null)
         {
             if (_scope != null)
             {
@@ -54,7 +54,7 @@ namespace SingleScope.Plugin.Popup
             });
         }
 
-        public void Hide(string scope = "")
+        public void Hide(string? scope = null)
         {
             if (_scope != scope)
             {
