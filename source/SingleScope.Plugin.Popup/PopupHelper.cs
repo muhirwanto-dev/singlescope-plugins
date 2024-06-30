@@ -1,4 +1,4 @@
-﻿using SingleScope.Plugin.Core.Enums;
+﻿using SingleScope.Plugin.Enums;
 
 namespace SingleScope.Plugin.Popup
 {
@@ -10,16 +10,16 @@ namespace SingleScope.Plugin.Popup
 
         private PageLoading _pageLoading;
         private InteractiveDialog _interactiveDialog;
-        private EPopupReportMode _reportMode;
+        private PopupReportMode _reportMode;
 
         private PopupHelper()
         {
             _pageLoading = new PageLoading();
             _interactiveDialog = new InteractiveDialog();
-            _reportMode = EPopupReportMode.ShowException;
+            _reportMode = PopupReportMode.ShowException;
         }
 
-        public PopupHelper SetReportMode(EPopupReportMode reportMode)
+        public PopupHelper SetReportMode(PopupReportMode reportMode)
         {
             _reportMode = reportMode;
 
@@ -31,7 +31,7 @@ namespace SingleScope.Plugin.Popup
             message += "\n---> Original stack trace:\n";
             message += exception.ToString();
 
-            if (_reportMode == EPopupReportMode.ShowException)
+            if (_reportMode == PopupReportMode.ShowException)
             {
                 ShowErrorDialog(args.Any() ? string.Format(message, args) : message);
             }

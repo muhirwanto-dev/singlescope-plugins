@@ -1,5 +1,5 @@
-﻿using SingleScope.Plugin.Core.Enums;
-using SingleScope.Plugin.Core.Exceptions.Popup;
+﻿using SingleScope.Plugin.Enums;
+using SingleScope.Plugin.Exceptions;
 
 namespace SingleScope.Plugin.Popup
 {
@@ -14,7 +14,7 @@ namespace SingleScope.Plugin.Popup
         {
             if (_scope != null)
             {
-                throw new PageLoadingException(ELoadingExceptionType.ScopeAlreadyExist,
+                throw new PageLoadingException(LoadingExceptionType.ScopeAlreadyExist,
                     string.Format("Found existing scope, current scope ({0}) while requested scope ({1})", _scope, scope));
             }
 
@@ -36,7 +36,7 @@ namespace SingleScope.Plugin.Popup
         {
             if (_scope != scope)
             {
-                throw new PageLoadingException(ELoadingExceptionType.ScopeNotMatched,
+                throw new PageLoadingException(LoadingExceptionType.ScopeNotMatched,
                     string.Format("Scope is not match, current scope ({0}) while requested scope ({1})", _scope, scope));
             }
 

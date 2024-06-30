@@ -1,6 +1,6 @@
-﻿namespace SingleScope.Plugin.Core.Enums
+﻿namespace SingleScope.Plugin.Enums
 {
-    public enum EPopupReportMode : uint
+    public enum PopupReportMode : uint
     {
         /// <summary>
         /// Show exception into user as a popup

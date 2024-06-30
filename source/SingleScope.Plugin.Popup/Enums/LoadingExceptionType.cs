@@ -1,6 +1,6 @@
-﻿namespace SingleScope.Plugin.Core.Enums
+﻿namespace SingleScope.Plugin.Enums
 {
-    public enum ELoadingExceptionType : uint
+    public enum LoadingExceptionType : uint
     {
         /// <summary>
         /// Failed to show loading with specific scope

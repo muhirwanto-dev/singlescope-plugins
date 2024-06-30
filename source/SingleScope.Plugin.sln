@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingleScope.Plugin.Core", "SingleScope.Plugin.Core\SingleScope.Plugin.Core.csproj", "{5B4A21A5-9924-4E83-A5A6-2ED294F73D5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SingleScope.Plugin.Core", "SingleScope.Plugin.Core\SingleScope.Plugin.Core.csproj", "{5B4A21A5-9924-4E83-A5A6-2ED294F73D5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingleScope.Plugin.Popup", "SingleScope.Plugin.Popup\SingleScope.Plugin.Popup.csproj", "{4F5CCEB1-5CC6-4ABF-A38F-68BCC4BBA6AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SingleScope.Plugin.Popup", "SingleScope.Plugin.Popup\SingleScope.Plugin.Popup.csproj", "{4F5CCEB1-5CC6-4ABF-A38F-68BCC4BBA6AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

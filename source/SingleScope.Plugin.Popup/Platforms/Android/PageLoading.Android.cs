@@ -1,9 +1,8 @@
-﻿#if ANDROID
-using Android.Widget;
+﻿using Android.Widget;
 using Google.Android.Material.Dialog;
 using Google.Android.Material.ProgressIndicator;
-using SingleScope.Plugin.Core.Enums;
-using SingleScope.Plugin.Core.Exceptions.Popup;
+using SingleScope.Plugin.Enums;
+using SingleScope.Plugin.Exceptions;
 using AlertDialog = AndroidX.AppCompat.App.AlertDialog;
 
 namespace SingleScope.Plugin.Popup
@@ -34,7 +33,7 @@ namespace SingleScope.Plugin.Popup
         {
             if (_dialog != null)
             {
-                throw new PageLoadingException(ELoadingExceptionType.MultipleDialog,
+                throw new PageLoadingException(LoadingExceptionType.MultipleDialog,
                     "There's an active dialog instance, failed to create another one");
             }
 
@@ -75,4 +74,3 @@ namespace SingleScope.Plugin.Popup
         }
     }
 }
-#endif // ANDROID
