@@ -32,6 +32,28 @@ namespace SingleScope.Plugin.Popup
             });
         }
 
+        public void ShowTransparent(string scope = "")
+        {
+            if (_scope != null)
+            {
+                throw new PageLoadingException(LoadingExceptionType.ScopeAlreadyExist,
+                    string.Format("Found existing scope, current scope ({0}) while requested scope ({1})", _scope, scope));
+            }
+
+            _scope = scope;
+
+            Application.Current?.Dispatcher?.Dispatch(() =>
+            {
+#if ANDROID
+                ShowLoadingAndroid(null);
+#elif IOS
+                throw new NotImplementedException();
+#else
+                throw new NotSupportedException();
+#endif
+            });
+        }
+
         public void Hide(string scope = "")
         {
             if (_scope != scope)

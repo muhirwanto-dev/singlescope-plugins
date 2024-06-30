@@ -2,23 +2,23 @@
 {
     internal class InteractiveDialog
     {
-        public async Task<bool> ShowConfirmationDialogAsync(string message, string? title = null, string? accept = null, string? cancel = null)
+        public async Task<bool> ShowConfirmationDialogAsync(string message, string title = "Confirmation", string accept = "Yes", string cancel = "No")
         {
             Task<bool>? displayTask = Application.Current?.MainPage?.DisplayAlert(
-                title ?? "Info",
+                title,
                 message,
-                accept ?? "Yes",
-                cancel ?? "No"
+                accept,
+                cancel
                 );
 
             return displayTask != null ? await displayTask : false;
         }
 
-        public void ShowAlertDialog(string message, string title, string? confirm = null)
+        public void ShowAlertDialog(string message, string title, string confirm = "Ok")
         {
             Application.Current?.Dispatcher?.Dispatch(() =>
             {
-                Application.Current.MainPage?.DisplayAlert(title, message, confirm ?? "Ok");
+                Application.Current.MainPage?.DisplayAlert(title, message, confirm);
             });
         }
     }

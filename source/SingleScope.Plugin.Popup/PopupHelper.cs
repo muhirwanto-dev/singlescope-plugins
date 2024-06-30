@@ -41,14 +41,14 @@ namespace SingleScope.Plugin.Popup
             }
         }
 
-        public void ShowErrorDialog(string message, string? title = null)
+        public void ShowErrorDialog(string message, string title = "Error")
         {
-            _interactiveDialog.ShowAlertDialog(message, title ?? "Error");
+            _interactiveDialog.ShowAlertDialog(message, title);
         }
 
-        public void ShowInfoDialog(string message, string? title = null)
+        public void ShowInfoDialog(string message, string title = "Info")
         {
-            _interactiveDialog.ShowAlertDialog(message, title ?? "Info");
+            _interactiveDialog.ShowAlertDialog(message, title);
         }
 
         public Task<bool> ShowConfirmationDialogAsync(string message, string? title = null, string? accept = null, string? cancel = null)
@@ -59,6 +59,11 @@ namespace SingleScope.Plugin.Popup
         public void ShowLoading(string message, string scope = "")
         {
             _pageLoading.Show(message, scope);
+        }
+
+        public void ShowPageLoading(string scope = "")
+        {
+            _pageLoading.ShowTransparent(scope);
         }
 
         public void HideLoading(string scope = "")
