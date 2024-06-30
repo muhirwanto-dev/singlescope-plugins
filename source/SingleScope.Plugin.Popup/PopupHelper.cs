@@ -1,4 +1,5 @@
-﻿using SingleScope.Plugin.Enums;
+﻿using Microsoft.Extensions.Logging;
+using SingleScope.Plugin.Enums;
 
 namespace SingleScope.Plugin.Popup
 {
@@ -11,12 +12,14 @@ namespace SingleScope.Plugin.Popup
         private PageLoading _pageLoading;
         private InteractiveDialog _interactiveDialog;
         private PopupReportMode _reportMode;
+        private ILogger? _logger;
 
         private PopupHelper()
         {
+            _logger = null;
             _pageLoading = new PageLoading();
             _interactiveDialog = new InteractiveDialog();
-            _reportMode = PopupReportMode.ShowException;
+            _reportMode = PopupReportMode.ReportDialog;
         }
 
         public PopupHelper SetReportMode(PopupReportMode reportMode)
@@ -26,18 +29,26 @@ namespace SingleScope.Plugin.Popup
             return this;
         }
 
+        public PopupHelper SetLogger(ILogger logger)
+        {
+            _logger = logger;
+
+            return this;
+        }
+
         public void ReportException(Exception exception, string message, params object?[] args)
         {
             message += "\n---> Original stack trace:\n";
             message += exception.ToString();
 
-            if (_reportMode == PopupReportMode.ShowException)
+            if ((_reportMode & PopupReportMode.ReportLogging) != 0)
+            {
+                _logger?.LogError(message);
+            }
+
+            if ((_reportMode & PopupReportMode.ReportDialog) != 0)
             {
                 ShowErrorDialog(args.Any() ? string.Format(message, args) : message);
-            }
-            else
-            {
-                throw new NotImplementedException();
             }
         }
 
