@@ -1,4 +1,4 @@
-﻿namespace SingleScope.Plugin.Enums
+﻿namespace SingleScope.Plugin.Popup.Loading
 {
     public enum LoadingExceptionType : uint
     {

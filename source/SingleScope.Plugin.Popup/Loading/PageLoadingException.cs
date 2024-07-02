@@ -1,6 +1,4 @@
-﻿using SingleScope.Plugin.Enums;
-
-namespace SingleScope.Plugin.Exceptions
+﻿namespace SingleScope.Plugin.Popup.Loading
 {
     public class PageLoadingException : Exception
     {

@@ -1,4 +1,4 @@
-﻿namespace SingleScope.Plugin.Popup
+﻿namespace SingleScope.Plugin.Popup.Dialog
 {
     internal class InteractiveDialog
     {

@@ -1,5 +1,4 @@
-﻿using SingleScope.Plugin.Enums;
-using SingleScope.Plugin.Exceptions;
+﻿using SingleScope.Plugin.Popup.Loading;
 
 namespace SingleScope.Plugin.Popup
 {

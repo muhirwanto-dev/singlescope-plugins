@@ -1,8 +1,7 @@
 ﻿using Android.Widget;
 using Google.Android.Material.Dialog;
 using Google.Android.Material.ProgressIndicator;
-using SingleScope.Plugin.Enums;
-using SingleScope.Plugin.Exceptions;
+using SingleScope.Plugin.Popup.Loading;
 using AlertDialog = AndroidX.AppCompat.App.AlertDialog;
 
 namespace SingleScope.Plugin.Popup

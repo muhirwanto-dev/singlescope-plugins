@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using SingleScope.Plugin.Enums;
+using SingleScope.Plugin.Popup.Dialog;
+using SingleScope.Plugin.Popup.Loading;
 
 namespace SingleScope.Plugin.Popup
 {
@@ -19,7 +20,7 @@ namespace SingleScope.Plugin.Popup
             _logger = null;
             _pageLoading = new PageLoading();
             _interactiveDialog = new InteractiveDialog();
-            _reportMode = PopupReportMode.ReportDialog;
+            _reportMode = PopupReportMode.LogAndFullException;
         }
 
         public PopupHelper SetReportMode(PopupReportMode reportMode)
@@ -36,18 +37,36 @@ namespace SingleScope.Plugin.Popup
             return this;
         }
 
+        public void ReportException(Exception exception)
+        {
+            ReportException(exception, string.Empty);
+        }
+
         public void ReportException(Exception exception, string message, params object?[] args)
         {
-            message += "\n---> Original stack trace:\n";
-            message += exception.ToString();
-
-            if ((_reportMode & PopupReportMode.ReportLogging) != 0)
+            if (!string.IsNullOrEmpty(message))
             {
-                _logger?.LogError(message);
+                message += "\n---> Original stack trace:\n";
             }
 
-            if ((_reportMode & PopupReportMode.ReportDialog) != 0)
+            string exStr = exception.ToString();
+
+            if ((_reportMode & PopupReportMode.ErrorLogging) != 0)
             {
+                _logger?.LogError(message + exStr);
+            }
+
+            if ((_reportMode & (PopupReportMode.ShowExceptionMessage | PopupReportMode.ShowFullException)) != 0)
+            {
+                if ((_reportMode & PopupReportMode.ShowExceptionMessage) != 0)
+                {
+                    message += exception.Message;
+                }
+                else if ((_reportMode & PopupReportMode.ShowFullException) != 0)
+                {
+                    message += exStr;
+                }
+
                 ShowErrorDialog(args.Any() ? string.Format(message, args) : message);
             }
         }
@@ -80,6 +99,11 @@ namespace SingleScope.Plugin.Popup
         public void HideLoading(string? scope = null)
         {
             _pageLoading.Hide(scope);
+        }
+
+        public IScopedLoading ShowScopedLoading(string message)
+        {
+            return new ScopedLoading().Show(message);
         }
     }
 }
