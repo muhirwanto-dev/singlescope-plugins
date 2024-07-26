@@ -9,6 +9,13 @@ namespace SingleScope.Plugin.Popup
         /// </summary>
         private string? _scope = null;
 
+        private byte[]? _gifImage = null;
+
+        public void SetGifImage(byte[]? image)
+        {
+            _gifImage = image;
+        }
+
         public void Show(string message, string? scope = null)
         {
             if (_scope != null)

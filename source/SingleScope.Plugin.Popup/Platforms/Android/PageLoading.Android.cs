@@ -1,4 +1,6 @@
-﻿using Android.Widget;
+﻿using Android.Content;
+using Android.Widget;
+using Bumptech.Glide;
 using Google.Android.Material.Dialog;
 using Google.Android.Material.ProgressIndicator;
 using SingleScope.Plugin.Popup.Loading;
@@ -54,10 +56,27 @@ namespace SingleScope.Plugin.Popup
                 }
             }
 
+            bool useGif = false;
+
+            if (_gifImage != null)
+            {
+                var image = body.FindViewById<ImageView>(Resource.Id.progress_indicator_gif);
+                if (image != null)
+                {
+                    Glide.With(context as Context)
+                        .AsGif()
+                        .Load(_gifImage)
+                        .Into(image);
+
+                    useGif = true;
+                }
+            }
+
             var indicator = body.FindViewById<CircularProgressIndicator>(Resource.Id.progress_indicator);
             if (indicator != null)
             {
                 indicator.Indeterminate = true;
+                indicator.Visibility = useGif ? Android.Views.ViewStates.Gone : Android.Views.ViewStates.Visible;
             }
 
             var builder = string.IsNullOrEmpty(message)

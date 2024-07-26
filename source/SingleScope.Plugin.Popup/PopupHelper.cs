@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using SingleScope.Plugin.Core;
 using SingleScope.Plugin.Popup.Dialog;
 using SingleScope.Plugin.Popup.Loading;
 
@@ -30,9 +31,29 @@ namespace SingleScope.Plugin.Popup
             return this;
         }
 
-        public PopupHelper SetLogger(ILogger logger)
+        public PopupHelper SetLogger(ILogger? logger)
         {
             _logger = logger;
+
+            return this;
+        }
+
+        public PopupHelper SetGifLoadingImage(byte[]? image)
+        {
+            _pageLoading.SetGifImage(image);
+
+            return this;
+        }
+
+        public PopupHelper SetGifLoadingImage<TAssemblySource>(string filename)
+        {
+            var loader = new ImageLoader<TAssemblySource>();
+            byte[]? buffer = loader.GetByteArrayFromSource(filename);
+
+            if (buffer != null)
+            {
+                _pageLoading.SetGifImage(buffer);
+            }
 
             return this;
         }
@@ -51,11 +72,6 @@ namespace SingleScope.Plugin.Popup
 
             string exStr = exception.ToString();
 
-            if ((_reportMode & PopupReportMode.ErrorLogging) != 0)
-            {
-                _logger?.LogError(message + exStr);
-            }
-
             if ((_reportMode & (PopupReportMode.ShowExceptionMessage | PopupReportMode.ShowFullException)) != 0)
             {
                 if ((_reportMode & PopupReportMode.ShowExceptionMessage) != 0)
@@ -73,15 +89,25 @@ namespace SingleScope.Plugin.Popup
 
         public void ShowErrorDialog(string message, string title = "Error")
         {
+            if ((_reportMode & PopupReportMode.LogEnable) != 0)
+            {
+                _logger?.LogError(message);
+            }
+
             _interactiveDialog.ShowAlertDialog(message, title);
         }
 
         public void ShowInfoDialog(string message, string title = "Info")
         {
+            if ((_reportMode & PopupReportMode.LogEnable) != 0)
+            {
+                _logger?.LogDebug(message);
+            }
+
             _interactiveDialog.ShowAlertDialog(message, title);
         }
 
-        public Task<bool> ShowConfirmationDialogAsync(string message, string? title = null, string? accept = null, string? cancel = null)
+        public Task<bool> ShowConfirmationDialogAsync(string message, string title = "Confirmation", string accept = "Yes", string cancel = "No")
         {
             return _interactiveDialog.ShowConfirmationDialogAsync(message, title, accept, cancel);
         }
@@ -91,7 +117,7 @@ namespace SingleScope.Plugin.Popup
             _pageLoading.Show(message, scope);
         }
 
-        public void ShowPageLoading(string? scope = null)
+        public void ShowTransparentPageLoading(string? scope = null)
         {
             _pageLoading.ShowTransparent(scope);
         }

@@ -7,7 +7,7 @@
         /// <summary>
         /// Write the exception with a specific logger.
         /// </summary>
-        ErrorLogging = 1 << 1,
+        LogEnable = 1 << 1,
 
         /// <summary>
         /// Show the exception message and it's stack trace as a dialog.
@@ -22,11 +22,11 @@
         /// <summary>
         /// Write the exception with a specific logger and show as a popup dialog.
         /// </summary>
-        LogAndFullException = ErrorLogging | ShowFullException,
+        LogAndFullException = LogEnable | ShowFullException,
 
         /// <summary>
         /// Write the exception with a specific logger and show as a popup dialog.
         /// </summary>
-        LogAndException = ErrorLogging | ShowExceptionMessage,
+        LogAndException = LogEnable | ShowExceptionMessage,
     }
 }
