@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using SingleScope.Plugin.Popup;
+﻿using SingleScope.Plugin.Popup;
 
 namespace SingleScope.Example
 {
@@ -18,12 +17,17 @@ namespace SingleScope.Example
         {
             using (var popup = PopupHelper.Instance.ShowScopedLoading("example scoped"))
             {
-                await Task.Delay(1000);
+                await Task.Delay(5000);
             }
 
-            PopupHelper.Instance.SetGifLoadingImage<App>("loading_example.gif");
+            PopupHelper.Instance.SetGifLoadingEmbeddedResource<App>("loading_example.gif");
 
             using (var popup = PopupHelper.Instance.ShowScopedLoading("example scoped 2"))
+            {
+                await Task.Delay(5000);
+            }
+
+            using (var popup = PopupHelper.Instance.ShowTransparentScopedLoading())
             {
                 await Task.Delay(5000);
             }

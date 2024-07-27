@@ -22,6 +22,13 @@
             return this;
         }
 
+        public IScopedLoading ShowTransparent()
+        {
+            ShowTransparent(null);
+
+            return this;
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (!_isDisposed)

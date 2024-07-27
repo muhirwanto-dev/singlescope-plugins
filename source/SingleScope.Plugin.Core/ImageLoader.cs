@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 
 namespace SingleScope.Plugin.Core
 {
@@ -12,28 +6,22 @@ namespace SingleScope.Plugin.Core
     {
         private readonly Assembly _assembly;
 
-        public ImageLoader() 
+        public ImageLoader()
         {
             _assembly = typeof(T).GetTypeInfo().Assembly;
         }
 
-        public byte[]? GetByteArrayFromSource(string filename)
+        public byte[]? GetByteArrayFromEmbeddedResource(string filename)
         {
-            try
-            {
-                AssemblyName assemblyName = _assembly.GetName();
-                string filepath = $"{assemblyName.Name}.Resources.Images.{filename}";
+            AssemblyName assemblyName = _assembly.GetName();
+            string filepath = $"{assemblyName.Name}.Resources.Images.{filename}";
 
-                using (Stream? fs = _assembly.GetManifestResourceStream(filepath))
-                {
-                    if (fs != null)
-                    {
-                        return ReadAllBytes(fs);
-                    }
-                }
-            }
-            catch
+            using (Stream? fs = _assembly.GetManifestResourceStream(filepath))
             {
+                if (fs != null)
+                {
+                    return ReadAllBytes(fs);
+                }
             }
 
             return null;

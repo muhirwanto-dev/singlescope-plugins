@@ -56,20 +56,24 @@ namespace SingleScope.Plugin.Popup
                 }
             }
 
-            bool useGif = false;
+            bool useGif = _gifImage != null;
 
-            if (_gifImage != null)
+            var image = body.FindViewById<ImageView>(Resource.Id.progress_indicator_gif);
+            if (image != null)
             {
-                var image = body.FindViewById<ImageView>(Resource.Id.progress_indicator_gif);
-                if (image != null)
+                if (useGif)
                 {
                     Glide.With(context as Context)
                         .AsGif()
                         .Load(_gifImage)
                         .Into(image);
-
-                    useGif = true;
                 }
+            
+                image.Visibility = useGif ? Android.Views.ViewStates.Visible : Android.Views.ViewStates.Gone;
+            }
+            else
+            {
+                useGif = false;
             }
 
             var indicator = body.FindViewById<CircularProgressIndicator>(Resource.Id.progress_indicator);

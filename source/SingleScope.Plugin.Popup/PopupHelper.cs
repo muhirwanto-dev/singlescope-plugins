@@ -16,6 +16,8 @@ namespace SingleScope.Plugin.Popup
         private PopupReportMode _reportMode;
         private ILogger? _logger;
 
+        private byte[]? _gifImage = null;
+
         private PopupHelper()
         {
             _logger = null;
@@ -38,22 +40,21 @@ namespace SingleScope.Plugin.Popup
             return this;
         }
 
-        public PopupHelper SetGifLoadingImage(byte[]? image)
+        public PopupHelper SetGifLoadingBytes(byte[]? image)
         {
+            _gifImage = image;
             _pageLoading.SetGifImage(image);
 
             return this;
         }
 
-        public PopupHelper SetGifLoadingImage<TAssemblySource>(string filename)
+        public PopupHelper SetGifLoadingEmbeddedResource<TAssemblySource>(string filename)
         {
             var loader = new ImageLoader<TAssemblySource>();
-            byte[]? buffer = loader.GetByteArrayFromSource(filename);
+            byte[]? buffer = loader.GetByteArrayFromEmbeddedResource(filename);
 
-            if (buffer != null)
-            {
-                _pageLoading.SetGifImage(buffer);
-            }
+            _gifImage = buffer;
+            _pageLoading.SetGifImage(buffer);
 
             return this;
         }
@@ -129,7 +130,18 @@ namespace SingleScope.Plugin.Popup
 
         public IScopedLoading ShowScopedLoading(string message)
         {
-            return new ScopedLoading().Show(message);
+            var loading = new ScopedLoading();
+            loading.SetGifImage(_gifImage);
+
+            return loading.Show(message);
+        }
+
+        public IScopedLoading ShowTransparentScopedLoading()
+        {
+            var loading = new ScopedLoading();
+            loading.SetGifImage(_gifImage);
+
+            return loading.ShowTransparent();
         }
     }
 }
