@@ -57,7 +57,7 @@ namespace SingleScope.Plugin.Popup
                 }
             }
 
-            bool useGif = _gifImage != null;
+            bool useGif = GifImage?.Image != null;
 
             var image = body.FindViewById<ImageView>(Resource.Id.progress_indicator_gif);
             if (image != null)
@@ -66,11 +66,19 @@ namespace SingleScope.Plugin.Popup
                 {
                     Glide.With(context as Context)
                         .AsGif()
-                        .Load(_gifImage)
+                        .Load(GifImage!.Image)
                         .Into(image);
-                }
 
-                image.Visibility = useGif ? Android.Views.ViewStates.Visible : Android.Views.ViewStates.Gone;
+                    int height = GifImage.Height ?? image.Height;
+                    int width = GifImage.Width ?? image.Width;
+
+                    image.LayoutParameters = new Android.Views.ViewGroup.LayoutParams(width, height);
+                    image.Visibility = Android.Views.ViewStates.Visible;
+                }
+                else
+                {
+                    image.Visibility = Android.Views.ViewStates.Gone;
+                }
             }
             else
             {
