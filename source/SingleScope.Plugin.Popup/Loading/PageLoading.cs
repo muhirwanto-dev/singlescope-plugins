@@ -16,7 +16,7 @@ namespace SingleScope.Plugin.Popup
             _gifImage = image;
         }
 
-        public void Show(string message, string? scope = null)
+        public void Show(string message, string? scope = null, bool isCancelable = false, Action? onCancel = null)
         {
             if (_scope != null)
             {
@@ -29,7 +29,7 @@ namespace SingleScope.Plugin.Popup
             Application.Current?.Dispatcher?.Dispatch(() =>
             {
 #if ANDROID
-                ShowLoadingAndroid(message);
+                ShowLoadingAndroid(message, isCancelable, onCancel);
 #elif IOS
                 throw new NotImplementedException();
 #else
@@ -38,7 +38,7 @@ namespace SingleScope.Plugin.Popup
             });
         }
 
-        public void ShowTransparent(string? scope = null)
+        public void ShowTransparent(string? scope = null, bool isCancelable = false, Action? onCancel = null)
         {
             if (_scope != null)
             {
@@ -51,7 +51,7 @@ namespace SingleScope.Plugin.Popup
             Application.Current?.Dispatcher?.Dispatch(() =>
             {
 #if ANDROID
-                ShowLoadingAndroid(null);
+                ShowLoadingAndroid(null, isCancelable, onCancel);
 #elif IOS
                 throw new NotImplementedException();
 #else

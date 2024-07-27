@@ -98,11 +98,21 @@ namespace SingleScope.Plugin.Popup
             _interactiveDialog.ShowAlertDialog(message, title);
         }
 
-        public void ShowInfoDialog(string message, string title = "Info")
+        public void ShowInfoDialog(string message, string? title = null)
         {
             if ((_reportMode & PopupReportMode.LogEnable) != 0)
             {
                 _logger?.LogDebug(message);
+            }
+
+            _interactiveDialog.ShowAlertDialog(message, title ?? string.Empty);
+        }
+
+        public void ShowWarningDialog(string message, string title = "Warning")
+        {
+            if ((_reportMode & PopupReportMode.LogEnable) != 0)
+            {
+                _logger?.LogWarning(message);
             }
 
             _interactiveDialog.ShowAlertDialog(message, title);
@@ -113,14 +123,34 @@ namespace SingleScope.Plugin.Popup
             return _interactiveDialog.ShowConfirmationDialogAsync(message, title, accept, cancel);
         }
 
+        public Task<string?> ShowPromptDialogAsync(string message, string title, string accept = "Ok", string cancel = "Cancel", string? placeholder = null, int maxLength = -1, Keyboard? keyboard = default, string initialValue = "")
+        {
+            return _interactiveDialog.ShowPromptDialogAsync(title, message, accept, cancel, placeholder, maxLength, keyboard, initialValue);
+        }
+
+        public Task<string?> ShowActionSheetAsync(string title, string cancel = "Cancel", FlowDirection flowDirection = FlowDirection.MatchParent, params string[] buttons)
+        {
+            return _interactiveDialog.ShowActionSheetAsync(title, cancel, flowDirection, buttons);
+        }
+
         public void ShowLoading(string message, string? scope = null)
         {
             _pageLoading.Show(message, scope);
         }
 
-        public void ShowTransparentPageLoading(string? scope = null)
+        public void ShowTransparentLoading(string? scope = null)
         {
             _pageLoading.ShowTransparent(scope);
+        }
+
+        public void ShowCancelableLoading(string message, Action onCancel, string? scope = null)
+        {
+            _pageLoading.Show(message, scope, isCancelable: true, onCancel);
+        }
+
+        public void ShowCancelableTransparentLoading(Action onCancel, string? scope = null)
+        {
+            _pageLoading.ShowTransparent(scope, isCancelable: true, onCancel);
         }
 
         public void HideLoading(string? scope = null)
@@ -132,16 +162,18 @@ namespace SingleScope.Plugin.Popup
         {
             var loading = new ScopedLoading();
             loading.SetGifImage(_gifImage);
+            loading.Show(message);
 
-            return loading.Show(message);
+            return loading;
         }
 
         public IScopedLoading ShowTransparentScopedLoading()
         {
             var loading = new ScopedLoading();
             loading.SetGifImage(_gifImage);
+            loading.ShowTransparent();
 
-            return loading.ShowTransparent();
+            return loading;
         }
     }
 }

@@ -4,6 +4,7 @@ using Bumptech.Glide;
 using Google.Android.Material.Dialog;
 using Google.Android.Material.ProgressIndicator;
 using SingleScope.Plugin.Popup.Loading;
+using SingleScope.Plugin.Popup.Platforms.Android;
 using AlertDialog = AndroidX.AppCompat.App.AlertDialog;
 
 namespace SingleScope.Plugin.Popup
@@ -12,9 +13,9 @@ namespace SingleScope.Plugin.Popup
     {
         private AlertDialog? _dialog = null;
 
-        private void ShowLoadingAndroid(string? message = null)
+        private void ShowLoadingAndroid(string? message = null, bool isCancelable = false, Action? onCancel = null)
         {
-            CreateLoading(message)?.Show();
+            CreateLoading(message, isCancelable, onCancel)?.Show();
         }
 
         private void HideLoadingAndroid()
@@ -30,7 +31,7 @@ namespace SingleScope.Plugin.Popup
         /// </summary>
         /// <param name="message">Optional. A message to be displayed in the loading dialog.</param>
         /// <returns>An instance of <see cref="AlertDialog"/> representing the loading dialog.</returns>
-        private AlertDialog? CreateLoading(string? message = null)
+        private AlertDialog? CreateLoading(string? message = null, bool isCancelable = false, Action? onCancel = null)
         {
             if (_dialog != null)
             {
@@ -68,7 +69,7 @@ namespace SingleScope.Plugin.Popup
                         .Load(_gifImage)
                         .Into(image);
                 }
-            
+
                 image.Visibility = useGif ? Android.Views.ViewStates.Visible : Android.Views.ViewStates.Gone;
             }
             else
@@ -88,8 +89,9 @@ namespace SingleScope.Plugin.Popup
                 : new MaterialAlertDialogBuilder(context, Resource.Style.AppThemeOverlay_AlertDialog_Loading);
 
             _dialog = builder
-                .SetCancelable(false)?
+                .SetCancelable(isCancelable)?
                 .SetView(body)?
+                .SetOnCancelListener(onCancel == null ? null : new DialogOnCancelListener(onCancel))?
                 .Create();
 
             return _dialog;
