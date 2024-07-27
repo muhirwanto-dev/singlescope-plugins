@@ -4,10 +4,10 @@
     <TargetFrameworks>net8.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <VersionPrefix>1.1.0</VersionPrefix>
+    <VersionPrefix>1.3.0</VersionPrefix>
     <VersionSuffix>alpha</VersionSuffix>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <PackageTags>SingleScope;Plugin;Core</PackageTags>
+    <PackageTags>SingleScope;Plugin;Core;MAUI</PackageTags>
     <Title>SingleScope.Plugin.Core</Title>
     <Authors>muhirwanto.dev</Authors>
     <PackageProjectUrl>https://github.com/muhirwanto-dev/singlescope-plugins</PackageProjectUrl>
