@@ -69,10 +69,22 @@ namespace SingleScope.Plugin.Popup
                         .Load(GifImage!.Image)
                         .Into(image);
 
-                    int height = GifImage.Height ?? image.Height;
-                    int width = GifImage.Width ?? image.Width;
+                    int height = GifImage.Height ?? image.LayoutParameters?.Height ?? -1;
+                    int width = GifImage.Width ?? image.LayoutParameters?.Width ?? -1;
 
-                    image.LayoutParameters = new Android.Views.ViewGroup.LayoutParams(width, height);
+                    if (image.LayoutParameters != null)
+                    {
+                        image.LayoutParameters.Height = height;
+                        image.LayoutParameters.Width = width;
+                    }
+                    else
+                    {
+                        image.LayoutParameters ??= new LinearLayout.LayoutParams(width, height)
+                        {
+                            Gravity = Android.Views.GravityFlags.CenterHorizontal,
+                        };
+                    }
+
                     image.Visibility = Android.Views.ViewStates.Visible;
                 }
                 else
