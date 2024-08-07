@@ -11,7 +11,7 @@
 	</PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>1.3.1</VersionPrefix>
+    <VersionPrefix>1.3.2</VersionPrefix>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageTags>SingleScope;Plugin;Popup;MAUI;Dialog;Loading</PackageTags>
     <Title>SingleScope.Plugin.Popup</Title>
