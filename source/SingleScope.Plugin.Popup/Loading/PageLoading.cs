@@ -1,4 +1,5 @@
-﻿using SingleScope.Plugin.Popup.Loading;
+﻿using CommunityToolkit.Maui.Views;
+using SingleScope.Plugin.Popup.Loading;
 
 namespace SingleScope.Plugin.Popup
 {
@@ -15,17 +16,27 @@ namespace SingleScope.Plugin.Popup
         /// Use loading scope to ignore inner loading function calls
         /// </summary>
         private string? _scope = null;
+        private LoadingPopup? _popup = null;
+        private LoadingOptions? _options = null;
 
         public GifImageData? GifImage { get; private set; }
 
+        public void SetLoadingOptions(LoadingOptions options)
+        {
+            _options = options;
+
+            if (options.GifImageBuffer != null)
+            {
+                SetGifImage(options.GifImageBuffer, options.GifImageHeight, options.GifImageWidth);
+            }
+        }
+
         public void SetGifImage(byte[]? image, int? height = null, int? width = null)
         {
-            GifImage = new GifImageData
-            {
-                Image = image,
-                Height = height,
-                Width = width
-            };
+            GifImage ??= new GifImageData();
+            GifImage.Image = image;
+            GifImage.Height = height;
+            GifImage.Width = width;
         }
 
         internal void SetGifImage(GifImageData? imageData)
@@ -45,13 +56,8 @@ namespace SingleScope.Plugin.Popup
 
             Application.Current?.Dispatcher?.Dispatch(() =>
             {
-#if ANDROID
-                ShowLoadingAndroid(message, isCancelable, onCancel);
-#elif IOS
-                throw new NotImplementedException();
-#else
-                throw new NotSupportedException();
-#endif
+                LoadingPopup popup = CreateLoading(message, isCancelable, onCancel);
+                Application.Current?.MainPage?.ShowPopup(popup);
             });
         }
 
@@ -67,13 +73,8 @@ namespace SingleScope.Plugin.Popup
 
             Application.Current?.Dispatcher?.Dispatch(() =>
             {
-#if ANDROID
-                ShowLoadingAndroid(null, isCancelable, onCancel);
-#elif IOS
-                throw new NotImplementedException();
-#else
-                throw new NotSupportedException();
-#endif
+                LoadingPopup popup = CreateLoading(null, isCancelable, onCancel);
+                Application.Current?.MainPage?.ShowPopup(popup);
             });
         }
 
@@ -89,14 +90,50 @@ namespace SingleScope.Plugin.Popup
 
             Application.Current?.Dispatcher?.Dispatch(() =>
             {
-#if ANDROID
-                HideLoadingAndroid();
-#elif IOS
-                throw new NotImplementedException();
-#else
-                throw new NotSupportedException();
-#endif
+                HideLoading();
             });
+        }
+
+        private void HideLoading()
+        {
+            _popup?.Close();
+            _popup = null;
+        }
+
+        /// <summary>
+        /// Create a dialog with circular progress indicator.
+        /// Transparent background will be used if message is empty, otherwise using white background.
+        /// </summary>
+        /// <param name="message">Optional. A message to be displayed in the loading dialog.</param>
+        /// <returns>An instance of <see cref="LoadingPopup"/> representing the loading dialog.</returns>
+        private LoadingPopup CreateLoading(string? message = null, bool isCancelable = false, Action? onCancel = null)
+        {
+            if (_popup != null)
+            {
+                throw new PageLoadingException(LoadingExceptionType.MultipleDialog,
+                    "There's an active dialog instance, failed to create another one");
+            }
+
+            _popup = new LoadingPopup
+            {
+                BackgroundColor = string.IsNullOrEmpty(message) ? Colors.Transparent : _options?.BackgroundColor,
+                CornerRadius = _options?.CornerRadius,
+                Message = message,
+                GifImageBuffer = GifImage?.Image,
+                GifImageHeight = GifImage?.Height,
+                GifImageWidth = GifImage?.Width,
+                CanBeDismissedByTappingOutsideOfPopup = isCancelable,
+            };
+
+            _popup.Closed += (sender, arg) =>
+            {
+                if (arg.WasDismissedByTappingOutsideOfPopup)
+                {
+                    onCancel?.Invoke();
+                }
+            };
+
+            return _popup;
         }
     }
 }

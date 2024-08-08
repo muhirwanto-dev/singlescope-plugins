@@ -2,7 +2,7 @@
 {
     internal class InteractiveDialog
     {
-        public Task<bool> ShowConfirmationDialogAsync(string message, string title = "Confirmation", string accept = "Yes", string cancel = "No")
+        public Task<bool> ShowConfirmationDialogAsync(string message, string title, string accept, string cancel)
         {
             Task<bool>? displayTask = Application.Current?.MainPage?.DisplayAlert(
                 title,
@@ -14,16 +14,16 @@
             return displayTask ?? Task.FromResult(false);
         }
 
-        public Task<string?> ShowPromptDialogAsync(string title, string message, string accept = "OK", string cancel = "Cancel", string? placeholder = null, int maxLength = -1, Keyboard? keyboard = default, string initialValue = "")
+        public Task<string?> ShowPromptDialogAsync(string title, string message, string accept, string cancel, string? placeholder, int maxLength, Keyboard? keyboard, string initialValue)
         {
             Task<string?>? displayTask = Application.Current?.MainPage?.DisplayPromptAsync(
                 title,
                 message,
                 accept,
-                cancel, 
-                placeholder, 
-                maxLength, 
-                keyboard, 
+                cancel,
+                placeholder,
+                maxLength,
+                keyboard,
                 initialValue
                 );
 

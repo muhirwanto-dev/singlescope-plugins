@@ -1,6 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using SingleScope.Plugin.Core;
-using SingleScope.Plugin.Popup.Dialog;
 using SingleScope.Plugin.Popup.Loading;
 
 namespace SingleScope.Plugin.Popup
@@ -11,46 +9,44 @@ namespace SingleScope.Plugin.Popup
 
         public static PopupHelper Instance => s_instance.Value;
 
-        private PageLoading _pageLoading;
-        private InteractiveDialog _interactiveDialog;
-        private PopupReportMode _reportMode;
-        private ILogger? _logger;
+        private IPopupHelperImpl _impl;
 
         private PopupHelper()
         {
-            _logger = null;
-            _pageLoading = new PageLoading();
-            _interactiveDialog = new InteractiveDialog();
-            _reportMode = PopupReportMode.LogAndFullException;
+            _impl = new PopupHelperImpl();
         }
 
         public PopupHelper SetReportMode(PopupReportMode reportMode)
         {
-            _reportMode = reportMode;
+            _impl.SetReportMode(reportMode);
 
             return this;
         }
 
         public PopupHelper SetLogger(ILogger? logger)
         {
-            _logger = logger;
+            _impl.SetLogger(logger);
 
             return this;
         }
 
-        public PopupHelper SetGifLoadingBytes(byte[]? image, int? height = null, int? width = null)
+        public PopupHelper SetLoadingOptions(LoadingOptions options)
         {
-            _pageLoading.SetGifImage(image, height, width);
+            _impl.SetLoadingOptions(options);
 
             return this;
         }
 
-        public PopupHelper SetGifLoadingEmbeddedResource<TAssemblySource>(string filename, int? height = null, int? width = null)
+        public PopupHelper SetLoadingGifImage(byte[]? image, int? height = null, int? width = null)
         {
-            var loader = new ImageLoader<TAssemblySource>();
-            byte[]? buffer = loader.GetByteArrayFromEmbeddedResource(filename);
+            _impl.SetLoadingGifImage(image, height, width);
 
-            _pageLoading.SetGifImage(buffer, height, width);
+            return this;
+        }
+
+        public PopupHelper SetLoadingGifImageFromEmbeddedResource<TAssemblySource>(string filename, int? height = null, int? width = null)
+        {
+            _impl.SetLoadingGifImageFromEmbeddedResource<TAssemblySource>(filename, height, width);
 
             return this;
         }
@@ -62,114 +58,92 @@ namespace SingleScope.Plugin.Popup
 
         public void ReportException(Exception exception, string message, params object?[] args)
         {
-            if (!string.IsNullOrEmpty(message))
-            {
-                message += "\n---> Original stack trace:\n";
-            }
-
-            string exStr = exception.ToString();
-
-            if ((_reportMode & (PopupReportMode.ShowExceptionMessage | PopupReportMode.ShowFullException)) != 0)
-            {
-                if ((_reportMode & PopupReportMode.ShowExceptionMessage) != 0)
-                {
-                    message += exception.Message;
-                }
-                else if ((_reportMode & PopupReportMode.ShowFullException) != 0)
-                {
-                    message += exStr;
-                }
-
-                ShowErrorDialog(args.Any() ? string.Format(message, args) : message);
-            }
+            _impl.ReportExceptionAsync(exception, message, args);
         }
 
         public void ShowErrorDialog(string message, string title = "Error")
         {
-            if ((_reportMode & PopupReportMode.LogEnable) != 0)
-            {
-                _logger?.LogError(message);
-            }
-
-            _interactiveDialog.ShowAlertDialog(message, title);
+            _impl.ShowErrorDialogAsync(message, title);
         }
 
         public void ShowInfoDialog(string message, string? title = null)
         {
-            if ((_reportMode & PopupReportMode.LogEnable) != 0)
-            {
-                _logger?.LogDebug(message);
-            }
-
-            _interactiveDialog.ShowAlertDialog(message, title ?? string.Empty);
+            _impl.ShowInfoDialogAsync(message, title);
         }
 
         public void ShowWarningDialog(string message, string title = "Warning")
         {
-            if ((_reportMode & PopupReportMode.LogEnable) != 0)
-            {
-                _logger?.LogWarning(message);
-            }
+            _impl.ShowWarningDialogAsync(message, title);
+        }
 
-            _interactiveDialog.ShowAlertDialog(message, title);
+        public Task ReportExceptionAsync(Exception exception, string message, params object?[] args)
+        {
+            return _impl.ReportExceptionAsync(exception, message, args);
+        }
+
+        public Task ShowErrorDialogAsync(string message, string title = "Error")
+        {
+            return _impl.ShowErrorDialogAsync(message, title);
+        }
+
+        public Task ShowInfoDialogAsync(string message, string? title = null)
+        {
+            return _impl.ShowInfoDialogAsync(message, title);
+        }
+
+        public Task ShowWarningDialogAsync(string message, string title = "Warning")
+        {
+            return _impl.ShowWarningDialogAsync(message, title);
         }
 
         public Task<bool> ShowConfirmationDialogAsync(string message, string title = "Confirmation", string accept = "Yes", string cancel = "No")
         {
-            return _interactiveDialog.ShowConfirmationDialogAsync(message, title, accept, cancel);
+            return _impl.ShowConfirmationDialogAsync(message, title, accept, cancel);
         }
 
         public Task<string?> ShowPromptDialogAsync(string message, string title, string accept = "Ok", string cancel = "Cancel", string? placeholder = null, int maxLength = -1, Keyboard? keyboard = default, string initialValue = "")
         {
-            return _interactiveDialog.ShowPromptDialogAsync(title, message, accept, cancel, placeholder, maxLength, keyboard, initialValue);
+            return _impl.ShowPromptDialogAsync(title, message, accept, cancel, placeholder, maxLength, keyboard, initialValue);
         }
 
         public Task<string?> ShowActionSheetAsync(string title, string cancel = "Cancel", FlowDirection flowDirection = FlowDirection.MatchParent, params string[] buttons)
         {
-            return _interactiveDialog.ShowActionSheetAsync(title, cancel, flowDirection, buttons);
+            return _impl.ShowActionSheetAsync(title, cancel, flowDirection, buttons);
         }
 
         public void ShowLoading(string message, string? scope = null)
         {
-            _pageLoading.Show(message, scope);
+            _impl.ShowLoading(message, scope);
         }
 
         public void ShowTransparentLoading(string? scope = null)
         {
-            _pageLoading.ShowTransparent(scope);
+            _impl.ShowLoading(string.Empty, scope, isTransparent: true);
         }
 
         public void ShowCancelableLoading(string message, Action onCancel, string? scope = null)
         {
-            _pageLoading.Show(message, scope, isCancelable: true, onCancel);
+            _impl.ShowCancelableLoading(message, onCancel, scope);
         }
 
         public void ShowCancelableTransparentLoading(Action onCancel, string? scope = null)
         {
-            _pageLoading.ShowTransparent(scope, isCancelable: true, onCancel);
+            _impl.ShowCancelableLoading(string.Empty, onCancel, scope, isTransparent: true);
         }
 
         public void HideLoading(string? scope = null)
         {
-            _pageLoading.Hide(scope);
+            _impl.HideLoading(scope);
         }
 
         public IScopedLoading ShowScopedLoading(string message)
         {
-            var loading = new ScopedLoading();
-            loading.SetGifImage(_pageLoading.GifImage);
-            loading.Show(message);
-
-            return loading;
+            return _impl.ShowScopedLoading(message);
         }
 
         public IScopedLoading ShowTransparentScopedLoading()
         {
-            var loading = new ScopedLoading();
-            loading.SetGifImage(_pageLoading.GifImage);
-            loading.ShowTransparent();
-
-            return loading;
+            return _impl.ShowScopedLoading(string.Empty, isTransparent: true);
         }
     }
 }

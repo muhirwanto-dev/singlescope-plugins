@@ -10,17 +10,17 @@ namespace SingleScope.Example
 
             MainPage = new AppShell();
 
-            Task.Factory.StartNew(() => Hit());
+            Task.Factory.StartNew(() => Run());
         }
 
-        private async void Hit()
+        private async void Run()
         {
             //using (var popup = PopupHelper.Instance.ShowScopedLoading("example scoped"))
             //{
             //    await Task.Delay(5000);
             //}
 
-            PopupHelper.Instance.SetGifLoadingEmbeddedResource<App>("loading_example.gif", height: 196);
+            PopupHelper.Instance.SetLoadingGifImageFromEmbeddedResource<App>("loading_example.gif", height: 196);
 
             using (var popup = PopupHelper.Instance.ShowScopedLoading("example gif loading"))
             {
