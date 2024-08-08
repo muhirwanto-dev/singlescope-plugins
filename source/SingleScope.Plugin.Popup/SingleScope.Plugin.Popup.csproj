@@ -26,6 +26,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <AndroidAsset Remove="Platforms\**" />
+    <AndroidResource Remove="Platforms\**" />
+    <Compile Remove="Platforms\**" />
+    <EmbeddedResource Remove="Platforms\**" />
+    <MauiCss Remove="Platforms\**" />
+    <MauiXaml Remove="Platforms\**" />
+    <None Remove="Platforms\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\..\logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
@@ -52,11 +62,6 @@
 	  <MauiXaml Update="Loading\Views\LoadingPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Platforms\Android\" />
-	  <Folder Include="Platforms\iOS\" />
 	</ItemGroup>
 
 </Project>

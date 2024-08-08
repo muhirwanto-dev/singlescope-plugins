@@ -3,16 +3,20 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    x:Class="SingleScope.Plugin.Popup.Loading.LoadingPopup">
-    <Frame BackgroundColor="{Binding BackgroundColor, FallbackValue='White'}" CornerRadius="{Binding CornerRadius, TargetNullValue='0'}"
-           MinimumHeightRequest="240" Padding="10">
-        <VerticalStackLayout HorizontalOptions="Fill" Spacing="10">
-            <ActivityIndicator HorizontalOptions="Center" IsVisible="{Binding GifImageBuffer, Converter={toolkit:IsNullConverter}}"/>
+    x:Class="SingleScope.Plugin.Popup.Loading.LoadingPopup"
+    Color="Transparent">
+    <Border BackgroundColor="{Binding BackgroundColor, TargetNullValue={Static Colors.White}}" MinimumHeightRequest="240" MinimumWidthRequest="240" Padding="10"
+            StrokeThickness="0">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="{Binding CornerRadius, TargetNullValue=0}"/>
+        </Border.StrokeShape>
+        <VerticalStackLayout HorizontalOptions="Fill" Spacing="10" VerticalOptions="Center">
+            <ActivityIndicator HorizontalOptions="Center" IsRunning="True" IsVisible="{Binding GifImageBuffer, Converter={toolkit:IsNullConverter}}"/>
             <Image Source="{Binding GifImageBuffer, Converter={toolkit:ByteArrayToImageSourceConverter}}" IsAnimationPlaying="True" 
-                   HeightRequest="{Binding GifImageHeight, TargetNullValue='-1'}"
-                   WidthRequest="{Binding GifImageWidth, TargetNullValue='-1'}"
+                   HeightRequest="{Binding GifImageHeight, TargetNullValue=-1}"
+                   WidthRequest="{Binding GifImageWidth, TargetNullValue=-1}"
                    HorizontalOptions="Center" IsVisible="{Binding GifImageBuffer, Converter={toolkit:IsNotNullConverter}}"/>
-            <Label Text="{Binding Message}" IsVisible="{Binding Message, Converter={toolkit:IsNotNullConverter}}"/>
+            <Label Text="{Binding Message}" HorizontalOptions="Center" IsVisible="{Binding Message, Converter={toolkit:IsNotNullConverter}}"/>
         </VerticalStackLayout>
-    </Frame>
+    </Border>
 </toolkit:Popup>

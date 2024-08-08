@@ -12,14 +12,17 @@ namespace SingleScope.Plugin.Popup
             public int? Width { get; set; }
         }
 
+        public GifImageData? GifImage { get; private set; }
+
         /// <summary>
         /// Use loading scope to ignore inner loading function calls
         /// </summary>
         private string? _scope = null;
+
+        private bool _wasDismissed = false;
+
         private LoadingPopup? _popup = null;
         private LoadingOptions? _options = null;
-
-        public GifImageData? GifImage { get; private set; }
 
         public void SetLoadingOptions(LoadingOptions options)
         {
@@ -88,15 +91,16 @@ namespace SingleScope.Plugin.Popup
 
             _scope = null;
 
-            Application.Current?.Dispatcher?.Dispatch(() =>
-            {
-                HideLoading();
-            });
+            HideLoading();
         }
 
         private void HideLoading()
         {
-            _popup?.Close();
+            if (!_wasDismissed)
+            {
+                _popup?.Close();
+            }
+
             _popup = null;
         }
 
@@ -129,9 +133,12 @@ namespace SingleScope.Plugin.Popup
             {
                 if (arg.WasDismissedByTappingOutsideOfPopup)
                 {
+                    _wasDismissed = true;
                     onCancel?.Invoke();
                 }
             };
+
+            _wasDismissed = false;
 
             return _popup;
         }
