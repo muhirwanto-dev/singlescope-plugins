@@ -12,6 +12,8 @@ namespace SingleScope.Plugin.Popup
             public int? Width { get; set; }
         }
 
+        public GifImageData? GifImage { get; private set; }
+
         /// <summary>
         /// Use loading scope to ignore inner loading function calls
         /// </summary>
@@ -19,7 +21,19 @@ namespace SingleScope.Plugin.Popup
         private LoadingPopup? _popup = null;
         private LoadingOptions? _options = null;
 
-        public GifImageData? GifImage { get; private set; }
+        /// <summary>
+        /// Since the popup will guarateed to Shown/Hide in the UI thread, so we might encounter an issue that the popup showing forever.
+        /// This case occured when 'Hide' function called before 'Application.Current?.MainPage?.ShowPopup'.
+        /// Known case:
+        ///     using (...ShowScopedLoading())
+        ///     {
+        ///         // exception occured
+        ///     }
+        ///     
+        /// The program will calls 'Hide' immediately, but somewhow, the popup not yet invoking 'Application.Current?.MainPage?.ShowPopup'.
+        /// This case leading to infinity popup.
+        /// </summary>
+        private bool _isAboutToShow = false;
 
         public void SetLoadingOptions(LoadingOptions options)
         {
@@ -53,11 +67,17 @@ namespace SingleScope.Plugin.Popup
             }
 
             _scope = scope;
+            _isAboutToShow = true;
 
             Application.Current?.Dispatcher?.Dispatch(() =>
             {
-                LoadingPopup popup = CreateLoading(message, isCancelable, onCancel);
-                Application.Current?.MainPage?.ShowPopup(popup);
+                if (_isAboutToShow)
+                {
+                    LoadingPopup popup = CreateLoading(message, isCancelable, onCancel);
+                    Application.Current?.MainPage?.ShowPopup(popup);
+                }
+
+                _isAboutToShow = false;
             });
         }
 
@@ -98,6 +118,7 @@ namespace SingleScope.Plugin.Popup
         {
             _popup?.Close();
             _popup = null;
+            _isAboutToShow = false;
         }
 
         /// <summary>
