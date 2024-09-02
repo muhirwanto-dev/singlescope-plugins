@@ -15,21 +15,29 @@ namespace SingleScope.Example
 
         private async void Run()
         {
-            //using (var popup = PopupHelper.Instance.ShowScopedLoading("example scoped"))
-            //{
-            //    await Task.Delay(5000);
-            //}
-
-            PopupHelper.Instance.SetLoadingGifImageFromEmbeddedResource<App>("loading_example.gif", height: 196);
-
-            using (var popup = PopupHelper.Instance.ShowScopedLoading("example gif loading"))
-            {
-                await Task.Delay(30000);
-            }
+            const int delayMs = 5000;
 
             using (var popup = PopupHelper.Instance.ShowTransparentScopedLoading())
             {
-                await Task.Delay(30000);
+                await Task.Delay(delayMs);
+            }
+
+            using (var popup = PopupHelper.Instance.ShowScopedLoading("Example scoped loading"))
+            {
+                await Task.Delay(delayMs);
+            }
+
+            PopupHelper.Instance.ShowCancelableLoading("Example cancellable loading", onCancel: () => { }, scope: "cancellable");
+
+            await Task.Delay(delayMs);
+
+            PopupHelper.Instance.HideLoading("cancellable");
+
+            PopupHelper.Instance.SetLoadingGifImageFromEmbeddedResource<App>("loading_example.gif", height: 64);
+
+            using (var popup = PopupHelper.Instance.ShowScopedLoading("Example gif loading"))
+            {
+                await Task.Delay(delayMs);
             }
         }
     }

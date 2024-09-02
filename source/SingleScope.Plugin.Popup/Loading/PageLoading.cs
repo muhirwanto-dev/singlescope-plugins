@@ -18,8 +18,8 @@ namespace SingleScope.Plugin.Popup
         /// Use loading scope to ignore inner loading function calls
         /// </summary>
         private string? _scope = null;
-        private LoadingPopup? _popup = null;
-        private LoadingOptions? _options = null;
+
+        private bool _wasDismissed = false;
 
         /// <summary>
         /// Since the popup will guarateed to Shown/Hide in the UI thread, so we might encounter an issue that the popup showing forever.
@@ -34,6 +34,9 @@ namespace SingleScope.Plugin.Popup
         /// This case leading to infinity popup.
         /// </summary>
         private bool _isAboutToShow = false;
+
+        private LoadingPopup? _popup = null;
+        private LoadingOptions? _options = null;
 
         public void SetLoadingOptions(LoadingOptions options)
         {
@@ -75,9 +78,9 @@ namespace SingleScope.Plugin.Popup
                 {
                     LoadingPopup popup = CreateLoading(message, isCancelable, onCancel);
                     Application.Current?.MainPage?.ShowPopup(popup);
+                    
+                    _isAboutToShow = false;
                 }
-
-                _isAboutToShow = false;
             });
         }
 
@@ -90,11 +93,17 @@ namespace SingleScope.Plugin.Popup
             }
 
             _scope = scope;
+            _isAboutToShow = true;
 
             Application.Current?.Dispatcher?.Dispatch(() =>
             {
-                LoadingPopup popup = CreateLoading(null, isCancelable, onCancel);
-                Application.Current?.MainPage?.ShowPopup(popup);
+                if (_isAboutToShow)
+                {
+                    LoadingPopup popup = CreateLoading(null, isCancelable, onCancel);
+                    Application.Current?.MainPage?.ShowPopup(popup);
+                
+                    _isAboutToShow = false;
+                }
             });
         }
 
@@ -116,7 +125,11 @@ namespace SingleScope.Plugin.Popup
 
         private void HideLoading()
         {
-            _popup?.Close();
+            if (!_wasDismissed)
+            {
+                _popup?.Close();
+            }
+
             _popup = null;
             _isAboutToShow = false;
         }
@@ -150,9 +163,12 @@ namespace SingleScope.Plugin.Popup
             {
                 if (arg.WasDismissedByTappingOutsideOfPopup)
                 {
+                    _wasDismissed = true;
                     onCancel?.Invoke();
                 }
             };
+
+            _wasDismissed = false;
 
             return _popup;
         }
