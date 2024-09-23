@@ -15,7 +15,7 @@ namespace SingleScope.Example
 
         private async void Run()
         {
-            const int delayMs = 5000;
+            const int delayMs = 50000;
 
             using (var popup = PopupHelper.Instance.ShowTransparentScopedLoading())
             {
@@ -33,7 +33,7 @@ namespace SingleScope.Example
 
             PopupHelper.Instance.HideLoading("cancellable");
 
-            PopupHelper.Instance.SetLoadingGifImageFromEmbeddedResource<App>("loading_example.gif", height: 64);
+            PopupHelper.Instance.SetLoadingGifAssetUri("file:///android_asset/loading_example.html", height: 64);
 
             using (var popup = PopupHelper.Instance.ShowScopedLoading("Example gif loading"))
             {

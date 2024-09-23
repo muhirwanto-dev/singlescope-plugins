@@ -5,14 +5,7 @@ namespace SingleScope.Plugin.Popup
 {
     internal partial class PageLoading
     {
-        internal class GifImageData
-        {
-            public byte[]? Image { get; set; }
-            public int? Height { get; set; }
-            public int? Width { get; set; }
-        }
-
-        public GifImageData? GifImage { get; private set; }
+        public LoadingParam LoadingParam { get; } = new LoadingParam();
 
         /// <summary>
         /// Use loading scope to ignore inner loading function calls
@@ -22,29 +15,27 @@ namespace SingleScope.Plugin.Popup
         private bool _wasDismissed = false;
 
         private LoadingPopup? _popup = null;
-        private LoadingOptions? _options = null;
 
-        public void SetLoadingOptions(LoadingOptions options)
+        public PageLoading SetLoadingParams(LoadingParam param)
         {
-            _options = options;
+            LoadingParam.BackgroundColor = param.BackgroundColor;
+            LoadingParam.CornerRadius = param.CornerRadius;
 
-            if (options.GifImageBuffer != null)
+            if (param.GifImageUri != null)
             {
-                SetGifImage(options.GifImageBuffer, options.GifImageHeight, options.GifImageWidth);
+                SetGifAssetUri(param.GifImageUri, param.GifImageHeight, param.GifImageWidth);
             }
+
+            return this;
         }
 
-        public void SetGifImage(byte[]? image, int? height = null, int? width = null)
+        public PageLoading SetGifAssetUri(string? mauiAssetUri, double? height = null, double? width = null)
         {
-            GifImage ??= new GifImageData();
-            GifImage.Image = image;
-            GifImage.Height = height;
-            GifImage.Width = width;
-        }
+            LoadingParam.GifImageUri = mauiAssetUri;
+            LoadingParam.GifImageHeight = height;
+            LoadingParam.GifImageWidth = width;
 
-        internal void SetGifImage(GifImageData? imageData)
-        {
-            GifImage = imageData;
+            return this;
         }
 
         public void Show(string message, string? scope = null, bool isCancelable = false, Action? onCancel = null)
@@ -120,12 +111,15 @@ namespace SingleScope.Plugin.Popup
 
             _popup = new LoadingPopup
             {
-                BackgroundColor = string.IsNullOrEmpty(message) ? Colors.Transparent : _options?.BackgroundColor,
-                CornerRadius = _options?.CornerRadius,
-                Message = message,
-                GifImageBuffer = GifImage?.Image,
-                GifImageHeight = GifImage?.Height,
-                GifImageWidth = GifImage?.Width,
+                Param = new LoadingParam
+                {
+                    BackgroundColor = string.IsNullOrEmpty(message) ? Colors.Transparent : LoadingParam.BackgroundColor,
+                    CornerRadius = LoadingParam.CornerRadius,
+                    Message = message,
+                    GifImageUri = LoadingParam.GifImageUri,
+                    GifImageHeight = LoadingParam.GifImageHeight,
+                    GifImageWidth = LoadingParam.GifImageWidth,
+                },
                 CanBeDismissedByTappingOutsideOfPopup = isCancelable,
             };
 

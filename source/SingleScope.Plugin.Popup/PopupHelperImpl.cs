@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using SingleScope.Plugin.Core;
 using SingleScope.Plugin.Popup.Loading;
 
 namespace SingleScope.Plugin.Popup
@@ -17,22 +16,14 @@ namespace SingleScope.Plugin.Popup
             _reportMode = PopupReportMode.LogAndFullException;
         }
 
-        public void SetLoadingOptions(LoadingOptions options)
+        public void SetLoadingParams(LoadingParam param)
         {
-            _pageLoading.SetLoadingOptions(options);
+            _pageLoading.SetLoadingParams(param);
         }
 
-        public void SetLoadingGifImage(byte[]? buffer, int? height = null, int? width = null)
+        public void SetGifAssetUri(string? mauiAssetUri, double? height = null, double? width = null)
         {
-            _pageLoading.SetGifImage(buffer, height, width);
-        }
-
-        public void SetLoadingGifImageFromEmbeddedResource<TAssemblySource>(string fileName, int? height = null, int? width = null)
-        {
-            var loader = new ImageLoader<TAssemblySource>();
-            byte[]? buffer = loader.GetByteArrayFromEmbeddedResource(fileName);
-
-            _pageLoading.SetGifImage(buffer, height, width);
+            _pageLoading.SetGifAssetUri(mauiAssetUri, height, width);
         }
 
         public void SetLogger(ILogger? logger)
@@ -174,7 +165,8 @@ namespace SingleScope.Plugin.Popup
         public IScopedLoading ShowScopedLoading(string message, bool isTransparent = false)
         {
             var loading = new ScopedLoading();
-            loading.SetGifImage(_pageLoading.GifImage);
+
+            loading.SetLoadingParams(_pageLoading.LoadingParam);
 
             if (isTransparent)
             {

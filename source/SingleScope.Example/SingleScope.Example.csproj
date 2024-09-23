@@ -46,6 +46,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Raw\loading_example.gif" />
+	  <None Remove="Resources\Raw\loading_example.html" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <EmbeddedResource Include="Resources\Images\loading_example.gif" />
 	</ItemGroup>
 

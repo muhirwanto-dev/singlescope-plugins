@@ -9,11 +9,9 @@ namespace SingleScope.Plugin.Popup
 
         void SetLogger(ILogger? logger);
 
-        void SetLoadingOptions(LoadingOptions options);
+        void SetLoadingParams(LoadingParam param);
 
-        void SetLoadingGifImage(byte[]? buffer, int? height = null, int? width = null);
-
-        void SetLoadingGifImageFromEmbeddedResource<TAssemblySource>(string fileName, int? height = null, int? width = null);
+        void SetGifAssetUri(string? mauiAssetUri, double? height = null, double? width = null);
 
         Task ReportExceptionAsync(Exception exception, string message, params object?[] args);
 

@@ -30,23 +30,16 @@ namespace SingleScope.Plugin.Popup
             return this;
         }
 
-        public PopupHelper SetLoadingOptions(LoadingOptions options)
+        public PopupHelper SetLoadingParams(LoadingParam param)
         {
-            _impl.SetLoadingOptions(options);
+            _impl.SetLoadingParams(param);
 
             return this;
         }
 
-        public PopupHelper SetLoadingGifImage(byte[]? image, int? height = null, int? width = null)
+        public PopupHelper SetLoadingGifAssetUri(string? uri, int? height = null, int? width = null)
         {
-            _impl.SetLoadingGifImage(image, height, width);
-
-            return this;
-        }
-
-        public PopupHelper SetLoadingGifImageFromEmbeddedResource<TAssemblySource>(string filename, int? height = null, int? width = null)
-        {
-            _impl.SetLoadingGifImageFromEmbeddedResource<TAssemblySource>(filename, height, width);
+            _impl.SetGifAssetUri(uri, height, width);
 
             return this;
         }

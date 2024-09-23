@@ -14,7 +14,7 @@
             return displayTask ?? Task.FromResult(false);
         }
 
-        public Task<string?> ShowPromptDialogAsync(string title, string message, string accept, string cancel, string? placeholder, int maxLength, Keyboard? keyboard, string initialValue)
+        public Task<string?> ShowInputPromptAsync(string title, string message, string accept, string cancel, string? placeholder, int maxLength, Keyboard? keyboard, string initialValue)
         {
             Task<string?>? displayTask = Application.Current?.MainPage?.DisplayPromptAsync(
                 title,
