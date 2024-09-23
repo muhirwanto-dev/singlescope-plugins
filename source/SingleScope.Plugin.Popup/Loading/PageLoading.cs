@@ -14,6 +14,20 @@ namespace SingleScope.Plugin.Popup
 
         private bool _wasDismissed = false;
 
+        /// <summary>
+        /// Since the popup will guarateed to Shown/Hide in the UI thread, so we might encounter an issue that the popup showing forever.
+        /// This case occured when 'Hide' function called before 'Application.Current?.MainPage?.ShowPopup'.
+        /// Known case:
+        ///     using (...ShowScopedLoading())
+        ///     {
+        ///         // exception occured
+        ///     }
+        ///     
+        /// The program will calls 'Hide' immediately, but somewhow, the popup not yet invoking 'Application.Current?.MainPage?.ShowPopup'.
+        /// This case leading to infinity popup.
+        /// </summary>
+        private bool _isAboutToShow = false;
+
         private LoadingPopup? _popup = null;
 
         public PageLoading SetLoadingParams(LoadingParam param)
@@ -47,11 +61,17 @@ namespace SingleScope.Plugin.Popup
             }
 
             _scope = scope;
+            _isAboutToShow = true;
 
             Application.Current?.Dispatcher?.Dispatch(() =>
             {
-                LoadingPopup popup = CreateLoading(message, isCancelable, onCancel);
-                Application.Current?.MainPage?.ShowPopup(popup);
+                if (_isAboutToShow)
+                {
+                    LoadingPopup popup = CreateLoading(message, isCancelable, onCancel);
+                    Application.Current?.MainPage?.ShowPopup(popup);
+                    
+                    _isAboutToShow = false;
+                }
             });
         }
 
@@ -64,11 +84,17 @@ namespace SingleScope.Plugin.Popup
             }
 
             _scope = scope;
+            _isAboutToShow = true;
 
             Application.Current?.Dispatcher?.Dispatch(() =>
             {
-                LoadingPopup popup = CreateLoading(null, isCancelable, onCancel);
-                Application.Current?.MainPage?.ShowPopup(popup);
+                if (_isAboutToShow)
+                {
+                    LoadingPopup popup = CreateLoading(null, isCancelable, onCancel);
+                    Application.Current?.MainPage?.ShowPopup(popup);
+                
+                    _isAboutToShow = false;
+                }
             });
         }
 
@@ -82,7 +108,10 @@ namespace SingleScope.Plugin.Popup
 
             _scope = null;
 
-            HideLoading();
+            Application.Current?.Dispatcher?.Dispatch(() =>
+            {
+                HideLoading();
+            });
         }
 
         private void HideLoading()
@@ -93,6 +122,7 @@ namespace SingleScope.Plugin.Popup
             }
 
             _popup = null;
+            _isAboutToShow = false;
         }
 
         /// <summary>
