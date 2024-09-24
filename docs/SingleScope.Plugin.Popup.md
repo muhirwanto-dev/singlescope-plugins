@@ -4,10 +4,11 @@ This plugin ensure the alert dialogs showing in UI thread, also handle the loadi
 ## Installation
 ### Nuget Package
 [![NuGet](https://img.shields.io/nuget/v/SingleScope.Plugin.Popup)](https://www.nuget.org/packages/SingleScope.Plugin.Popup/)
+![NuGet Downloads](https://img.shields.io/nuget/dt/SingleScope.Plugin.Popup)
 
 ## Setup
-### Logger
-Set the logger at the beginning of the program or at the ``App.Ctor`` to enable logging, also set report mode to ``LogEnable | LogAndFullException | LogAndException``.
+### Reporting
+We can write logs and display the message dialog with a single line. Set the logger at the beginning of the program or at the ``App.Ctor`` to enable logging, also set report mode to ``LogEnable | LogAndFullException | LogAndException``.
 ````
 public App(ILogger<App> logger)
 {
@@ -16,6 +17,7 @@ public App(ILogger<App> logger)
         .SetReportMode(PopupReportMode.LogAndFullException);
 }
 ````
+#### Report Modes
 | ReportMode | Usage |
 |---------|----------|
 |Disabled|Completely disable the popup and logging|
