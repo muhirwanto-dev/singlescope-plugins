@@ -15,6 +15,21 @@
     <FileVersion>2.0.0.1</FileVersion>
 	</PropertyGroup>
 
+  <!--NuGet properties-->
+  <PropertyGroup>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageTags>SingleScope;Plugin;MAUI;Dialogs;Loading;Mvvm</PackageTags>
+    <Title>SingleScope.Plugin.Maui</Title>
+    <Authors>muhirwanto.dev</Authors>
+    <Description>Plugins for .NET MAUI</Description>
+    <PackageProjectUrl>https://github.com/muhirwanto-dev/singlescope-plugins</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/muhirwanto-dev/singlescope-plugins/main/logo.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/muhirwanto-dev/singlescope-plugins</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>Copyright (c)  muhirwanto.dev 2024</Copyright>
+    <PackageIcon>logo.png</PackageIcon>
+  </PropertyGroup>
+
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="7.0.1" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
@@ -25,6 +40,13 @@
 	<ItemGroup>
 	  <Folder Include="Platforms\Android\" />
 	  <Folder Include="Platforms\iOS\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="..\..\logo.png" Link="logo.png">
+	    <PackagePath>\</PackagePath>
+	    <Pack>True</Pack>
+	  </None>
 	</ItemGroup>
 
 	<ItemGroup>
