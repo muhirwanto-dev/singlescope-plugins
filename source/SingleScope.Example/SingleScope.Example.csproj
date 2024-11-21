@@ -61,7 +61,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\SingleScope.Plugin.Popup\SingleScope.Plugin.Popup.csproj" />
+	  <ProjectReference Include="..\SingleScope.Plugin.Maui\SingleScope.Plugin.Maui.csproj" />
 	</ItemGroup>
 
 </Project>

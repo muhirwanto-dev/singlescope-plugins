@@ -1,11 +1,20 @@
-﻿using SingleScope.Plugin.Popup;
+﻿using SingleScope.Plugin.Maui.Dialogs;
+using SingleScope.Plugin.Maui.Reports;
 
 namespace SingleScope.Example
 {
     public partial class App : Application
     {
-        public App()
+        private readonly IAnimatedLoadingDialogService _animatedLoadingDialogService;
+        private readonly IDialogService _dialogService;
+        private readonly IReportService<App> _reportService;
+
+        public App(IAnimatedLoadingDialogService animatedLoadingDialogService, IDialogService dialogService, IReportService<App> reportService)
         {
+            _animatedLoadingDialogService = animatedLoadingDialogService;
+            _dialogService = dialogService;
+            _reportService = reportService;
+
             InitializeComponent();
 
             MainPage = new AppShell();
@@ -15,29 +24,33 @@ namespace SingleScope.Example
 
         private async void Run()
         {
-            const int delayMs = 50000;
+            const int delayMs = 5000;
 
-            using (var popup = PopupHelper.Instance.ShowTransparentScopedLoading())
+            try
             {
-                await Task.Delay(delayMs);
+                using (var popup = _dialogService.ShowFullPageLoading())
+                {
+                    await Task.Delay(delayMs);
+                }
+
+                using (var popup = _dialogService.ShowLoading("Example scoped loading"))
+                {
+                    await Task.Delay(delayMs);
+                }
+
+                using (var popup = _dialogService.ShowLoading("Example cancellable loading", cancelAction: () => { }))
+                {
+                    await Task.Delay(delayMs);
+                }
+
+                using (var popup = _animatedLoadingDialogService.ShowLoading("Example gif loading"))
+                {
+                    await Task.Delay(delayMs);
+                }
             }
-
-            using (var popup = PopupHelper.Instance.ShowScopedLoading("Example scoped loading"))
+            catch (Exception ex)
             {
-                await Task.Delay(delayMs);
-            }
-
-            PopupHelper.Instance.ShowCancelableLoading("Example cancellable loading", onCancel: () => { }, scope: "cancellable");
-
-            await Task.Delay(delayMs);
-
-            PopupHelper.Instance.HideLoading("cancellable");
-
-            PopupHelper.Instance.SetLoadingGifAssetUri("file:///android_asset/loading_example.html", height: 64);
-
-            using (var popup = PopupHelper.Instance.ShowScopedLoading("Example gif loading"))
-            {
-                await Task.Delay(delayMs);
+                await _reportService.ReportAsync(ex);
             }
         }
     }
