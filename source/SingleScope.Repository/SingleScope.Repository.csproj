@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.1</FileVersion>
+  </PropertyGroup>
+
+  <!--NuGet properties-->
+  <PropertyGroup>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageTags>SingleScope;Plugin;Repository</PackageTags>
+    <Title>SingleScope.Repository</Title>
+    <Authors>muhirwanto.dev</Authors>
+    <Description>Plugins for .NET MAUI</Description>
+    <PackageProjectUrl>https://github.com/muhirwanto-dev/singlescope-plugins</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/muhirwanto-dev/singlescope-plugins/main/logo.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/muhirwanto-dev/singlescope-plugins</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>Copyright (c)  muhirwanto.dev 2024</Copyright>
+    <PackageIcon>logo.png</PackageIcon>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\logo.png" Link="logo.png">
+      <PackagePath>\</PackagePath>
+      <Pack>True</Pack>
+    </None>
+  </ItemGroup>
+
+</Project>
