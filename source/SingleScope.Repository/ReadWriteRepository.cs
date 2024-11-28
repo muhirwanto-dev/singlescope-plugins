@@ -19,10 +19,10 @@ namespace SingleScope.Repository
             _context.SaveChanges();
         }
 
-        public virtual async Task CreateAsync(TEntity entity)
+        public virtual async Task CreateAsync(TEntity entity, CancellationToken cancellation = default)
         {
-            await _context.Set<TEntity>().AddAsync(entity);
-            await _context.SaveChangesAsync();
+            await _context.Set<TEntity>().AddAsync(entity, cancellation);
+            await _context.SaveChangesAsync(cancellation);
         }
 
         public virtual void Delete(TEntity entity)
@@ -31,10 +31,10 @@ namespace SingleScope.Repository
             _context.SaveChanges();
         }
 
-        public virtual async Task DeleteAsync(TEntity entity)
+        public virtual async Task DeleteAsync(TEntity entity, CancellationToken cancellation = default)
         {
             _context.Set<TEntity>().Remove(entity);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellation);
         }
 
         public virtual void Patch(TEntity entity, Expression<Func<TEntity, bool>> predicate, string[] propertyNames)
@@ -50,9 +50,9 @@ namespace SingleScope.Repository
             _context.SaveChanges();
         }
 
-        public virtual async Task PatchAsync(TEntity entity, Expression<Func<TEntity, bool>> predicate, string[] propertyNames)
+        public virtual async Task PatchAsync(TEntity entity, Expression<Func<TEntity, bool>> predicate, string[] propertyNames, CancellationToken cancellation = default)
         {
-            var existing = await _context.Set<TEntity>().FirstOrDefaultAsync(predicate);
+            var existing = await _context.Set<TEntity>().FirstOrDefaultAsync(predicate, cancellation);
             if (existing == null)
             {
                 throw new NullReferenceException();
@@ -60,7 +60,7 @@ namespace SingleScope.Repository
 
             ReadWriteRepository<TContext>.PatchInternal(_context, existing, entity, propertyNames, ignoreNull: false);
 
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellation);
         }
 
         public virtual void PatchNotNull(TEntity entity, Expression<Func<TEntity, bool>> predicate)
@@ -76,9 +76,9 @@ namespace SingleScope.Repository
             _context.SaveChanges();
         }
 
-        public virtual async Task PatchNotNullAsync(TEntity entity, Expression<Func<TEntity, bool>> predicate)
+        public virtual async Task PatchNotNullAsync(TEntity entity, Expression<Func<TEntity, bool>> predicate, CancellationToken cancellation = default)
         {
-            var existing = await _context.Set<TEntity>().FirstOrDefaultAsync(predicate);
+            var existing = await _context.Set<TEntity>().FirstOrDefaultAsync(predicate, cancellation);
             if (existing == null)
             {
                 throw new NullReferenceException();
@@ -86,7 +86,7 @@ namespace SingleScope.Repository
 
             ReadWriteRepository<TContext>.PatchInternal(_context, existing, entity, typeof(TEntity).GetProperties(), ignoreNull: true);
 
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellation);
         }
 
         public virtual void Update(TEntity entity)
@@ -95,10 +95,10 @@ namespace SingleScope.Repository
             _context.SaveChanges();
         }
 
-        public virtual async Task UpdateAsync(TEntity entity)
+        public virtual async Task UpdateAsync(TEntity entity, CancellationToken cancellation = default)
         {
             _context.Set<TEntity>().Update(entity);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellation);
         }
     }
 
@@ -115,10 +115,10 @@ namespace SingleScope.Repository
             _context.SaveChanges();
         }
 
-        public virtual async Task CreateAsync<TEntity>(TEntity entity) where TEntity : class
+        public virtual async Task CreateAsync<TEntity>(TEntity entity, CancellationToken cancellation = default) where TEntity : class
         {
-            await _context.Set<TEntity>().AddAsync(entity);
-            await _context.SaveChangesAsync();
+            await _context.Set<TEntity>().AddAsync(entity, cancellation);
+            await _context.SaveChangesAsync(cancellation);
         }
 
         public virtual void Delete<TEntity>(TEntity entity) where TEntity : class
@@ -127,10 +127,10 @@ namespace SingleScope.Repository
             _context.SaveChanges();
         }
 
-        public virtual async Task DeleteAsync<TEntity>(TEntity entity) where TEntity : class
+        public virtual async Task DeleteAsync<TEntity>(TEntity entity, CancellationToken cancellation = default) where TEntity : class
         {
             _context.Set<TEntity>().Remove(entity);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellation);
         }
 
         public virtual void Patch<TEntity>(TEntity entity, Expression<Func<TEntity, bool>> predicate, string[] propertyNames) where TEntity : class
@@ -146,9 +146,9 @@ namespace SingleScope.Repository
             _context.SaveChanges();
         }
 
-        public virtual async Task PatchAsync<TEntity>(TEntity entity, Expression<Func<TEntity, bool>> predicate, string[] propertyNames) where TEntity : class
+        public virtual async Task PatchAsync<TEntity>(TEntity entity, Expression<Func<TEntity, bool>> predicate, string[] propertyNames, CancellationToken cancellation = default) where TEntity : class
         {
-            var existing = await _context.Set<TEntity>().FirstOrDefaultAsync(predicate);
+            var existing = await _context.Set<TEntity>().FirstOrDefaultAsync(predicate, cancellation);
             if (existing == null)
             {
                 throw new NullReferenceException();
@@ -156,7 +156,7 @@ namespace SingleScope.Repository
 
             PatchInternal(existing, entity, propertyNames, ignoreNull: false);
 
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellation);
         }
 
         public virtual void PatchNotNull<TEntity>(TEntity entity, Expression<Func<TEntity, bool>> predicate) where TEntity : class
@@ -172,9 +172,9 @@ namespace SingleScope.Repository
             _context.SaveChanges();
         }
 
-        public virtual async Task PatchNotNullAsync<TEntity>(TEntity entity, Expression<Func<TEntity, bool>> predicate) where TEntity : class
+        public virtual async Task PatchNotNullAsync<TEntity>(TEntity entity, Expression<Func<TEntity, bool>> predicate, CancellationToken cancellation = default) where TEntity : class
         {
-            var existing = await _context.Set<TEntity>().FirstOrDefaultAsync(predicate);
+            var existing = await _context.Set<TEntity>().FirstOrDefaultAsync(predicate, cancellation);
             if (existing == null)
             {
                 throw new NullReferenceException();
@@ -182,7 +182,7 @@ namespace SingleScope.Repository
 
             PatchInternal(existing, entity, typeof(TEntity).GetProperties(), ignoreNull: true);
 
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellation);
         }
 
         public virtual void Update<TEntity>(TEntity entity) where TEntity : class
@@ -191,10 +191,10 @@ namespace SingleScope.Repository
             _context.SaveChanges();
         }
 
-        public virtual async Task UpdateAsync<TEntity>(TEntity entity) where TEntity : class
+        public virtual async Task UpdateAsync<TEntity>(TEntity entity, CancellationToken cancellation = default) where TEntity : class
         {
             _context.Set<TEntity>().Update(entity);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellation);
         }
 
         private void PatchInternal<TEntity>(TEntity existing, TEntity entity, PropertyInfo[] properties, bool ignoreNull)
