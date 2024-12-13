@@ -82,12 +82,12 @@ namespace SingleScope.Maui.Dialogs
             return displayTask ?? Task.FromResult<string?>(null);
         }
 
-        public IDisposable ShowLoading(string message, Action? cancelAction = null, CancellationTokenSource? tokenSource = default)
+        public IDisposable ShowLoading(string message, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default)
         {
             Page page = Application.Current?.MainPage ?? throw new NullReferenceException("No page available");
             var popup = CreateLoadingPopup(message, cancelAction);
 
-            tokenSource ??= new CancellationTokenSource();
+            cancellationTokenSource ??= new CancellationTokenSource();
             bool cancelled = false;
 
             popup.Closed += (sender, arg) =>
@@ -95,7 +95,7 @@ namespace SingleScope.Maui.Dialogs
                 if (arg.WasDismissedByTappingOutsideOfPopup && !cancelled)
                 {
                     cancelled = true;
-                    tokenSource.Cancel();
+                    cancellationTokenSource.Cancel();
                 }
             };
 
@@ -109,16 +109,16 @@ namespace SingleScope.Maui.Dialogs
                 popup = null;
             });
 
-            tokenSource.Token.Register(disposableAction.Dispose);
+            cancellationTokenSource.Token.Register(disposableAction.Dispose);
 
             MainThread.InvokeOnMainThreadAsync(() => page.ShowPopup(popup));
 
             return disposableAction;
         }
 
-        public IDisposable ShowFullPageLoading(Action? cancelAction = null, CancellationTokenSource? tokenSource = default)
+        public IDisposable ShowFullPageLoading(Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default)
         {
-            return ShowLoading(string.Empty, cancelAction, tokenSource);
+            return ShowLoading(string.Empty, cancelAction, cancellationTokenSource);
         }
 
         protected virtual LoadingPopup CreateLoadingPopup(string message, Action? cancelAction)

@@ -14,8 +14,8 @@
 
         Task ShowErrorDialogAsync(string message);
 
-        IDisposable ShowLoading(string message, Action? cancelAction = null, CancellationTokenSource? tokenSource = default);
+        IDisposable ShowLoading(string message, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default);
 
-        IDisposable ShowFullPageLoading(Action? cancelAction = null, CancellationTokenSource? tokenSource = default);
+        IDisposable ShowFullPageLoading(Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default);
     }
 }

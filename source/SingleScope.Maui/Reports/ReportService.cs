@@ -28,6 +28,10 @@ namespace SingleScope.Maui.Reports
             {
                 message += "\n---> Original stack trace:\n";
             }
+            else
+            {
+                message = string.Empty;
+            }
 
             string exStr = exception.ToString();
             EReportMode mode = _options.ReportMode;
