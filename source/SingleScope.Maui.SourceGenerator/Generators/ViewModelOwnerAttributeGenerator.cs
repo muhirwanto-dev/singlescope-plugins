@@ -14,7 +14,7 @@ namespace SingleScope.Maui.SourceGenerator.Generators
             // Look for classes with the ViewModelOwnerAttribute attribute
             var classDeclarations = context.SyntaxProvider
                 .CreateSyntaxProvider(
-                    predicate: (node, _) => IsClassWithMyAttribute(node),
+                    predicate: (node, _) => IsClassWithAttribute(node),
                     transform: (syntaxContext, _) => GetSemanticTargetForGeneration(syntaxContext))
                 .Where(classSymbol => classSymbol != null);
 
@@ -27,7 +27,7 @@ namespace SingleScope.Maui.SourceGenerator.Generators
             });
         }
 
-        private static bool IsClassWithMyAttribute(SyntaxNode node)
+        private static bool IsClassWithAttribute(SyntaxNode node)
         {
             // Ensure the node is a class with attributes
             return node is ClassDeclarationSyntax syntax && syntax.AttributeLists.Count > 0;
@@ -49,6 +49,7 @@ namespace SingleScope.Maui.SourceGenerator.Generators
                     }
                 }
             }
+
             return null;
         }
 
@@ -56,19 +57,64 @@ namespace SingleScope.Maui.SourceGenerator.Generators
         {
             // Retrieve the class name and attribute argument (ViewModel type)
             var className = classSymbol.Name;
-            var viewModelType = classSymbol.GetAttributes()
-                .First(attr => attr.AttributeClass?.ToDisplayString() == AttributeNamespace)
-                .ConstructorArguments[0].Value as INamedTypeSymbol;
+
+            // Retrieve attribute class data
+            var attributeData = classSymbol.GetAttributes()
+                .First(attr => attr.AttributeClass?.ToDisplayString() == AttributeNamespace);
 
             // Full name with namespace
+            var viewModelType = attributeData.ConstructorArguments[0].Value as INamedTypeSymbol;
             var viewModelTypeName = viewModelType?.ToDisplayString();
 
-            // Generate the source code for the partial class
+            // Retrieve the IsDefaultConstructor from the named arguments
+            var isDefaultConstructor = attributeData.NamedArguments
+                .FirstOrDefault(arg => arg.Key == "IsDefaultConstructor")
+                .Value.Value as bool? ?? false;
+
+            string namespaceStr = classSymbol.ContainingNamespace.ToDisplayString();
+
+            if (isDefaultConstructor)
+            {
+                return CreateClassWithDefaultConstructor(namespaceStr, className, viewModelTypeName);
+            }
+            else
+            {
+                return CreateClass(namespaceStr, className, viewModelTypeName);
+            }
+        }
+
+        private static string CreateClass(string namespaceStr, string className, string viewModelTypeName)
+        {
             return
 $@"using SingleScope.Maui;
 using SingleScope.Maui.Mvvm.Interface;
 
-namespace {classSymbol.ContainingNamespace.ToDisplayString()}
+namespace {namespaceStr}
+{{
+    public partial class {className} : IViewModelOwner<{viewModelTypeName}>
+    {{
+        public {viewModelTypeName} ViewModel {{ get; private set; }} = default!;
+
+        private PreInitializeComponent()
+        {{
+            ViewModel = SingleScopeServiceProvider.Current.GetRequiredService<{viewModelTypeName}>();
+        }}
+
+        private PostInitializeComponent()
+        {{
+            BindingContext = ViewModel;
+        }}
+    }}
+}}";
+        }
+        
+        private static string CreateClassWithDefaultConstructor(string namespaceStr, string className, string viewModelTypeName)
+        {
+            return
+$@"using SingleScope.Maui;
+using SingleScope.Maui.Mvvm.Interface;
+
+namespace {namespaceStr}
 {{
     public partial class {className} : IViewModelOwner<{viewModelTypeName}>
     {{
@@ -77,6 +123,9 @@ namespace {classSymbol.ContainingNamespace.ToDisplayString()}
         public {className}()
         {{
             ViewModel = SingleScopeServiceProvider.Current.GetRequiredService<{viewModelTypeName}>();
+
+            InitializeComponent();
+
             BindingContext = ViewModel;
         }}
     }}
