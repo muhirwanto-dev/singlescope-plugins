@@ -1,5 +1,9 @@
-﻿namespace Example
+﻿using SingleScope.Example.ViewModel;
+using SingleScope.Maui.Mvvm.Attributes;
+
+namespace Example
 {
+    [ViewModelOwner(typeof(ExampleViewModel))]
     public partial class MainPage : ContentPage
     {
         int count = 0;
