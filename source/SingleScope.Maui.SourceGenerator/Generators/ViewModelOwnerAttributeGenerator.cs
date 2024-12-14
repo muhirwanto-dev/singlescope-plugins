@@ -95,12 +95,12 @@ namespace {namespaceStr}
     {{
         public {viewModelTypeName} ViewModel {{ get; private set; }} = default!;
 
-        private PreInitializeComponent()
+        private void PreInitializeComponent()
         {{
             ViewModel = SingleScopeServiceProvider.Current.GetRequiredService<{viewModelTypeName}>();
         }}
 
-        private PostInitializeComponent()
+        private void PostInitializeComponent()
         {{
             BindingContext = ViewModel;
         }}
