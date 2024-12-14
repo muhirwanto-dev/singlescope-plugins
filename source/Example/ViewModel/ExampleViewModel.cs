@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace SingleScope.Example.ViewModel
 {
-    public class ExampleViewModel
+    public partial class ExampleViewModel : ObservableObject
     {
+        [ObservableProperty]
+        private bool _isTest = false;
     }
 }

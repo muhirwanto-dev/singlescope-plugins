@@ -63,24 +63,49 @@ namespace SingleScope.Maui.SourceGenerator.Generators
                 .First(attr => attr.AttributeClass?.ToDisplayString() == AttributeNamespace);
 
             // Full name with namespace
-            var viewModelType = attributeData.ConstructorArguments[0].Value as INamedTypeSymbol;
-            var viewModelTypeName = viewModelType?.ToDisplayString();
+            var viewModelSymbol = attributeData.ConstructorArguments[0].Value as INamedTypeSymbol;
+            var viewModelName = viewModelSymbol?.ToDisplayString();
 
             // Retrieve the IsDefaultConstructor from the named arguments
-            var isDefaultConstructor = attributeData.NamedArguments
-                .FirstOrDefault(arg => arg.Key == "IsDefaultConstructor")
-                .Value.Value as bool? ?? false;
+            // Extract information from the attribute data
+            var attributeProperties = attributeData.NamedArguments.ToDictionary(
+                arg => arg.Key,
+                arg => arg.Value.Value?.ToString() ?? "null"
+            );
 
-            string namespaceStr = classSymbol.ContainingNamespace.ToDisplayString();
+            // Check for specific properties in the attribute data
+            var isDefaultConstructor = true;
+            if (attributeProperties.ContainsKey("IsDefaultConstructor"))
+            {
+                isDefaultConstructor = bool.Parse(attributeProperties["IsDefaultConstructor"]);
+            }
+
+            // Class namespace
+            var namespaceName = classSymbol.ContainingNamespace.ToDisplayString();
 
             if (isDefaultConstructor)
             {
-                return CreateClassWithDefaultConstructor(namespaceStr, className, viewModelTypeName);
+                return CreateClassWithDefaultConstructor(namespaceName, className, viewModelName);
             }
             else
             {
-                return CreateClass(namespaceStr, className, viewModelTypeName);
+                return CreateClass(namespaceName, className, viewModelName);
             }
+        }
+
+        private static bool GetBoolPropertyValue(IPropertySymbol propertySymbol)
+        {
+            // Find the initializer expression
+            var classDeclaration = propertySymbol.DeclaringSyntaxReferences
+                .FirstOrDefault()?.GetSyntax() as PropertyDeclarationSyntax;
+
+            var initializer = classDeclaration?.Initializer?.Value as LiteralExpressionSyntax;
+            if (initializer != null)
+            {
+                return bool.TryParse(initializer.Token.ValueText, out bool bres) ? bres : false;
+            }
+
+            return false;
         }
 
         private static string CreateClass(string namespaceStr, string className, string viewModelTypeName)
@@ -107,7 +132,7 @@ namespace {namespaceStr}
     }}
 }}";
         }
-        
+
         private static string CreateClassWithDefaultConstructor(string namespaceStr, string className, string viewModelTypeName)
         {
             return
