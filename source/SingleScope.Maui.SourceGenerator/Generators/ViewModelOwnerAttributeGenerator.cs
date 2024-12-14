@@ -66,6 +66,7 @@ namespace SingleScope.Maui.SourceGenerator.Generators
             // Generate the source code for the partial class
             return
 $@"using SingleScope.Maui;
+using SingleScope.Maui.Mvvm.Interface;
 
 namespace {classSymbol.ContainingNamespace.ToDisplayString()}
 {{
@@ -73,7 +74,7 @@ namespace {classSymbol.ContainingNamespace.ToDisplayString()}
     {{
         public {viewModelTypeName} ViewModel {{ get; }}
 
-        protected {className}()
+        public {className}()
         {{
             ViewModel = SingleScopeServiceProvider.Current.GetRequiredService<{viewModelTypeName}>();
             BindingContext = ViewModel;
