@@ -5,7 +5,7 @@
     {
         public Type ViewModelType { get; }
 
-        public bool IsDefaultConstructor { get; init; } = true;
+        public bool IsDefaultConstructor { get; init; } = false;
 
         public ViewModelOwnerAttribute(Type viewModelType)
         {

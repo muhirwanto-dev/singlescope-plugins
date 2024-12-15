@@ -74,11 +74,9 @@ namespace SingleScope.Maui.SourceGenerator.Generators
             );
 
             // Check for specific properties in the attribute data
-            var isDefaultConstructor = true;
-            if (attributeProperties.ContainsKey("IsDefaultConstructor"))
-            {
-                isDefaultConstructor = bool.Parse(attributeProperties["IsDefaultConstructor"]);
-            }
+            var isDefaultConstructor = attributeProperties.ContainsKey("IsDefaultConstructor")
+                ? bool.Parse(attributeProperties["IsDefaultConstructor"])
+                : false;
 
             // Class namespace
             var namespaceName = classSymbol.ContainingNamespace.ToDisplayString();
