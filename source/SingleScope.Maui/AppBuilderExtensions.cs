@@ -9,6 +9,7 @@ namespace SingleScope.Maui
         public static MauiAppBuilder UseSingleScopePlugins(this MauiAppBuilder builder,
             Action<AnimatedLoadingOptions>? animatedLoadingOptions = null,
             Action<LoadingOptions>? loadingOptions = null,
+            Action<ProgressiveLoadingOptions>? progressiveLoadingOptions = null,
             Action<ReportOptions>? reportOptions = null)
         {
             if (animatedLoadingOptions != null)
@@ -27,6 +28,15 @@ namespace SingleScope.Maui
             else
             {
                 builder.Services.Configure<LoadingOptions>(options => { });
+            }
+
+            if (progressiveLoadingOptions != null)
+            {
+                builder.Services.Configure(progressiveLoadingOptions);
+            }
+            else
+            {
+                builder.Services.Configure<ProgressiveLoadingOptions>(options => { });
             }
 
             if (reportOptions != null)

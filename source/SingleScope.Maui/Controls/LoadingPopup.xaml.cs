@@ -4,13 +4,13 @@ namespace SingleScope.Maui.Controls;
 
 public partial class LoadingPopup : CommunityToolkit.Maui.Views.Popup
 {
-    private AnimatedLoadingOptions? _param;
-    public AnimatedLoadingOptions? Param
+    private AnimatedLoadingOptions? _options;
+    public AnimatedLoadingOptions? Options
     {
-        get => _param;
+        get => _options;
         set
         {
-            _param = value;
+            _options = value;
             OnPropertyChanged();
         }
     }

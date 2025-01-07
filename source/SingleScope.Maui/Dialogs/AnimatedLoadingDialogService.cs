@@ -7,8 +7,8 @@ namespace SingleScope.Maui.Dialogs
     {
         private readonly AnimatedLoadingOptions _animatedLoadingOptions;
 
-        public AnimatedLoadingDialogService(IOptions<AnimatedLoadingOptions> options)
-            : base(options)
+        public AnimatedLoadingDialogService(IOptions<AnimatedLoadingOptions> options, IOptions<ProgressiveLoadingOptions> progressiveLoadingOptions)
+            : base(options, progressiveLoadingOptions)
         {
             _animatedLoadingOptions = options.Value;
         }
@@ -17,8 +17,9 @@ namespace SingleScope.Maui.Dialogs
         {
             return new LoadingPopup
             {
-                Param = new AnimatedLoadingOptions
+                Options = new AnimatedLoadingOptions
                 {
+                    PopupPadding = _animatedLoadingOptions.PopupPadding,
                     BackgroundColor = string.IsNullOrEmpty(message) ? Colors.Transparent : _animatedLoadingOptions.BackgroundColor,
                     CornerRadius = _animatedLoadingOptions.CornerRadius,
                     GifImageUri = _animatedLoadingOptions.GifImageUri,

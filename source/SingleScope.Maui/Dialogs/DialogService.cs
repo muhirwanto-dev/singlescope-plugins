@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui.Views;
 using Microsoft.Extensions.Options;
 using SingleScope.Core;
+using SingleScope.Core.Interfaces;
 using SingleScope.Maui.Controls;
 
 namespace SingleScope.Maui.Dialogs
@@ -8,10 +9,12 @@ namespace SingleScope.Maui.Dialogs
     public class DialogService : IDialogService
     {
         private readonly LoadingOptions _loadingOptions;
+        private readonly ProgressiveLoadingOptions _progressiveLoadingOptions;
 
-        public DialogService(IOptions<LoadingOptions> options)
+        public DialogService(IOptions<LoadingOptions> options, IOptions<ProgressiveLoadingOptions> progressiveLoadingOptions)
         {
             _loadingOptions = options.Value;
+            _progressiveLoadingOptions = progressiveLoadingOptions.Value;
         }
 
         public Task<string?> ShowActionSheetAsync(string title, string cancel = "Cancel", FlowDirection flowDirection = FlowDirection.MatchParent, params string[] buttons)
@@ -116,6 +119,42 @@ namespace SingleScope.Maui.Dialogs
             return disposableAction;
         }
 
+        public IDisposableAction<ProgressiveLoadingPopup> ShowProgressiveLoading(string message, ProgressiveLoadingProgressType progressType = ProgressiveLoadingProgressType.ActivityIndicator, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default)
+        {
+            Page page = Application.Current?.MainPage ?? throw new NullReferenceException("No page available");
+            var popup = CreateProgressiveLoadingPopup(message, cancelAction, progressType);
+
+            cancellationTokenSource ??= new CancellationTokenSource();
+            bool cancelled = false;
+
+            popup.Closed += (sender, arg) =>
+            {
+                if (arg.WasDismissedByTappingOutsideOfPopup && !cancelled)
+                {
+                    cancelled = true;
+                    cancellationTokenSource.Cancel();
+                }
+            };
+
+            var disposableAction = new DisposableAction<ProgressiveLoadingPopup>(
+                popup,
+                () =>
+                {
+                    if (!cancelled)
+                    {
+                        popup?.Close();
+                    }
+
+                    popup = null;
+                });
+
+            cancellationTokenSource.Token.Register(disposableAction.Dispose);
+
+            MainThread.InvokeOnMainThreadAsync(() => page.ShowPopup(popup));
+
+            return disposableAction;
+        }
+
         public IDisposable ShowFullPageLoading(Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default)
         {
             return ShowLoading(string.Empty, cancelAction, cancellationTokenSource);
@@ -125,13 +164,33 @@ namespace SingleScope.Maui.Dialogs
         {
             return new LoadingPopup
             {
-                Param = new AnimatedLoadingOptions
+                Options = new AnimatedLoadingOptions
                 {
+                    PopupPadding = _loadingOptions.PopupPadding,
                     BackgroundColor = string.IsNullOrEmpty(message) ? Colors.Transparent : _loadingOptions.BackgroundColor,
                     CornerRadius = _loadingOptions.CornerRadius,
                     Message = message,
                     MinimumHeight = _loadingOptions.MinimumHeight,
                     MinimumWidth = _loadingOptions.MinimumWidth,
+                },
+                CanBeDismissedByTappingOutsideOfPopup = cancelAction != null,
+            };
+        }
+
+        protected virtual ProgressiveLoadingPopup CreateProgressiveLoadingPopup(string message, Action? cancelAction, ProgressiveLoadingProgressType progressType)
+        {
+            return new ProgressiveLoadingPopup
+            {
+                Options = new ProgressiveLoadingOptions
+                {
+                    PopupPadding = _progressiveLoadingOptions.PopupPadding,
+                    BackgroundColor = string.IsNullOrEmpty(message) ? Colors.Transparent : _progressiveLoadingOptions.BackgroundColor,
+                    CornerRadius = _progressiveLoadingOptions.CornerRadius,
+                    Message = message,
+                    MinimumHeight = _progressiveLoadingOptions.MinimumHeight,
+                    MinimumWidth = _progressiveLoadingOptions.MinimumWidth,
+                    ProgressType = progressType,
+                    IndicatorColor = _progressiveLoadingOptions.IndicatorColor,
                 },
                 CanBeDismissedByTappingOutsideOfPopup = cancelAction != null,
             };

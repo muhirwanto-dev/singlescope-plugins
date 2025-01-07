@@ -10,9 +10,9 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 
-    <VersionPrefix>2.1.7</VersionPrefix>
-    <AssemblyVersion>2.1.7</AssemblyVersion>
-    <FileVersion>2.1.7.10</FileVersion>
+    <VersionPrefix>2.2.0</VersionPrefix>
+    <AssemblyVersion>2.2.0</AssemblyVersion>
+    <FileVersion>2.2.0.11</FileVersion>
 	</PropertyGroup>
 
   <!--NuGet properties-->
@@ -51,16 +51,12 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\SingleScope.Core\SingleScope.Core.csproj" />
-    <ProjectReference Include="..\SingleScope.Maui.SourceGenerator\SingleScope.Maui.SourceGenerator.csproj"
-                      OutputItemType="Analyzer"
-                      ReferenceOutputAssembly="false">
+    <ProjectReference Include="..\SingleScope.Maui.SourceGenerator\SingleScope.Maui.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false">
     </ProjectReference>
 	</ItemGroup>
 
   <ItemGroup>
-    <None Include="..\SingleScope.Maui.SourceGenerator\bin\$(Configuration)\netstandard2.0\SingleScope.Maui.SourceGenerator.dll"
-          Pack="true" PackagePath="analyzers" Visible="false" 
-          />
+    <None Include="..\SingleScope.Maui.SourceGenerator\bin\$(Configuration)\netstandard2.0\SingleScope.Maui.SourceGenerator.dll" Pack="true" PackagePath="analyzers" Visible="false" />
   </ItemGroup>
   
   <ItemGroup>
@@ -71,6 +67,9 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="Controls\LoadingPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Controls\ProgressiveLoadingPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

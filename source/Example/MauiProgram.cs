@@ -22,6 +22,11 @@ namespace Example
                     {
 
                     },
+                    progressiveLoadingOptions: options =>
+                    {
+                        options.PopupPadding = 50;
+                        options.IndicatorColor = Colors.Red;
+                    },
                     reportOptions: options =>
                     {
 

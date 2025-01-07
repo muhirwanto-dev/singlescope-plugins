@@ -28,6 +28,26 @@ namespace Example
 
             try
             {
+                using (var popup = _dialogService.ShowProgressiveLoading("Example progressive activity"))
+                {
+                    while (popup.Owner.ProgressValue < 1.0)
+                    {
+                        await Task.Delay(delayMs / 10);
+
+                        popup.Owner.ProgressValue += 0.1;
+                    }
+                }
+
+                using (var popup = _dialogService.ShowProgressiveLoading("Example progressive progress bar", ProgressiveLoadingProgressType.ProgressBar))
+                {
+                    while (popup.Owner.ProgressValue < 1.0)
+                    {
+                        await Task.Delay(delayMs / 10);
+
+                        popup.Owner.ProgressValue += 0.1;
+                    }
+                }
+
                 using (var popup = _dialogService.ShowFullPageLoading())
                 {
                     await Task.Delay(delayMs);

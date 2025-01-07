@@ -1,4 +1,7 @@
-﻿namespace SingleScope.Maui.Dialogs
+﻿using SingleScope.Core.Interfaces;
+using SingleScope.Maui.Controls;
+
+namespace SingleScope.Maui.Dialogs
 {
     public interface IDialogService
     {
@@ -15,6 +18,8 @@
         Task ShowErrorDialogAsync(string message);
 
         IDisposable ShowLoading(string message, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default);
+
+        IDisposableAction<ProgressiveLoadingPopup> ShowProgressiveLoading(string message, ProgressiveLoadingProgressType progressType = ProgressiveLoadingProgressType.ActivityIndicator, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default);
 
         IDisposable ShowFullPageLoading(Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default);
     }
