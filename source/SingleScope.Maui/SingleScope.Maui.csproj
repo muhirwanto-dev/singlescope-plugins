@@ -12,7 +12,8 @@
 
     <VersionPrefix>2.2.2</VersionPrefix>
     <AssemblyVersion>2.2.2</AssemblyVersion>
-    <FileVersion>2.2.2.13</FileVersion>
+    <FileVersion>2.2.2.14</FileVersion>
+    <VersionSuffix>hotfix-1</VersionSuffix>
 	</PropertyGroup>
 
   <!--NuGet properties-->

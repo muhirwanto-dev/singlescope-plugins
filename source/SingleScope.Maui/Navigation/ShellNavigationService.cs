@@ -19,7 +19,7 @@
 
         public Task PopToRootAsync<TRoot>() where TRoot : Page
         {
-            return Shell.Current.GoToAsync($"///{nameof(TRoot)}");
+            return Shell.Current.GoToAsync($"///{typeof(TRoot).Name}");
         }
 
         public void Push<TView>() where TView : Page
@@ -29,7 +29,7 @@
 
         public Task PushAsync<TView>() where TView : Page
         {
-            return Shell.Current.GoToAsync(nameof(TView));
+            return Shell.Current.GoToAsync(typeof(TView).Name);
         }
 
         public void Pop(ShellNavigationQueryParameters? query)
@@ -49,7 +49,7 @@
 
         public Task PopToRootAsync<TRoot>(ShellNavigationQueryParameters? query) where TRoot : Page
         {
-            return Shell.Current.GoToAsync($"///{nameof(TRoot)}", query);
+            return Shell.Current.GoToAsync($"///{typeof(TRoot).Name}", query);
         }
 
         public void Push<TView>(ShellNavigationQueryParameters? query) where TView : Page
@@ -59,7 +59,7 @@
 
         public Task PushAsync<TView>(ShellNavigationQueryParameters? query) where TView : Page
         {
-            return Shell.Current.GoToAsync(nameof(TView), query);
+            return Shell.Current.GoToAsync(typeof(TView).Name, query);
         }
     }
 }
