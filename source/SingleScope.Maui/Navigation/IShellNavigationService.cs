@@ -2,16 +2,28 @@
 {
     public interface IShellNavigationService
     {
-        Task PushAsync<TView>(ShellNavigationQueryParameters? query = null) where TView : Page;
+        Task PushAsync<TView>() where TView : Page;
 
-        Task PopAsync(ShellNavigationQueryParameters? query = null);
+        Task PopAsync();
 
-        Task PopToRootAsync<TRoot>(ShellNavigationQueryParameters? query = null) where TRoot : Page;
+        Task PopToRootAsync<TRoot>() where TRoot : Page;
 
-        void Push<TView>(ShellNavigationQueryParameters? query = null) where TView : Page;
+        void Push<TView>() where TView : Page;
 
-        void Pop(ShellNavigationQueryParameters? query = null);
+        void Pop();
 
-        void PopToRoot<TRoot>(ShellNavigationQueryParameters? query = null) where TRoot : Page;
+        void PopToRoot<TRoot>() where TRoot : Page;
+
+        Task PushAsync<TView>(ShellNavigationQueryParameters? query) where TView : Page;
+
+        Task PopAsync(ShellNavigationQueryParameters? query);
+
+        Task PopToRootAsync<TRoot>(ShellNavigationQueryParameters? query) where TRoot : Page;
+
+        void Push<TView>(ShellNavigationQueryParameters? query) where TView : Page;
+
+        void Pop(ShellNavigationQueryParameters? query);
+
+        void PopToRoot<TRoot>(ShellNavigationQueryParameters? query) where TRoot : Page;
     }
 }
