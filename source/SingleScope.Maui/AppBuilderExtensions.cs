@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using SingleScope.Maui.Dialogs;
+using SingleScope.Maui.Navigation;
 using SingleScope.Maui.Reports;
 
 namespace SingleScope.Maui
@@ -48,6 +49,8 @@ namespace SingleScope.Maui
                 builder.Services.Configure<ReportOptions>(options => { });
             }
 
+            builder.Services.AddSingleton<INavigationService, NavigationService>();
+            builder.Services.AddSingleton<IShellNavigationService, ShellNavigationService>();
             builder.Services.AddSingleton<IAnimatedLoadingDialogService, AnimatedLoadingDialogService>();
             builder.Services.AddSingleton<IDialogService, DialogService>();
             builder.Services.AddSingleton(typeof(IReportService<>), typeof(ReportService<>));
