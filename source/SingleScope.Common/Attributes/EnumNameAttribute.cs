@@ -1,6 +1,6 @@
 ﻿namespace SingleScope.Common.Attributes
 {
-    [AttributeUsage(AttributeTargets.Enum, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Field, Inherited = false)]
     public sealed class EnumNameAttribute : Attribute
     {
         public string Name { get; }
