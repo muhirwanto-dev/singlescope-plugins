@@ -2,7 +2,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace SingleScope.Maui.SourceGenerator.Generators
+namespace SingleScope.SourceGenerator.Generators
 {
     [Generator(LanguageNames.CSharp)]
     public class ViewModelOwnerAttributeGenerator : IIncrementalGenerator

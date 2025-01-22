@@ -54,7 +54,7 @@ namespace SingleScope.SourceGenerator.Generators
             // Collect enum members and their names (using the EnumName attribute if present)
             var members = enumSymbol.GetMembers()
                 .OfType<IFieldSymbol>()
-                .Where(f => f.IsConst == false)
+                .Where(f => f.IsConst)
                 .Select(f =>
                 {
                     var attr = f.GetAttributes().FirstOrDefault(a => a.AttributeClass?.Name == EnumNameAttributeName);

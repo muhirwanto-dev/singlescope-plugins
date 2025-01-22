@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using SingleScope.Example.Common;
 using SingleScope.Maui;
 
 namespace Example
