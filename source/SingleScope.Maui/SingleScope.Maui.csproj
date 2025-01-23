@@ -10,9 +10,9 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 
-    <VersionPrefix>2.3.0</VersionPrefix>
-    <AssemblyVersion>2.3.0</AssemblyVersion>
-    <FileVersion>2.3.0.15</FileVersion>
+    <VersionPrefix>2.3.1</VersionPrefix>
+    <AssemblyVersion>2.3.1</AssemblyVersion>
+    <FileVersion>2.3.1.16</FileVersion>
     <VersionSuffix>hotfix-1</VersionSuffix>
 	</PropertyGroup>
 
@@ -52,11 +52,11 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\SingleScope.Core\SingleScope.Core.csproj" />
-	  <ProjectReference Include="..\SingleScope.SourceGenerator\SingleScope.SourceGenerator.csproj" />
+	  <ProjectReference Include="..\SingleScope.Maui.SourceGenerator\SingleScope.Maui.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 	</ItemGroup>
 
   <ItemGroup>
-    <None Include="..\SingleScope.SourceGenerator\bin\$(Configuration)\netstandard2.0\SingleScope.SourceGenerator.dll" Pack="true" PackagePath="analyzers" Visible="false" />
+    <None Include="..\SingleScope.Maui.SourceGenerator\bin\$(Configuration)\netstandard2.0\SingleScope.Maui.SourceGenerator.dll" Pack="true" PackagePath="analyzers" Visible="false" />
   </ItemGroup>
   
   <ItemGroup>

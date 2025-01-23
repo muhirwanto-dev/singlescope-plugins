@@ -4,9 +4,9 @@ using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
-using SingleScope.SourceGenerator.Common;
+using SingleScope.Common.SourceGenerator.Common;
 
-namespace SingleScope.SourceGenerator.Generators
+namespace SingleScope.Common.SourceGenerator.Generators
 {
     [Generator(LanguageNames.CSharp)]
     public class EnumNameSourceGenerator : IIncrementalGenerator

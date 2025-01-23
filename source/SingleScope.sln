@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SingleScope.Collection", "S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SingleScope.Common", "SingleScope.Common\SingleScope.Common.csproj", "{905A477A-57C5-4B26-AF10-6350CD305405}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SingleScope.SourceGenerator", "SingleScope.SourceGenerator\SingleScope.SourceGenerator.csproj", "{9F1DA0DE-9B5D-4B2C-A1AD-287236AF598B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SingleScope.Maui.SourceGenerator", "SingleScope.Maui.SourceGenerator\SingleScope.Maui.SourceGenerator.csproj", "{9F1DA0DE-9B5D-4B2C-A1AD-287236AF598B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SingleScope.Common.SourceGenerator", "SingleScope.Common.SourceGenerator\SingleScope.Common.SourceGenerator.csproj", "{2AD9599B-CBF6-49CE-90EE-2314C86AD148}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{9F1DA0DE-9B5D-4B2C-A1AD-287236AF598B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F1DA0DE-9B5D-4B2C-A1AD-287236AF598B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F1DA0DE-9B5D-4B2C-A1AD-287236AF598B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AD9599B-CBF6-49CE-90EE-2314C86AD148}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AD9599B-CBF6-49CE-90EE-2314C86AD148}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AD9599B-CBF6-49CE-90EE-2314C86AD148}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AD9599B-CBF6-49CE-90EE-2314C86AD148}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

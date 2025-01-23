@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SingleScope.SourceGenerator.Common
+namespace SingleScope.Common.SourceGenerator.Common
 {
     internal class EnumInfo
     {

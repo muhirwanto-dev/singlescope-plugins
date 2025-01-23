@@ -5,9 +5,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
-    <VersionPrefix>1.1.0</VersionPrefix>
-    <AssemblyVersion>1.1.0</AssemblyVersion>
-    <FileVersion>1.1.0.3</FileVersion>
+    <VersionPrefix>1.1.1</VersionPrefix>
+    <AssemblyVersion>1.1.1</AssemblyVersion>
+    <FileVersion>1.1.1.4</FileVersion>
+    <VersionSuffix>hotfix-1</VersionSuffix>
 
     <!--NuGet-->
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -30,10 +31,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SingleScope.SourceGenerator\SingleScope.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\SingleScope.Common.SourceGenerator\SingleScope.Common.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\SingleScope.SourceGenerator\bin\$(Configuration)\netstandard2.0\SingleScope.SourceGenerator.dll" Pack="true" PackagePath="analyzers" Visible="false" />
+    <None Include="..\SingleScope.Common.SourceGenerator\bin\$(Configuration)\netstandard2.0\SingleScope.Common.SourceGenerator.dll" Pack="true" PackagePath="analyzers" Visible="false" />
   </ItemGroup>
 </Project>
