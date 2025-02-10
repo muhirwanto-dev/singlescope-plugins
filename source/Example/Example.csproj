@@ -62,7 +62,7 @@
 
 	<ItemGroup>
     <ProjectReference Include="..\SingleScope.Common\SingleScope.Common.csproj" />
-    <ProjectReference Include="..\SingleScope.SourceGenerator\SingleScope.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\SingleScope.Maui.SourceGenerator\SingleScope.Maui.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     <ProjectReference Include="..\SingleScope.Maui\SingleScope.Maui.csproj" />
 	</ItemGroup>
 

@@ -22,8 +22,9 @@ namespace SingleScope.Maui.SourceGenerator.Generators
             context.RegisterSourceOutput(classDeclarations, (productionContext, classSymbol) =>
             {
                 var sourceCode = GenerateSourceCode(classSymbol);
+                var classNamePrefix = classSymbol.OriginalDefinition.Name.Replace(".", "_");
 
-                productionContext.AddSource($"{classSymbol.Name}_ViewModelOwner.g.cs", sourceCode);
+                productionContext.AddSource($"{classNamePrefix}_ViewModelOwner.g.cs", sourceCode);
             });
         }
 
