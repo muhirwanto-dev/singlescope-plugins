@@ -5,10 +5,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
-    <VersionPrefix>1.1.1</VersionPrefix>
-    <AssemblyVersion>1.1.1</AssemblyVersion>
-    <FileVersion>1.1.1.4</FileVersion>
-    <VersionSuffix>hotfix-1</VersionSuffix>
+    <AssemblyVersion>1.2.2.11</AssemblyVersion>
+    <FileVersion>1.2.2.0125</FileVersion>
+    <VersionPrefix>$(AssemblyVersion)</VersionPrefix>
 
     <!--NuGet-->
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
