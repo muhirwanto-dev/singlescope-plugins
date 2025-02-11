@@ -5,8 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
-    <AssemblyVersion>1.2.2.11</AssemblyVersion>
-    <FileVersion>1.2.2.0125</FileVersion>
+    <AssemblyVersion>1.2.3.0211</AssemblyVersion>
+    <FileVersion>1.2.3.0211</FileVersion>
     <VersionPrefix>$(AssemblyVersion)</VersionPrefix>
 
     <!--NuGet-->

@@ -10,11 +10,10 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 
-    <VersionPrefix>2.3.2</VersionPrefix>
-    <AssemblyVersion>2.3.2</AssemblyVersion>
-    <FileVersion>2.3.2.17</FileVersion>
-    <VersionSuffix>hotfix-1</VersionSuffix>
-	</PropertyGroup>
+    <AssemblyVersion>2.3.3</AssemblyVersion>
+    <FileVersion>2.3.3.0211</FileVersion>
+    <VersionPrefix>$(AssemblyVersion)</VersionPrefix>
+  </PropertyGroup>
 
   <!--NuGet properties-->
   <PropertyGroup>

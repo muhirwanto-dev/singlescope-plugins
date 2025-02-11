@@ -22,9 +22,9 @@ namespace SingleScope.Maui.SourceGenerator.Generators
             context.RegisterSourceOutput(classDeclarations, (productionContext, classSymbol) =>
             {
                 var sourceCode = GenerateSourceCode(classSymbol);
-                var classNamePrefix = classSymbol.OriginalDefinition.Name.Replace(".", "_");
+                var filenamePrefix = classSymbol.OriginalDefinition.Name.Replace(".", "_");
 
-                productionContext.AddSource($"{classNamePrefix}_ViewModelOwner.g.cs", sourceCode);
+                productionContext.AddSource($"ViewModelOwner_{filenamePrefix}.g.cs", sourceCode);
             });
         }
 
@@ -119,13 +119,9 @@ namespace {namespaceStr}
     {{
         public {viewModelTypeName} ViewModel {{ get; private set; }} = default!;
 
-        private void PreInitializeComponent()
-        {{
-            ViewModel = SingleScopeServiceProvider.Current.GetRequiredService<{viewModelTypeName}>();
-        }}
-
         private void PostInitializeComponent()
         {{
+            ViewModel = SingleScopeServiceProvider.Current.GetRequiredService<{viewModelTypeName}>();
             BindingContext = ViewModel;
         }}
     }}
@@ -146,10 +142,9 @@ namespace {namespaceStr}
 
         public {className}()
         {{
-            ViewModel = SingleScopeServiceProvider.Current.GetRequiredService<{viewModelTypeName}>();
-
             InitializeComponent();
 
+            ViewModel = SingleScopeServiceProvider.Current.GetRequiredService<{viewModelTypeName}>();
             BindingContext = ViewModel;
         }}
     }}

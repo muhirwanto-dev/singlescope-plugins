@@ -30,8 +30,9 @@ namespace SingleScope.Common.SourceGenerator.Generators
                 if (enumInfo is EnumInfo info)
                 {
                     var generatedCode = GenerateEnumNamesClass(info);
+                    var filenamePrefix = $"{info.NameSpace}_{info.EnumName}";
 
-                    ctx.AddSource($"{info.EnumName}Names.g.cs", SourceText.From(generatedCode, Encoding.UTF8));
+                    ctx.AddSource($"{filenamePrefix}Names.g.cs", SourceText.From(generatedCode, Encoding.UTF8));
                 }
             });
         }
@@ -97,6 +98,15 @@ namespace SingleScope.Common.SourceGenerator.Generators
             foreach (var member in enumInfo.Members)
             {
                 sb.AppendLine($"            {className}.{member.EnumField},");
+            }
+            sb.AppendLine($"        }};");
+            sb.AppendLine();
+
+            sb.AppendLine($"        public static readonly IDictionary<{enumInfo.NameSpace}.{enumInfo.EnumName}, string> Map = new Dictionary<{enumInfo.NameSpace}.{enumInfo.EnumName}, string>");
+            sb.AppendLine($"        {{");
+            foreach (var member in enumInfo.Members)
+            {
+                sb.AppendLine($"            {{ {enumInfo.NameSpace}.{enumInfo.EnumName}.{member.EnumField}, {className}.{member.EnumField} }}");
             }
             sb.AppendLine($"        }};");
 

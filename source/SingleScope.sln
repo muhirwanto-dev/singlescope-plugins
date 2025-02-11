@@ -70,8 +70,10 @@ Global
 		UpdateAssemblyVersion.Debug|Any CPU = True
 		UpdateAssemblyFileVersion.Debug|Any CPU = True
 		UpdateAssemblyInfoVersion.Debug|Any CPU = True
-		AssemblyVersionSettings.Debug|Any CPU = IncrementOnDemand.IncrementOnDemandWithResetOnIncrease.IncrementOnDemandWithResetOnIncrease.Increment
-		AssemblyFileVersionSettings.Debug|Any CPU = IncrementOnDemand.IncrementOnDemandWithResetOnIncrease.IncrementOnDemandWithResetOnIncrease.MMddStamp
+		ShouldCreateLogs.Debug|Any CPU = True
+		AdvancedSettingsExpanded.Debug|Any CPU = True
+		AssemblyVersionSettings.Debug|Any CPU = IncrementOnDemand.IncrementOnDemandWithResetOnIncrease.IncrementWithResetOnIncrease.MMddStamp
+		AssemblyFileVersionSettings.Debug|Any CPU = IncrementOnDemand.IncrementOnDemandWithResetOnIncrease.IncrementWithResetOnIncrease.MMddStamp
 		UpdatePackageVersion.Debug|Any CPU = False
 		AssemblyInfoVersionSemVerSettings.Debug|Any CPU = AssemblyVersion.IncrementOnce.Alpha
 		AssemblyInfoVersionType.Debug|Any CPU = SemVer1
