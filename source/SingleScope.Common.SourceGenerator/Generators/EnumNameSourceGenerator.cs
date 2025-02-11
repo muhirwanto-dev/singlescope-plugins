@@ -30,7 +30,7 @@ namespace SingleScope.Common.SourceGenerator.Generators
                 if (enumInfo is EnumInfo info)
                 {
                     var generatedCode = GenerateEnumNamesClass(info);
-                    var filenamePrefix = $"{info.NameSpace}_{info.EnumName}";
+                    var filenamePrefix = $"{info.NameSpace}_{info.EnumName}".Replace(".", "_");
 
                     ctx.AddSource($"{filenamePrefix}Names.g.cs", SourceText.From(generatedCode, Encoding.UTF8));
                 }

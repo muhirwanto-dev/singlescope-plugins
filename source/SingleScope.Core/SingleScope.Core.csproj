@@ -4,9 +4,6 @@
     <TargetFrameworks>net8.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <VersionPrefix>1.5.1</VersionPrefix>
-    <AssemblyVersion>1.5.1</AssemblyVersion>
-    <FileVersion>1.5.1.3</FileVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageTags>SingleScope;Plugin;Core;MAUI</PackageTags>
     <Title>SingleScope.Core</Title>
@@ -17,6 +14,10 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Copyright>Copyright (c)  muhirwanto.dev 2024</Copyright>
     <PackageIcon>logo.png</PackageIcon>
+
+    <AssemblyVersion>1.5.11</AssemblyVersion>
+    <FileVersion>1.5.11.0211</FileVersion>
+    <VersionPrefix>$(AssemblyVersion)</VersionPrefix>
   </PropertyGroup>
 
   <ItemGroup>

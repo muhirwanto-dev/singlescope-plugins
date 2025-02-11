@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -22,7 +23,7 @@ namespace SingleScope.Maui.SourceGenerator.Generators
             context.RegisterSourceOutput(classDeclarations, (productionContext, classSymbol) =>
             {
                 var sourceCode = GenerateSourceCode(classSymbol);
-                var filenamePrefix = classSymbol.OriginalDefinition.Name.Replace(".", "_");
+                var filenamePrefix = $"{classSymbol}".Replace(".", "_");
 
                 productionContext.AddSource($"ViewModelOwner_{filenamePrefix}.g.cs", sourceCode);
             });

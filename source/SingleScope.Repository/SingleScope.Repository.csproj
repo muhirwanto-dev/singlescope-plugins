@@ -5,9 +5,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
-    <VersionPrefix>1.1.0</VersionPrefix>
-    <AssemblyVersion>1.1.0</AssemblyVersion>
-    <FileVersion>1.1.0.2</FileVersion>
+    <AssemblyVersion>1.1.2</AssemblyVersion>
+    <FileVersion>1.1.2.0211</FileVersion>
+    <VersionPrefix>$(AssemblyVersion)</VersionPrefix>
   </PropertyGroup>
 
   <!--NuGet properties-->

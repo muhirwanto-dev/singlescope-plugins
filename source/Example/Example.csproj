@@ -26,6 +26,8 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<AssemblyVersion>1.0.4.0211</AssemblyVersion>
+		<FileVersion>1.0.4.0211</FileVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -64,6 +66,18 @@
     <ProjectReference Include="..\SingleScope.Common\SingleScope.Common.csproj" />
     <ProjectReference Include="..\SingleScope.Maui.SourceGenerator\SingleScope.Maui.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     <ProjectReference Include="..\SingleScope.Maui\SingleScope.Maui.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="TestPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="TestPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </None>
 	</ItemGroup>
 
 </Project>

@@ -3,9 +3,13 @@ using SingleScope.Maui.Mvvm.Attributes;
 
 namespace Example
 {
-    [ViewModelOwner(typeof(ExampleViewModel))]
     public partial class MainPage : ContentPage
     {
+        public MainPage() 
+        {
+            InitializeComponent();
+        }
+
         int count = 0;
 
         private void OnCounterClicked(object sender, EventArgs e)

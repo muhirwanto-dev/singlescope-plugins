@@ -4,9 +4,6 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <VersionPrefix>1.0.0</VersionPrefix>
-    <AssemblyVersion>1.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.1</FileVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageTags>SingleScope;Plugin;Collection</PackageTags>
     <Title>SingleScope.Collection</Title>
@@ -17,6 +14,10 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Copyright>Copyright (c)  muhirwanto.dev 2024</Copyright>
     <PackageIcon>logo.png</PackageIcon>
+
+    <AssemblyVersion>1.0.1</AssemblyVersion>
+    <FileVersion>1.0.1.0211</FileVersion>
+    <VersionPrefix>$(AssemblyVersion)</VersionPrefix>
   </PropertyGroup>
 
   <ItemGroup>
