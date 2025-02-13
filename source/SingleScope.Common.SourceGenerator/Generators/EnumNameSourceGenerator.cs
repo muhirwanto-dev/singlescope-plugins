@@ -106,7 +106,7 @@ namespace SingleScope.Common.SourceGenerator.Generators
             sb.AppendLine($"        {{");
             foreach (var member in enumInfo.Members)
             {
-                sb.AppendLine($"            {{ {enumInfo.NameSpace}.{enumInfo.EnumName}.{member.EnumField}, {className}.{member.EnumField} }}");
+                sb.AppendLine($"            {{ {enumInfo.NameSpace}.{enumInfo.EnumName}.{member.EnumField}, {className}.{member.EnumField} }},");
             }
             sb.AppendLine($"        }};");
 
