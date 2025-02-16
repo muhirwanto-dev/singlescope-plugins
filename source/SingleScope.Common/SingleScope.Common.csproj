@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <AssemblyVersion>1.2.10</AssemblyVersion>
+    <FileVersion>1.2.10.0211</FileVersion>
+    <VersionPrefix>$(AssemblyVersion)</VersionPrefix>
+
+    <!--NuGet-->
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageTags>SingleScope;Plugin;Common</PackageTags>
+    <Title>SingleScope.Common</Title>
+    <Authors>muhirwanto.dev</Authors>
+    <PackageProjectUrl>https://github.com/muhirwanto-dev/singlescope-plugins</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/muhirwanto-dev/singlescope-plugins/main/logo.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/muhirwanto-dev/singlescope-plugins</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>Copyright (c)  muhirwanto.dev 2024</Copyright>
+    <PackageIcon>logo.png</PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SingleScope.Common.SourceGenerator\SingleScope.Common.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\SingleScope.Common.SourceGenerator\bin\$(Configuration)\netstandard2.0\SingleScope.Common.SourceGenerator.dll" Pack="true" PackagePath="analyzers" Visible="false" />
+  </ItemGroup>
+</Project>

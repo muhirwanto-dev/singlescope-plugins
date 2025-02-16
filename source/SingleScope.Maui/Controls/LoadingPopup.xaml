@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup x:Class="SingleScope.Maui.Controls.LoadingPopup"
+               xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               Color="Transparent">
+    <Border Padding="{Binding Options.PopupPadding}"
+            BackgroundColor="{Binding Options.BackgroundColor, TargetNullValue={Static Colors.White}}"
+            MinimumHeightRequest="{Binding Options.MinimumHeight}"
+            MinimumWidthRequest="{Binding Options.MinimumWidth}"
+            StrokeThickness="0">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="{Binding Options.CornerRadius, TargetNullValue=0}" />
+        </Border.StrokeShape>
+        <VerticalStackLayout HorizontalOptions="Fill"
+                             Spacing="10"
+                             VerticalOptions="Center">
+            <ActivityIndicator HorizontalOptions="Center"
+                               IsRunning="True"
+                               IsVisible="{Binding Options.GifImageUri, Converter={toolkit:IsNullConverter}}" />
+
+            <WebView HeightRequest="{Binding Options.GifImageHeight, TargetNullValue=-1}"
+                     HorizontalOptions="Center"
+                     IsVisible="{Binding Options.GifImageUri, Converter={toolkit:IsNotNullConverter}}"
+                     Source="{Binding Options.GifImageUri}"
+                     WidthRequest="{Binding Options.GifImageWidth, TargetNullValue=-1}" />
+
+            <Label HorizontalOptions="Center"
+                   IsVisible="{Binding Options.Message, Converter={toolkit:IsNotNullConverter}}"
+                   Text="{Binding Options.Message}" />
+        </VerticalStackLayout>
+    </Border>
+</toolkit:Popup>
