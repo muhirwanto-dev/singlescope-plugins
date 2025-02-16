@@ -17,6 +17,12 @@ namespace SingleScope.Maui.Dialogs
 
         Task ShowErrorDialogAsync(string message);
 
+        void ShowInfoDialog(string message);
+
+        void ShowWarningDialog(string message);
+
+        void ShowErrorDialog(string message);
+
         IDisposable ShowLoading(string message, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default);
 
         IDisposableAction<ProgressiveLoadingPopup> ShowProgressiveLoading(string message, ProgressiveLoadingProgressType progressType = ProgressiveLoadingProgressType.ActivityIndicator, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default);

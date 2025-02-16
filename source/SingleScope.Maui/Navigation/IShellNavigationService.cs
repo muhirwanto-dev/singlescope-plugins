@@ -6,24 +6,32 @@
 
         Task PopAsync();
 
-        Task PopToRootAsync<TRoot>() where TRoot : Page;
+        Task PopToRootAsync<TRootView>() where TRootView : Page;
+
+        Task GoAsync(ShellNavigationState state);
 
         void Push<TView>() where TView : Page;
 
         void Pop();
 
-        void PopToRoot<TRoot>() where TRoot : Page;
+        void PopToRoot<TRootView>() where TRootView : Page;
 
-        Task PushAsync<TView>(ShellNavigationQueryParameters? query) where TView : Page;
+        void Go(ShellNavigationState state);
 
-        Task PopAsync(ShellNavigationQueryParameters? query);
+        Task PushAsync<TView>(ShellNavigationQueryParameters query) where TView : Page;
 
-        Task PopToRootAsync<TRoot>(ShellNavigationQueryParameters? query) where TRoot : Page;
+        Task PopAsync(ShellNavigationQueryParameters query);
 
-        void Push<TView>(ShellNavigationQueryParameters? query) where TView : Page;
+        Task PopToRootAsync<TRootView>(ShellNavigationQueryParameters query) where TRootView : Page;
 
-        void Pop(ShellNavigationQueryParameters? query);
+        Task GoAsync(ShellNavigationState state, ShellNavigationQueryParameters query);
 
-        void PopToRoot<TRoot>(ShellNavigationQueryParameters? query) where TRoot : Page;
+        void Push<TView>(ShellNavigationQueryParameters query) where TView : Page;
+
+        void Pop(ShellNavigationQueryParameters query);
+
+        void PopToRoot<TRootView>(ShellNavigationQueryParameters query) where TRootView : Page;
+
+        void Go(ShellNavigationState state, ShellNavigationQueryParameters query);
     }
 }

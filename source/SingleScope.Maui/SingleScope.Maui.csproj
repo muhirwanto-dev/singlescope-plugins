@@ -10,8 +10,8 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 
-    <AssemblyVersion>2.3.18</AssemblyVersion>
-    <FileVersion>2.3.18.0211</FileVersion>
+    <AssemblyVersion>2.4.4</AssemblyVersion>
+    <FileVersion>2.4.4.0216</FileVersion>
     <VersionPrefix>$(AssemblyVersion)</VersionPrefix>
   </PropertyGroup>
 
@@ -57,19 +57,4 @@
   <ItemGroup>
     <None Include="..\SingleScope.Maui.SourceGenerator\bin\$(Configuration)\netstandard2.0\SingleScope.Maui.SourceGenerator.dll" Pack="true" PackagePath="analyzers" Visible="false" />
   </ItemGroup>
-  
-  <ItemGroup>
-	  <Compile Update="Controls\LoadingPopup.xaml.cs">
-	    <DependentUpon>%(Filename)</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiXaml Update="Controls\LoadingPopup.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Controls\ProgressiveLoadingPopup.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	</ItemGroup>
 </Project>

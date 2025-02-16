@@ -69,6 +69,21 @@ namespace SingleScope.Maui.Dialogs
                 ));
         }
 
+        public void ShowInfoDialog(string message)
+        {
+            _ = ShowInfoDialogAsync(message);
+        }
+
+        public void ShowWarningDialog(string message)
+        {
+            _ = ShowWarningDialogAsync(message);
+        }
+
+        public void ShowErrorDialog(string message)
+        {
+            _ = ShowErrorDialogAsync(message);
+        }
+
         public Task<string?> ShowInputPromptAsync(string title, string message, string accept = "Ok", string cancel = "Cancel", string? placeholder = null, int maxLength = -1, Keyboard? keyboard = null, string initialValue = "")
         {
             Task<string?>? displayTask = Application.Current?.MainPage?.DisplayPromptAsync(

@@ -61,5 +61,25 @@
         {
             return Shell.Current.GoToAsync(typeof(TView).Name, query);
         }
+
+        public void Go(ShellNavigationState state)
+        {
+            _ = GoAsync(state);
+        }
+
+        public Task GoAsync(ShellNavigationState state)
+        {
+            return Shell.Current.GoToAsync(state);
+        }
+
+        public void Go(ShellNavigationState state, ShellNavigationQueryParameters query)
+        {
+            _ = GoAsync(state, query);
+        }
+
+        public Task GoAsync(ShellNavigationState state, ShellNavigationQueryParameters query)
+        {
+            return Shell.Current.GoToAsync(state, query);
+        }
     }
 }
