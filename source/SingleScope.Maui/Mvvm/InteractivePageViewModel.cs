@@ -1,11 +1,19 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using SingleScope.Core;
+using SingleScope.Core.Interfaces;
 
 namespace SingleScope.Maui.Mvvm
 {
-    public partial class InteractiveViewModelBase : RecipientViewModelBase
+    public partial class InteractivePageViewModel : RecipientBaseViewModel
     {
         private readonly Dictionary<string, ICollection<IRelayCommand>> _interactionCommands = new();
+
+        /// <summary>
+        /// Indicate that user triggering Swipe-to-Refresh action
+        /// </summary>
+        [ObservableProperty]
+        private bool _isRefreshing;
 
         /// <summary>
         /// Indicate that user triggering a page navigation
@@ -21,17 +29,44 @@ namespace SingleScope.Maui.Mvvm
         [NotifyPropertyChangedRecipients]
         private bool _isUserInteraction;
 
+        protected bool CanRefresh() => !IsRefreshing;
+
         protected bool CanNavigate() => !IsNavigating;
+
+        protected bool CanUserInteraction() => !IsUserInteraction;
+
+        protected void Refreshing() => IsRefreshing = true;
+
+        protected void Refreshed() => IsRefreshing = false;
 
         protected void Navigating() => IsNavigating = true;
 
         protected void Navigated() => IsNavigating = false;
 
-        protected bool CanUserInteraction() => !IsUserInteraction;
-
         protected void UserInteracting() => IsUserInteraction = true;
 
         protected void UserInteracted() => IsUserInteraction = false;
+
+        public IDisposableAction StartRefresh()
+        {
+            Refreshing();
+
+            return new DisposableAction(() => Refreshed());
+        }
+
+        public IDisposableAction StartNavigation()
+        {
+            Navigating();
+
+            return new DisposableAction(() => Navigated());
+        }
+
+        public IDisposableAction StartUserInteraction()
+        {
+            UserInteracting();
+
+            return new DisposableAction(() => UserInteracted());
+        }
 
         protected override void Broadcast<T>(T oldValue, T newValue, string? propertyName)
         {

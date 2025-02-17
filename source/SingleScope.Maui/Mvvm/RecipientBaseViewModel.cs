@@ -2,8 +2,7 @@
 
 namespace SingleScope.Maui.Mvvm
 {
-    [ObservableRecipient]
-    public partial class RecipientViewModelBase : ViewModelBase
+    public abstract partial class RecipientBaseViewModel : ObservableRecipient
     {
     }
 }
