@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Maui.Views;
 using Microsoft.Extensions.Options;
-using SingleScope.Core;
-using SingleScope.Core.Interfaces;
+using SingleScope.Common;
 using SingleScope.Maui.Controls;
 
 namespace SingleScope.Maui.Dialogs
@@ -117,7 +116,7 @@ namespace SingleScope.Maui.Dialogs
                 }
             };
 
-            var disposableAction = new DisposableAction(() =>
+            var disposingNotificator = new DisposingNotificator(() =>
             {
                 if (!cancelled)
                 {
@@ -127,14 +126,14 @@ namespace SingleScope.Maui.Dialogs
                 popup = null;
             });
 
-            cancellationTokenSource.Token.Register(disposableAction.Dispose);
+            cancellationTokenSource.Token.Register(disposingNotificator.Dispose);
 
             MainThread.InvokeOnMainThreadAsync(() => page.ShowPopup(popup));
 
-            return disposableAction;
+            return disposingNotificator;
         }
 
-        public IDisposableAction<ProgressiveLoadingPopup> ShowProgressiveLoading(string message, ProgressiveLoadingProgressType progressType = ProgressiveLoadingProgressType.ActivityIndicator, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default)
+        public IDisposingNotificator<ProgressiveLoadingPopup> ShowProgressiveLoading(string message, ProgressiveLoadingProgressType progressType = ProgressiveLoadingProgressType.ActivityIndicator, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default)
         {
             Page page = Application.Current?.MainPage ?? throw new NullReferenceException("No page available");
             var popup = CreateProgressiveLoadingPopup(message, cancelAction, progressType);
@@ -151,7 +150,7 @@ namespace SingleScope.Maui.Dialogs
                 }
             };
 
-            var disposableAction = new DisposableAction<ProgressiveLoadingPopup>(
+            var disposableAction = new DisposingNotificator<ProgressiveLoadingPopup>(
                 popup,
                 () =>
                 {

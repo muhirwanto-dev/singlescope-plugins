@@ -5,7 +5,7 @@
     <IsRoslynComponent>true</IsRoslynComponent>
 
     <AssemblyVersion>1.4.0</AssemblyVersion>
-    <FileVersion>1.4.0.0211</FileVersion>
+    <FileVersion>1.4.0.0223</FileVersion>
     <VersionPrefix>$(AssemblyVersion)</VersionPrefix>
   </PropertyGroup>
 

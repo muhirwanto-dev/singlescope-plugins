@@ -15,8 +15,8 @@
     <Copyright>Copyright (c)  muhirwanto.dev 2024</Copyright>
     <PackageIcon>logo.png</PackageIcon>
 
-    <AssemblyVersion>1.0.1</AssemblyVersion>
-    <FileVersion>1.0.1.0211</FileVersion>
+    <AssemblyVersion>1.0.2</AssemblyVersion>
+    <FileVersion>1.0.2.0223</FileVersion>
     <VersionPrefix>$(AssemblyVersion)</VersionPrefix>
   </PropertyGroup>
 
@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SingleScope.Core\SingleScope.Core.csproj" />
+    <ProjectReference Include="..\SingleScope.Common\SingleScope.Common.csproj" />
   </ItemGroup>
 
 </Project>

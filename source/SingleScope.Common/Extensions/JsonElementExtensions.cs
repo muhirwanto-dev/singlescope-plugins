@@ -5,7 +5,7 @@ namespace SingleScope.Common.Extensions
 {
     public static class JsonElementExtensions
     {
-        public static object? GetValueAsObject(this JsonElement element)
+        public static object? AsObject(this JsonElement element)
         {
             var kind = element.ValueKind;
             var raw = element.GetRawText();
@@ -21,6 +21,18 @@ namespace SingleScope.Common.Extensions
                 JsonValueKind.Object => raw,
                 JsonValueKind.Array => raw,
                 _ => raw
+            };
+        }
+
+        public static T? AsNumber<T>(this JsonElement element)
+        {
+            var kind = element.ValueKind;
+            var raw = element.GetRawText();
+
+            return kind switch
+            {
+                JsonValueKind.Number => (T)Convert.ChangeType(float.Parse(raw, CultureInfo.InvariantCulture), typeof(T)),
+                _ => default
             };
         }
     }

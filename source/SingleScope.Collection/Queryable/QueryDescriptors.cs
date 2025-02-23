@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using System.Text.Json;
 using SingleScope.Collection.Queryable.Options;
-using SingleScope.Core.Extensions;
+using SingleScope.Common.Extensions;
 
 namespace SingleScope.Collection.Queryable
 {
@@ -137,7 +137,7 @@ namespace SingleScope.Collection.Queryable
 
                 if (objValue is JsonElement element)
                 {
-                    objValue = element.GetValueAsObject();
+                    objValue = element.AsObject();
                 }
 
                 var property = Expression.Property(parameter, filter.Field ?? string.Empty);

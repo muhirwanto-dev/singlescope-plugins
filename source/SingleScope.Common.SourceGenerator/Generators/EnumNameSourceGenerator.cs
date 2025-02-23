@@ -4,7 +4,7 @@ using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
-using SingleScope.Common.SourceGenerator.Common;
+using SingleScope.Common.SourceGenerator.Models;
 
 namespace SingleScope.Common.SourceGenerator.Generators
 {

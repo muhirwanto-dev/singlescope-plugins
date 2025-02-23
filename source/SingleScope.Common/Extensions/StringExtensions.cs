@@ -1,11 +1,18 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.RegularExpressions;
 
 namespace SingleScope.Common.Extensions
 {
     public static class StringExtensions
     {
-        public static string ToKebabCase(this string origin)
+        [return: NotNullIfNotNull(nameof(origin))]
+        public static string? ToKebabCase(this string? origin)
         {
+            if (string.IsNullOrEmpty(origin))
+            {
+                return origin;
+            }
+
             // Use a regular expression to identify and process parts of the string outside of curly braces
             return Regex.Replace(origin, @"[a-zA-Z]+(?=(?:[^{}]*{[^{}]*})*[^{}]*$)", match =>
             {
@@ -14,7 +21,8 @@ namespace SingleScope.Common.Extensions
             });
         }
 
-        public static string SanitizeForLogging(this string message)
+        [return: NotNullIfNotNull(nameof(message))]
+        public static string? Sanitize(this string? message)
         {
             if (string.IsNullOrEmpty(message))
             {

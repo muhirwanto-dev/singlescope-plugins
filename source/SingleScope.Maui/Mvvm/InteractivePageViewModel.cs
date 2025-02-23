@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using SingleScope.Core;
-using SingleScope.Core.Interfaces;
+using SingleScope.Common;
 
 namespace SingleScope.Maui.Mvvm
 {
@@ -47,25 +46,25 @@ namespace SingleScope.Maui.Mvvm
 
         protected void UserInteracted() => IsUserInteraction = false;
 
-        public IDisposableAction StartRefresh()
+        public IDisposingNotificator StartRefresh()
         {
             Refreshing();
 
-            return new DisposableAction(() => Refreshed());
+            return new DisposingNotificator(() => Refreshed());
         }
 
-        public IDisposableAction StartNavigation()
+        public IDisposingNotificator StartNavigation()
         {
             Navigating();
 
-            return new DisposableAction(() => Navigated());
+            return new DisposingNotificator(() => Navigated());
         }
 
-        public IDisposableAction StartUserInteraction()
+        public IDisposingNotificator StartUserInteraction()
         {
             UserInteracting();
 
-            return new DisposableAction(() => UserInteracted());
+            return new DisposingNotificator(() => UserInteracted());
         }
 
         protected override void Broadcast<T>(T oldValue, T newValue, string? propertyName)
