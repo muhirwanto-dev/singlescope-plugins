@@ -1,8 +1,7 @@
 ﻿using System.Globalization;
 using CommunityToolkit.Maui.Converters;
-using SingleScope.Maui.Dialogs;
 
-namespace SingleScope.Maui.Converters
+namespace SingleScope.Maui.Dialogs.Converters
 {
     [AcceptEmptyServiceProvider]
     public class ProgressiveDialogProgressTypeConverter : BaseConverterOneWay<ProgressiveLoadingProgressType, bool, ProgressiveLoadingProgressType>

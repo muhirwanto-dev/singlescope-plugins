@@ -1,4 +1,4 @@
-﻿namespace SingleScope.Maui.Mvvm.Interface
+﻿namespace SingleScope.Maui.Mvvm.Interfaces
 {
     public interface IViewModelOwner
     {

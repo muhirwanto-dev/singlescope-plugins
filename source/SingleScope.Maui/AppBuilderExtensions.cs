@@ -11,7 +11,7 @@ namespace SingleScope.Maui
             Action<AnimatedLoadingOptions>? animatedLoadingOptions = null,
             Action<LoadingOptions>? loadingOptions = null,
             Action<ProgressiveLoadingOptions>? progressiveLoadingOptions = null,
-            Action<ReportOptions>? reportOptions = null)
+            Action<ReportingOptions>? reportOptions = null)
         {
             if (animatedLoadingOptions != null)
             {
@@ -46,14 +46,14 @@ namespace SingleScope.Maui
             }
             else
             {
-                builder.Services.Configure<ReportOptions>(options => { });
+                builder.Services.Configure<ReportingOptions>(options => { });
             }
 
             builder.Services.AddSingleton<INavigationService, NavigationService>();
             builder.Services.AddSingleton<IShellNavigationService, ShellNavigationService>();
             builder.Services.AddSingleton<IAnimatedLoadingDialogService, AnimatedLoadingDialogService>();
             builder.Services.AddSingleton<IDialogService, DialogService>();
-            builder.Services.AddSingleton(typeof(IReportService<>), typeof(ReportService<>));
+            builder.Services.AddSingleton(typeof(IReportingService<>), typeof(ReportingService<>));
 
             return builder;
         }

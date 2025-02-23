@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Maui.Views;
 using Microsoft.Extensions.Options;
 using SingleScope.Common;
-using SingleScope.Maui.Controls;
+using SingleScope.Maui.Dialogs.Controls;
 
 namespace SingleScope.Maui.Dialogs
 {

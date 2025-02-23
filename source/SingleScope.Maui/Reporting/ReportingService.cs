@@ -4,13 +4,13 @@ using SingleScope.Maui.Dialogs;
 
 namespace SingleScope.Maui.Reports
 {
-    public class ReportService<T> : IReportService<T>
+    public class ReportingService<T> : IReportingService<T>
     {
-        private readonly ReportOptions _options;
+        private readonly ReportingOptions _options;
         private readonly ILogger<T> _logger;
         private readonly IDialogService _dialogService;
 
-        public ReportService(IOptions<ReportOptions> options, ILogger<T> logger, IDialogService dialogService)
+        public ReportingService(IOptions<ReportingOptions> options, ILogger<T> logger, IDialogService dialogService)
         {
             _options = options.Value;
             _logger = logger;
@@ -34,9 +34,9 @@ namespace SingleScope.Maui.Reports
             }
 
             string exStr = exception.ToString();
-            EReportMode mode = _options.ReportMode;
+            ReportingMode mode = _options.ReportingMode;
 
-            if ((mode & EReportMode.EnableExceptionCallStack) != 0)
+            if ((mode & ReportingMode.EnableExceptionCallStack) != 0)
             {
                 message += exStr;
             }
@@ -45,12 +45,12 @@ namespace SingleScope.Maui.Reports
                 message += exception.Message;
             }
 
-            if ((mode & EReportMode.EnableLogging) != 0)
+            if ((mode & ReportingMode.EnableLogging) != 0)
             {
                 _logger.LogError(message);
             }
 
-            if ((mode & EReportMode.EnableErrorDialog) != 0)
+            if ((mode & ReportingMode.EnableErrorDialog) != 0)
             {
                 await _dialogService.ShowErrorDialogAsync(message);
             }

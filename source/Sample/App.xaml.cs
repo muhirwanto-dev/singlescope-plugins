@@ -7,9 +7,9 @@ namespace Sample
     {
         private readonly IAnimatedLoadingDialogService _animatedLoadingDialogService;
         private readonly IDialogService _dialogService;
-        private readonly IReportService<App> _reportService;
+        private readonly IReportingService<App> _reportService;
 
-        public App(IAnimatedLoadingDialogService animatedLoadingDialogService, IDialogService dialogService, IReportService<App> reportService)
+        public App(IAnimatedLoadingDialogService animatedLoadingDialogService, IDialogService dialogService, IReportingService<App> reportService)
         {
             _animatedLoadingDialogService = animatedLoadingDialogService;
             _dialogService = dialogService;

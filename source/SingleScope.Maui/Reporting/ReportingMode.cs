@@ -1,6 +1,6 @@
 ﻿namespace SingleScope.Maui.Reports
 {
-    public enum EReportMode : uint
+    public enum ReportingMode : uint
     {
         /// <summary>
         /// Write report to the given logger.

@@ -1,5 +1,5 @@
-﻿[assembly: XmlnsDefinition(Constants.XamlNamespace, Constants.SingleScopeNamespacePrefix + nameof(SingleScope.Maui.Controls))]
-[assembly: XmlnsDefinition(Constants.XamlNamespace, Constants.SingleScopeNamespacePrefix + nameof(SingleScope.Maui.Converters))]
+﻿//[assembly: XmlnsDefinition(Constants.XamlNamespace, Constants.SingleScopeNamespacePrefix + nameof(SingleScope.Maui.Controls))]
+//[assembly: XmlnsDefinition(Constants.XamlNamespace, Constants.SingleScopeNamespacePrefix + nameof(SingleScope.Maui.Converters))]
 
 [assembly: Microsoft.Maui.Controls.XmlnsPrefix(Constants.XamlNamespace, "singlescope")]
 

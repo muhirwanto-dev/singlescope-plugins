@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<toolkit:Popup x:Class="SingleScope.Maui.Controls.ProgressiveLoadingPopup"
+<toolkit:Popup x:Class="SingleScope.Maui.Dialogs.Controls.ProgressiveLoadingPopup"
                xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-               xmlns:converter="clr-namespace:SingleScope.Maui.Converters"
+               xmlns:converter="clr-namespace:SingleScope.Maui.Dialogs.Converters"
                xmlns:dialog="clr-namespace:SingleScope.Maui.Dialogs"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                Color="Transparent">

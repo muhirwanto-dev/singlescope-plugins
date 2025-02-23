@@ -91,26 +91,11 @@ namespace SingleScope.Maui.SourceGenerator.Generators
             }
         }
 
-        private static bool GetBoolPropertyValue(IPropertySymbol propertySymbol)
-        {
-            // Find the initializer expression
-            var classDeclaration = propertySymbol.DeclaringSyntaxReferences
-                .FirstOrDefault()?.GetSyntax() as PropertyDeclarationSyntax;
-
-            var initializer = classDeclaration?.Initializer?.Value as LiteralExpressionSyntax;
-            if (initializer != null)
-            {
-                return bool.TryParse(initializer.Token.ValueText, out bool bres) ? bres : false;
-            }
-
-            return false;
-        }
-
         private static string CreateClass(string namespaceStr, string className, string viewModelTypeName)
         {
             return
 $@"using SingleScope.Maui;
-using SingleScope.Maui.Mvvm.Interface;
+using SingleScope.Maui.Mvvm.Interfaces;
 
 namespace {namespaceStr}
 {{
@@ -131,7 +116,7 @@ namespace {namespaceStr}
         {
             return
 $@"using SingleScope.Maui;
-using SingleScope.Maui.Mvvm.Interface;
+using SingleScope.Maui.Mvvm.Interfaces;
 
 namespace {namespaceStr}
 {{

@@ -1,6 +1,4 @@
-using SingleScope.Maui.Dialogs;
-
-namespace SingleScope.Maui.Controls;
+namespace SingleScope.Maui.Dialogs.Controls;
 
 public partial class ProgressiveLoadingPopup : CommunityToolkit.Maui.Views.Popup
 {

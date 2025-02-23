@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
-using SingleScope.Maui.Controls;
+using SingleScope.Maui.Dialogs.Controls;
 
 namespace SingleScope.Maui.Dialogs
 {

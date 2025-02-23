@@ -1,6 +1,6 @@
 ﻿namespace SingleScope.Maui.Reports
 {
-    public interface IReportService<T>
+    public interface IReportingService<T>
     {
         void Report(Exception exception, string? message = null);
 
