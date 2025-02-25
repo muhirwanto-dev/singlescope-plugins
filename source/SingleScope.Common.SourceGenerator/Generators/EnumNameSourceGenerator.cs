@@ -80,6 +80,8 @@ namespace SingleScope.Common.SourceGenerator.Generators
             string className = $"{enumInfo.EnumName}Names";
             var sb = new StringBuilder();
 
+            sb.AppendLine($"using System.Collections.Generic;");
+            sb.AppendLine();
             sb.AppendLine($"namespace {enumInfo.NameSpace}");
             sb.AppendLine($"{{");
             sb.AppendLine($"    public static class {className}");
