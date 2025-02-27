@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace SingleScope.Repository
+namespace SingleScope.Persistence.Repositories
 {
     public abstract class RepositoryBase<TContext>
         where TContext : DbContext

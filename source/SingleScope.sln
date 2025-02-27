@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SingleScope.Maui", "SingleScope.Maui\SingleScope.Maui.csproj", "{FC4099F6-1DE6-47F9-B6A3-5376856593D3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SingleScope.Repository", "SingleScope.Repository\SingleScope.Repository.csproj", "{BF1BA70D-825F-4F00-A4CD-F41A0212A4D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SingleScope.Persistence", "SingleScope.Persistence\SingleScope.Persistence.csproj", "{BF1BA70D-825F-4F00-A4CD-F41A0212A4D4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SingleScope.Collection", "SingleScope.Collection\SingleScope.Collection.csproj", "{7018F1B7-ECA9-4498-AB07-38F7B24AF633}"
 EndProject

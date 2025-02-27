@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace SingleScope.Repository.Utils
+namespace SingleScope.Persistence
 {
-    public class StringLengthTrimmer
+    public class StringLengthAttributeTrimmer
     {
         public T TrimStringProperties<T>(T obj, params string[] propertyNames)
         {
