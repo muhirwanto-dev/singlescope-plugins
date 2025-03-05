@@ -37,7 +37,7 @@ namespace SingleScope.Persistence.Repositories
 
         void SaveChanges();
 
-        Task SaveChangesAsync();
+        Task SaveChangesAsync(CancellationToken cancellation);
     }
 
     public interface IReadWriteRepository : IReadOnlyRepository
@@ -74,6 +74,6 @@ namespace SingleScope.Persistence.Repositories
 
         void SaveChanges();
 
-        Task SaveChangesAsync();
+        Task SaveChangesAsync(CancellationToken cancellation);
     }
 }

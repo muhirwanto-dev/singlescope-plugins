@@ -10,57 +10,57 @@ namespace SingleScope.Persistence.Repositories
         {
         }
 
-        public TEntity? Find(params object?[]? keyValues)
+        public virtual TEntity? Find(params object?[]? keyValues)
         {
             return Find<TEntity>(keyValues);
         }
 
-        public Task<TEntity?> FindAsync(params object?[]? keyValues)
+        public virtual Task<TEntity?> FindAsync(params object?[]? keyValues)
         {
             return FindAsync<TEntity>(keyValues);
         }
 
-        public Task<TEntity?> FindAsync(object?[]? keyValues, CancellationToken cancellation)
+        public virtual Task<TEntity?> FindAsync(object?[]? keyValues, CancellationToken cancellation)
         {
             return FindAsync<TEntity>(keyValues, cancellation);
         }
 
-        public TEntity? Get(Func<TEntity, bool> predicate)
+        public virtual TEntity? Get(Func<TEntity, bool> predicate)
         {
             return base.Get(predicate);
         }
 
-        public TEntity? Get(Func<TEntity, bool> predicate, string[] includedProperties, string[]? includedCollections = null)
+        public virtual TEntity? Get(Func<TEntity, bool> predicate, string[] includedProperties, string[]? includedCollections = null)
         {
             return base.Get(predicate, includedProperties, includedCollections);
         }
 
-        public TEntity[] GetAll()
+        public virtual TEntity[] GetAll()
         {
             return GetAll<TEntity>();
         }
 
-        public TEntity[] GetAll(string[] includedProperties)
+        public virtual TEntity[] GetAll(string[] includedProperties)
         {
             return GetAll<TEntity>(includedProperties);
         }
 
-        public Task<TEntity[]> GetAllAsync(CancellationToken cancellation = default)
+        public virtual Task<TEntity[]> GetAllAsync(CancellationToken cancellation = default)
         {
             return GetAllAsync<TEntity>(cancellation);
         }
 
-        public Task<TEntity[]> GetAllAsync(string[] includedProperties, CancellationToken cancellation = default)
+        public virtual Task<TEntity[]> GetAllAsync(string[] includedProperties, CancellationToken cancellation = default)
         {
             return GetAllAsync<TEntity>(includedProperties, cancellation);
         }
 
-        public Task<TEntity?> GetAsync(Func<TEntity, bool> predicate, CancellationToken cancellation = default)
+        public virtual Task<TEntity?> GetAsync(Func<TEntity, bool> predicate, CancellationToken cancellation = default)
         {
             return base.GetAsync(predicate, cancellation);
         }
 
-        public Task<TEntity?> GetAsync(Func<TEntity, bool> predicate, string[] includedProperties, string[]? includedCollections = null, CancellationToken cancellation = default)
+        public virtual Task<TEntity?> GetAsync(Func<TEntity, bool> predicate, string[] includedProperties, string[]? includedCollections = null, CancellationToken cancellation = default)
         {
             return base.GetAsync(predicate, includedProperties, includedCollections, cancellation);
         }
@@ -73,27 +73,27 @@ namespace SingleScope.Persistence.Repositories
         {
         }
 
-        public TEntity? Find<TEntity>(params object?[]? keyValues) where TEntity : class
+        public virtual TEntity? Find<TEntity>(params object?[]? keyValues) where TEntity : class
         {
             return _context.Find<TEntity>(keyValues);
         }
 
-        public Task<TEntity?> FindAsync<TEntity>(params object?[]? keyValues) where TEntity : class
+        public virtual Task<TEntity?> FindAsync<TEntity>(params object?[]? keyValues) where TEntity : class
         {
             return _context.FindAsync<TEntity>(keyValues).AsTask();
         }
 
-        public Task<TEntity?> FindAsync<TEntity>(object?[]? keyValues, CancellationToken cancellation) where TEntity : class
+        public virtual Task<TEntity?> FindAsync<TEntity>(object?[]? keyValues, CancellationToken cancellation) where TEntity : class
         {
             return _context.FindAsync<TEntity>(keyValues, cancellation).AsTask();
         }
 
-        public TEntity? Get<TEntity>(Func<TEntity, bool> predicate) where TEntity : class
+        public virtual TEntity? Get<TEntity>(Func<TEntity, bool> predicate) where TEntity : class
         {
             return _context.Set<TEntity>().AsNoTracking().SingleOrDefault(predicate);
         }
 
-        public TEntity? Get<TEntity>(Func<TEntity, bool> predicate, string[] includedProperties, string[]? includedCollections = null) where TEntity : class
+        public virtual TEntity? Get<TEntity>(Func<TEntity, bool> predicate, string[] includedProperties, string[]? includedCollections = null) where TEntity : class
         {
             var entity = Get(predicate);
             if (entity != null)
@@ -116,32 +116,32 @@ namespace SingleScope.Persistence.Repositories
             return entity;
         }
 
-        public TEntity[] GetAll<TEntity>() where TEntity : class
+        public virtual TEntity[] GetAll<TEntity>() where TEntity : class
         {
             return _context.Set<TEntity>().AsNoTracking().ToArray();
         }
 
-        public TEntity[] GetAll<TEntity>(string[] includedProperties) where TEntity : class
+        public virtual TEntity[] GetAll<TEntity>(string[] includedProperties) where TEntity : class
         {
             return _context.Set<TEntity>().AsNoTracking().Include(string.Join(".", includedProperties)).ToArray();
         }
 
-        public Task<TEntity[]> GetAllAsync<TEntity>(CancellationToken cancellation = default) where TEntity : class
+        public virtual Task<TEntity[]> GetAllAsync<TEntity>(CancellationToken cancellation = default) where TEntity : class
         {
             return _context.Set<TEntity>().AsNoTracking().ToArrayAsync(cancellation);
         }
 
-        public Task<TEntity[]> GetAllAsync<TEntity>(string[] includedProperties, CancellationToken cancellation = default) where TEntity : class
+        public virtual Task<TEntity[]> GetAllAsync<TEntity>(string[] includedProperties, CancellationToken cancellation = default) where TEntity : class
         {
             return _context.Set<TEntity>().AsNoTracking().Include(string.Join(".", includedProperties)).ToArrayAsync(cancellation);
         }
 
-        public Task<TEntity?> GetAsync<TEntity>(Func<TEntity, bool> predicate, CancellationToken cancellation = default) where TEntity : class
+        public virtual Task<TEntity?> GetAsync<TEntity>(Func<TEntity, bool> predicate, CancellationToken cancellation = default) where TEntity : class
         {
             return _context.Set<TEntity>().AsNoTracking().SingleOrDefaultAsync(x => predicate(x), cancellation);
         }
 
-        public async Task<TEntity?> GetAsync<TEntity>(Func<TEntity, bool> predicate, string[] includedProperties, string[]? includedCollections = null, CancellationToken cancellation = default) where TEntity : class
+        public virtual async Task<TEntity?> GetAsync<TEntity>(Func<TEntity, bool> predicate, string[] includedProperties, string[]? includedCollections = null, CancellationToken cancellation = default) where TEntity : class
         {
             var entity = await GetAsync(predicate);
             if (entity != null)
