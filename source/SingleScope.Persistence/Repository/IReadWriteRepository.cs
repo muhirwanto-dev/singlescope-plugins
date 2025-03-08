@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace SingleScope.Persistence.Repositories
+namespace SingleScope.Persistence.Repository
 {
     public interface IReadWriteRepository<TEntity> : IReadOnlyRepository<TEntity>
         where TEntity : class
@@ -37,7 +37,7 @@ namespace SingleScope.Persistence.Repositories
 
         void SaveChanges();
 
-        Task SaveChangesAsync(CancellationToken cancellation);
+        Task SaveChangesAsync(CancellationToken cancellation = default);
     }
 
     public interface IReadWriteRepository : IReadOnlyRepository
@@ -74,6 +74,6 @@ namespace SingleScope.Persistence.Repositories
 
         void SaveChanges();
 
-        Task SaveChangesAsync(CancellationToken cancellation);
+        Task SaveChangesAsync(CancellationToken cancellation = default);
     }
 }
