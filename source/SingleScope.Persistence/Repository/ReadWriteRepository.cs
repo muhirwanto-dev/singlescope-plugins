@@ -56,6 +56,11 @@ namespace SingleScope.Persistence.Repository
             _context.Set<TEntity>().AttachRange(entities);
         }
 
+        public IQueryable<TEntity> TrackedQuery()
+        {
+            return _context.Set<TEntity>().AsTracking();
+        }
+
         public EntityEntry<TEntity> Remove(TEntity entity)
         {
             return _context.Set<TEntity>().Remove(entity);
@@ -147,6 +152,11 @@ namespace SingleScope.Persistence.Repository
         public void AttachRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : class
         {
             _context.Set<TEntity>().AttachRange(entities);
+        }
+
+        public IQueryable<TEntity> TrackedQuery<TEntity>() where TEntity : class
+        {
+            return _context.Set<TEntity>().AsTracking();
         }
 
         public EntityEntry<TEntity> Remove<TEntity>(TEntity entity) where TEntity : class

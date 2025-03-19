@@ -59,5 +59,10 @@ namespace SingleScope.Persistence.Benchmark.DataSource
         {
             return Task.FromResult(default(TEntity));
         }
+
+        public IQueryable<TEntity> Query<TEntity>() where TEntity : class
+        {
+            throw new NotImplementedException();
+        }
     }
 }

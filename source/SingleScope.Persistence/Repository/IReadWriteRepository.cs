@@ -29,6 +29,8 @@ namespace SingleScope.Persistence.Repository
 
         void UpdateRange(IEnumerable<TEntity> entities);
 
+        IQueryable<TEntity> TrackedQuery();
+
         Task<EntityEntry<TEntity>> AddAsync(TEntity entity, CancellationToken cancellation = default);
 
         Task AddRangeAsync(params TEntity[] entities);
@@ -65,6 +67,8 @@ namespace SingleScope.Persistence.Repository
         void RemoveRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : class;
 
         void UpdateRange<TEntity>(IEnumerable<TEntity> entities) where TEntity : class;
+
+        IQueryable<TEntity> TrackedQuery<TEntity>() where TEntity : class;
 
         Task<EntityEntry<TEntity>> AddAsync<TEntity>(TEntity entity, CancellationToken cancellation = default) where TEntity : class;
 

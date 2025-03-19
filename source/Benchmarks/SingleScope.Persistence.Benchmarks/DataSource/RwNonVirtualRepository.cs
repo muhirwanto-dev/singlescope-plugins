@@ -8,12 +8,12 @@ namespace SingleScope.Persistence.Benchmarks.DataSource
     {
         public EntityEntry<TEntity> Add<TEntity>(TEntity entity) where TEntity : class
         {
-            return default;
+            return default!;
         }
 
         public Task<EntityEntry<TEntity>> AddAsync<TEntity>(TEntity entity, CancellationToken cancellation = default) where TEntity : class
         {
-            return default;
+            return default!;
         }
 
         public void AddRange<TEntity>(params TEntity[] entities) where TEntity : class
@@ -102,6 +102,11 @@ namespace SingleScope.Persistence.Benchmarks.DataSource
             return Task.FromResult(default(TEntity));
         }
 
+        public IQueryable<TEntity> Query<TEntity>() where TEntity : class
+        {
+            throw new NotImplementedException();
+        }
+
         public EntityEntry<TEntity> Remove<TEntity>(TEntity entity) where TEntity : class
         {
             return default;
@@ -124,9 +129,14 @@ namespace SingleScope.Persistence.Benchmarks.DataSource
             return Task.CompletedTask;
         }
 
+        public IQueryable<TEntity> TrackedQuery<TEntity>() where TEntity : class
+        {
+            throw new NotImplementedException();
+        }
+
         public EntityEntry<TEntity> Update<TEntity>(TEntity entity) where TEntity : class
         {
-            return default;
+            return default!;
         }
 
         public void UpdateRange<TEntity>(params TEntity[] entities) where TEntity : class

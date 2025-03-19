@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SingleScope.Persistence.Repository
 {
-    public abstract class ReadOnlyRepository<TContext, TEntity> : ReadOnlyRepository<TContext>, IReadOnlyRepository<TEntity>
+    public abstract class ReadOnlyRepository<TContext, TEntity> : RepositoryBase<TContext>, IReadOnlyRepository<TEntity>
         where TEntity : class
         where TContext : DbContext
     {
@@ -11,59 +11,82 @@ namespace SingleScope.Persistence.Repository
         {
         }
 
-        public TEntity? Find(params object?[]? keyValues)
-        {
-            return Find<TEntity>(keyValues);
-        }
-
-        public Task<TEntity?> FindAsync(object? keyValue, CancellationToken cancellation = default)
-        {
-            return FindAsync<TEntity>(keyValue);
-        }
-
-        public Task<TEntity?> FindAsync(object?[]? keyValues, CancellationToken cancellation = default)
-        {
-            return FindAsync<TEntity>(keyValues, cancellation);
-        }
-
         public TEntity? Get(Expression<Func<TEntity, bool>> predicate)
         {
-            return base.Get(predicate);
+            return Query().SingleOrDefault(predicate);
         }
 
         public TEntity? Get(Expression<Func<TEntity, bool>> predicate, string[] includedProperties, string[]? includedCollections = null)
         {
-            return base.Get(predicate, includedProperties, includedCollections);
+            var entity = Get(predicate);
+            if (entity != null)
+            {
+                foreach (var property in includedProperties)
+                {
+                    _context.Entry(entity)
+                        .Reference(property)
+                        .Load();
+                }
+
+                foreach (var collection in includedCollections ?? [])
+                {
+                    _context.Entry(entity)
+                        .Collection(collection)
+                        .Load();
+                }
+            }
+
+            return entity;
         }
 
         public TEntity[] GetAll()
         {
-            return GetAll<TEntity>();
+            return Query().ToArray();
         }
 
         public TEntity[] GetAll(string[] includedProperties)
         {
-            return GetAll<TEntity>(includedProperties);
+            return Query().Include(string.Join(".", includedProperties)).ToArray();
         }
 
-        public Task<TEntity[]> GetAllAsync(CancellationToken cancellation = default)
+        public TEntity? Find(params object?[]? keyValues)
         {
-            return GetAllAsync<TEntity>(cancellation);
+            return _context.Find<TEntity>(keyValues);
         }
 
-        public Task<TEntity[]> GetAllAsync(string[] includedProperties, CancellationToken cancellation = default)
+        public IQueryable<TEntity> Query()
         {
-            return GetAllAsync<TEntity>(includedProperties, cancellation);
+            return _context.Set<TEntity>().AsNoTracking();
         }
 
         public Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellation = default)
         {
-            return base.GetAsync(predicate, cancellation);
+            return Query().SingleOrDefaultAsync(predicate, cancellation);
         }
 
         public Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate, string[] includedProperties, string[]? includedCollections = null, CancellationToken cancellation = default)
         {
-            return base.GetAsync(predicate, includedProperties, includedCollections, cancellation);
+            return Query().SingleOrDefaultAsync(predicate, cancellation);
+        }
+
+        public Task<TEntity[]> GetAllAsync(CancellationToken cancellation = default)
+        {
+            return Query().AsNoTracking().ToArrayAsync(cancellation);
+        }
+
+        public Task<TEntity[]> GetAllAsync(string[] includedProperties, CancellationToken cancellation = default)
+        {
+            return Query().Include(string.Join(".", includedProperties)).ToArrayAsync(cancellation);
+        }
+
+        public Task<TEntity?> FindAsync(object? keyValue, CancellationToken cancellation = default)
+        {
+            return _context.FindAsync<TEntity>(keyValue, cancellation).AsTask();
+        }
+
+        public Task<TEntity?> FindAsync(object?[]? keyValues, CancellationToken cancellation = default)
+        {
+            return _context.FindAsync<TEntity>(keyValues, cancellation).AsTask();
         }
     }
 
@@ -72,21 +95,6 @@ namespace SingleScope.Persistence.Repository
     {
         public ReadOnlyRepository(TContext context) : base(context)
         {
-        }
-
-        public TEntity? Find<TEntity>(params object?[]? keyValues) where TEntity : class
-        {
-            return _context.Find<TEntity>(keyValues);
-        }
-
-        public Task<TEntity?> FindAsync<TEntity>(object? keyValue, CancellationToken cancellation = default) where TEntity : class
-        {
-            return _context.FindAsync<TEntity>(keyValue).AsTask();
-        }
-
-        public Task<TEntity?> FindAsync<TEntity>(object?[]? keyValues, CancellationToken cancellation = default) where TEntity : class
-        {
-            return _context.FindAsync<TEntity>(keyValues, cancellation).AsTask();
         }
 
         public TEntity? Get<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class
@@ -119,27 +127,27 @@ namespace SingleScope.Persistence.Repository
 
         public TEntity[] GetAll<TEntity>() where TEntity : class
         {
-            return _context.Set<TEntity>().AsNoTracking().ToArray();
+            return Query<TEntity>().ToArray();
         }
 
         public TEntity[] GetAll<TEntity>(string[] includedProperties) where TEntity : class
         {
-            return _context.Set<TEntity>().AsNoTracking().Include(string.Join(".", includedProperties)).ToArray();
+            return Query<TEntity>().Include(string.Join(".", includedProperties)).ToArray();
         }
 
-        public Task<TEntity[]> GetAllAsync<TEntity>(CancellationToken cancellation = default) where TEntity : class
+        public TEntity? Find<TEntity>(params object?[]? keyValues) where TEntity : class
         {
-            return _context.Set<TEntity>().AsNoTracking().ToArrayAsync(cancellation);
+            return _context.Find<TEntity>(keyValues);
         }
 
-        public Task<TEntity[]> GetAllAsync<TEntity>(string[] includedProperties, CancellationToken cancellation = default) where TEntity : class
+        public IQueryable<TEntity> Query<TEntity>() where TEntity : class
         {
-            return _context.Set<TEntity>().AsNoTracking().Include(string.Join(".", includedProperties)).ToArrayAsync(cancellation);
+            return _context.Set<TEntity>().AsNoTracking();
         }
 
         public Task<TEntity?> GetAsync<TEntity>(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellation = default) where TEntity : class
         {
-            return _context.Set<TEntity>().AsNoTracking().SingleOrDefaultAsync(predicate, cancellation);
+            return Query<TEntity>().SingleOrDefaultAsync(predicate, cancellation);
         }
 
         public async Task<TEntity?> GetAsync<TEntity>(Expression<Func<TEntity, bool>> predicate, string[] includedProperties, string[]? includedCollections = null, CancellationToken cancellation = default) where TEntity : class
@@ -163,6 +171,26 @@ namespace SingleScope.Persistence.Repository
             }
 
             return entity;
+        }
+
+        public Task<TEntity[]> GetAllAsync<TEntity>(CancellationToken cancellation = default) where TEntity : class
+        {
+            return Query<TEntity>().ToArrayAsync(cancellation);
+        }
+
+        public Task<TEntity[]> GetAllAsync<TEntity>(string[] includedProperties, CancellationToken cancellation = default) where TEntity : class
+        {
+            return Query<TEntity>().Include(string.Join(".", includedProperties)).ToArrayAsync(cancellation);
+        }
+
+        public Task<TEntity?> FindAsync<TEntity>(object? keyValue, CancellationToken cancellation = default) where TEntity : class
+        {
+            return _context.FindAsync<TEntity>(keyValue, cancellation).AsTask();
+        }
+
+        public Task<TEntity?> FindAsync<TEntity>(object?[]? keyValues, CancellationToken cancellation = default) where TEntity : class
+        {
+            return _context.FindAsync<TEntity>(keyValues, cancellation).AsTask();
         }
     }
 }
