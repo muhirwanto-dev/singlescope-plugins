@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SingleScope.Persistence.Querying;
 
-namespace SingleScope.Persistence.EfCore.Querying
+namespace SingleScope.Persistence.EFCore.Querying
 {
     internal class SpecificationEvaluator : ISpecificationEvaluator
     {

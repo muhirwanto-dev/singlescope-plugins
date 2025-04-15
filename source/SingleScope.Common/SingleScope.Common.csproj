@@ -6,11 +6,13 @@
     <Nullable>enable</Nullable>
 
     <AssemblyVersion>2.0.0</AssemblyVersion>
-    <FileVersion>2.0.0.0225</FileVersion>
+    <FileVersion>2.0.0.0415</FileVersion>
     <VersionPrefix>$(AssemblyVersion)</VersionPrefix>
 
     <!--NuGet-->
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageOutputPath>..\..\.nupkg</PackageOutputPath>
+    <PackageId>SingleScope.Common</PackageId>
     <PackageTags>SingleScope;Plugin;Common</PackageTags>
     <Title>SingleScope.Common</Title>
     <Authors>muhirwanto.dev</Authors>

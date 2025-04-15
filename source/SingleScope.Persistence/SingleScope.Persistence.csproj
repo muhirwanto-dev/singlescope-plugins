@@ -13,6 +13,7 @@
   <!--NuGet properties-->
   <PropertyGroup>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageOutputPath>..\..\.nupkg</PackageOutputPath>
     <PackageId>SingleScope.Persistence</PackageId>
     <PackageTags>SingleScope;Plugin;Persistence;Repository</PackageTags>
     <Title>SingleScope.Persistence</Title>

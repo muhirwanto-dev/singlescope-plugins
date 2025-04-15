@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using SingleScope.Persistence.EfCore.Repository;
-using SingleScope.Persistence.EfCore.UnitOfWork;
 using SingleScope.Persistence.EFCore.Repository;
+using SingleScope.Persistence.EFCore.UnitOfWork;
 using SingleScope.Persistence.Repository;
 using SingleScope.Persistence.UnitOfWork;
 
-namespace SingleScope.Persistence.EfCore
+namespace SingleScope.Persistence.EFCore
 {
     public static class DependencyInjection
     {

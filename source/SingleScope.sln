@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingleScope.Persistence.Uni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingleScope.Persistence.Benchmarks", "Benchmarks\SingleScope.Persistence.Benchmarks\SingleScope.Persistence.Benchmarks.csproj", "{F2117901-1F47-4773-A09B-100120093267}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingleScope.Persistence.EfCore", "SingleScope.Persistence.EfCore\SingleScope.Persistence.EfCore.csproj", "{468D772F-35F3-44F5-8EE5-0286930266F0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingleScope.Persistence.EFCore", "SingleScope.Persistence.EFCore\SingleScope.Persistence.EFCore.csproj", "{468D772F-35F3-44F5-8EE5-0286930266F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

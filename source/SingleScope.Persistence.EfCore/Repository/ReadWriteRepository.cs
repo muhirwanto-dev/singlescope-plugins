@@ -4,7 +4,7 @@ using SingleScope.Persistence.Entities;
 using SingleScope.Persistence.Querying;
 using SingleScope.Persistence.Repository;
 
-namespace SingleScope.Persistence.EfCore.Repository
+namespace SingleScope.Persistence.EFCore.Repository
 {
     /// <summary>
     /// Generic repository implementation using Entity Framework Core.

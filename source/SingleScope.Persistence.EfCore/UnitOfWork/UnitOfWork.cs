@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Storage;
 using SingleScope.Persistence.UnitOfWork;
 
-namespace SingleScope.Persistence.EfCore.UnitOfWork
+namespace SingleScope.Persistence.EFCore.UnitOfWork
 {
     /// <summary>
     /// EF Core implementation of the Unit of Work pattern.

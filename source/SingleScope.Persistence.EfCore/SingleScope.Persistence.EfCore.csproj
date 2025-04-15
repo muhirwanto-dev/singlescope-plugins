@@ -12,9 +12,10 @@
   <!--NuGet properties-->
   <PropertyGroup>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <PackageId>SingleScope.Persistence.EfCore</PackageId>
+    <PackageOutputPath>..\..\.nupkg</PackageOutputPath>
+    <PackageId>SingleScope.Persistence.EFCore</PackageId>
     <PackageTags>SingleScope;Plugin;Persistence;Repository;EFCore</PackageTags>
-    <Title>SingleScope.Persistence.EfCore</Title>
+    <Title>SingleScope.Persistence.EFCore</Title>
     <Authors>muhirwanto.dev</Authors>
     <Description>Plugins for .NET MAUI</Description>
     <PackageProjectUrl>https://github.com/muhirwanto-dev/singlescope-plugins</PackageProjectUrl>
