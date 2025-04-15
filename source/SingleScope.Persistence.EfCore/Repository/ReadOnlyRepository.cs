@@ -13,7 +13,7 @@ namespace SingleScope.Persistence.EFCore.Repository
     /// <typeparam name="TEntity">The entity type.</typeparam>
     /// <typeparam name="TKey">The entity's primary key type.</typeparam>
     /// <typeparam name="TContext">The DbContext type.</typeparam>
-    public class EfCoreReadOnlyRepository<TEntity, TKey, TContext> : IReadRepository<TEntity, TKey>
+    public class ReadOnlyRepository<TEntity, TKey, TContext> : IReadRepository<TEntity, TKey>
         where TEntity : class, IEntity<TKey>
         where TKey : IEquatable<TKey>
         where TContext : DbContext
@@ -26,7 +26,7 @@ namespace SingleScope.Persistence.EFCore.Repository
         /// Initializes a new instance of the <see cref="EfCoreRepository{TEntity, TKey, TContext}"/> class.
         /// </summary>
         /// <param name="dbContext">The EF Core DbContext.</param>
-        public EfCoreReadOnlyRepository(TContext dbContext, ISpecificationEvaluator specificationEvaluator)
+        public ReadOnlyRepository(TContext dbContext, ISpecificationEvaluator specificationEvaluator)
         {
             _context = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
             _set = _context.Set<TEntity>();

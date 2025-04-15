@@ -5,14 +5,15 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
-    <AssemblyVersion>2.3.0</AssemblyVersion>
-    <FileVersion>2.3.0.0319</FileVersion>
+    <AssemblyVersion>3.0.0</AssemblyVersion>
+    <FileVersion>3.0.0.0415</FileVersion>
     <VersionPrefix>$(AssemblyVersion)</VersionPrefix>
   </PropertyGroup>
 
   <!--NuGet properties-->
   <PropertyGroup>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>SingleScope.Persistence</PackageId>
     <PackageTags>SingleScope;Plugin;Persistence;Repository</PackageTags>
     <Title>SingleScope.Persistence</Title>
     <Authors>muhirwanto.dev</Authors>

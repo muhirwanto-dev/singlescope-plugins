@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using SingleScope.Persistence.UnitOfWork;
 
 namespace SingleScope.Persistence.EfCore.UnitOfWork
@@ -9,17 +9,18 @@ namespace SingleScope.Persistence.EfCore.UnitOfWork
     /// Wraps a _context instance to manage saving changes and optionally transactions.
     /// </summary>
     /// <typeparam name="TContext">The type of the _context being wrapped.</typeparam>
-    public class EfCoreUnitOfWork<TContext> : IUnitOfWork where TContext : DbContext
+    public class UnitOfWork<TContext> : IUnitOfWork<TContext>
+        where TContext : DbContext
     {
         protected readonly TContext _context;
         private IDbContextTransaction? _currentTransaction; // Tracks the explicit transaction, if any
         private bool _disposed = false;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EfCoreUnitOfWork{TContext}"/> class.
+        /// Initializes a new instance of the <see cref="UnitOfWork{TContext}"/> class.
         /// </summary>
         /// <param name="dbContext">The _context instance, typically provided by Dependency Injection.</param>
-        public EfCoreUnitOfWork(TContext dbContext)
+        public UnitOfWork(TContext dbContext)
         {
             _context = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
@@ -206,7 +207,6 @@ namespace SingleScope.Persistence.EfCore.UnitOfWork
                     _currentTransaction?.Dispose(); // Dispose transaction object
                     _currentTransaction = null;
                 }
-
 
                 // Again, typically DO NOT dispose _context here due to DI lifetime management.
                 // _context?.Dispose();

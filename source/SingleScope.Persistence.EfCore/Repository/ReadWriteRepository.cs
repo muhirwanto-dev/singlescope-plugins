@@ -13,12 +13,12 @@ namespace SingleScope.Persistence.EfCore.Repository
     /// <typeparam name="TEntity">The entity type.</typeparam>
     /// <typeparam name="TKey">The entity's primary key type.</typeparam>
     /// <typeparam name="TContext">The DbContext type.</typeparam>
-    public class EfCoreReadWriteRepository<TEntity, TKey, TContext> : EfCoreReadOnlyRepository<TEntity, TKey, TContext>, IRepository<TEntity, TKey>
+    public class ReadWriteRepository<TEntity, TKey, TContext> : ReadOnlyRepository<TEntity, TKey, TContext>, IRepository<TEntity, TKey>
         where TEntity : class, IEntity<TKey>
         where TKey : IEquatable<TKey>
         where TContext : DbContext
     {
-        public EfCoreReadWriteRepository(TContext dbContext, ISpecificationEvaluator specificationEvaluator)
+        public ReadWriteRepository(TContext dbContext, ISpecificationEvaluator specificationEvaluator)
             : base(dbContext, specificationEvaluator)
         {
         }

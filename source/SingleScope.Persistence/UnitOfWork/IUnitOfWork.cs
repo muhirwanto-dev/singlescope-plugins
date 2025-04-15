@@ -32,4 +32,6 @@
         /// <param name="cancellationToken">Cancellation token.</param>
         Task RollbackTransactionAsync(CancellationToken cancellationToken = default);
     }
+
+    public interface IUnitOfWork<TContext> : IUnitOfWork;
 }
