@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Text.Json;
 
-namespace SingleScope.Common.Extensions
+namespace SingleScope.Common.Json
 {
     public static class JsonElementExtensions
     {

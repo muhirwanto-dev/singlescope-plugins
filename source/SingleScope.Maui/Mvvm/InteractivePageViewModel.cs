@@ -46,25 +46,25 @@ namespace SingleScope.Maui.Mvvm
 
         protected void UserInteracted() => IsUserInteraction = false;
 
-        public IDisposingNotificator StartRefresh()
+        public IValueDisposable StartRefresh()
         {
             Refreshing();
 
-            return new DisposingNotificator(() => Refreshed());
+            return new DisposableValue(() => Refreshed());
         }
 
-        public IDisposingNotificator StartNavigation()
+        public IValueDisposable StartNavigation()
         {
             Navigating();
 
-            return new DisposingNotificator(() => Navigated());
+            return new DisposableValue(() => Navigated());
         }
 
-        public IDisposingNotificator StartUserInteraction()
+        public IValueDisposable StartUserInteraction()
         {
             UserInteracting();
 
-            return new DisposingNotificator(() => UserInteracted());
+            return new DisposableValue(() => UserInteracted());
         }
 
         protected override void Broadcast<T>(T oldValue, T newValue, string? propertyName)

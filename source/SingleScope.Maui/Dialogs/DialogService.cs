@@ -116,7 +116,7 @@ namespace SingleScope.Maui.Dialogs
                 }
             };
 
-            var disposingNotificator = new DisposingNotificator(() =>
+            var disposingNotificator = new DisposableValue(() =>
             {
                 if (!cancelled)
                 {

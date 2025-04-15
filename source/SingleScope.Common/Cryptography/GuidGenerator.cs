@@ -1,9 +1,9 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace SingleScope.Common
+namespace SingleScope.Common.Cryptography
 {
-    public static class Computing
+    public sealed class GuidGenerator
     {
         /// <summary>
         /// Return an unique <see cref="Guid"/> based on the arguments.
@@ -25,11 +25,6 @@ namespace SingleScope.Common
 
                 return new Guid(hash);
             }
-        }
-
-        public static int ComputeHash(params string[] args)
-        {
-            return ComputeGuid(args).GetHashCode();
         }
     }
 }

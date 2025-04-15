@@ -1,13 +1,13 @@
 ﻿using System.Linq.Expressions;
 using System.Text.Json;
-using SingleScope.Collection.Queryable.Options;
 using SingleScope.Common.Json;
+using SingleScope.Common.Queryable.Options;
 
-namespace SingleScope.Collection.Queryable
+namespace SingleScope.Common.Queryable
 {
     public static class QueryDescriptors
     {
-        public static IQueryable<T> ApplyFiltering<T>(this IQueryable<T> query, FilterOptions filter)
+        public static IQueryable<T> FilterWith<T>(this IQueryable<T> query, FilterOptions filter)
         {
             if (filter == null)
             {
@@ -26,7 +26,7 @@ namespace SingleScope.Collection.Queryable
             return query;
         }
 
-        public static IQueryable<T> ApplySorting<T>(this IQueryable<T> query, IEnumerable<SortOptions> sortOptions)
+        public static IQueryable<T> SortWith<T>(this IQueryable<T> query, IEnumerable<SortOptions> sortOptions)
         {
             if (sortOptions == null || !sortOptions.Any())
             {
@@ -57,34 +57,26 @@ namespace SingleScope.Collection.Queryable
             return query;
         }
 
-        public static IQueryable<T> ApplyQuery<T>(this IQueryable<T> query, Query request)
+        public static IQueryable<T> ComputeWith<T>(this IQueryable<T> query, Query request)
         {
             // Apply filtering
             if (request.Filter != null)
             {
-                query = query.ApplyFiltering(request.Filter);
-            }
-
-            // Apply grouping
-            if (request.Group != null)
-            {
-                // Note: Grouping logic needs specific handling as it changes the query type.
-                // For simplicity, skipping direct integration here.
-                throw new NotImplementedException();
+                query = query.FilterWith(request.Filter);
             }
 
             // Apply sorting
             if (request.Sort != null)
             {
-                query = query.ApplySorting(request.Sort);
+                query = query.SortWith(request.Sort);
             }
 
             // Apply paging
             if (request.Pagination != null)
             {
-                if (request.Pagination.Page > 0 && request.Pagination.PageSize > 0)
+                if (request.Pagination.Page > PaginationOptions.FirstPage && request.Pagination.PageSize > 0)
                 {
-                    query = query.Skip((request.Pagination.Page - 1) * request.Pagination.PageSize).Take(request.Pagination.PageSize);
+                    query = query.Skip((request.Pagination.Page - PaginationOptions.FirstPage) * request.Pagination.PageSize).Take(request.Pagination.PageSize);
                 }
             }
             else
@@ -95,14 +87,17 @@ namespace SingleScope.Collection.Queryable
             return query;
         }
 
-        public static QueryResult<T> ApplyQueryAsResult<T>(this IQueryable<T> query, Query request)
+        public static QueryResult<T> ComputeWithAsResult<T>(this IQueryable<T> query, Query request)
         {
             int total = query.Count();
+            var computed = query.ComputeWith(request).ToArray();
 
             return new QueryResult<T>
             {
-                Data = query.ApplyQuery(request).ToArray(),
-                Total = total,
+                Data = computed,
+                Skip = (request.Pagination?.Page ?? PaginationOptions.FirstPage - PaginationOptions.FirstPage) * (request.Pagination?.PageSize ?? 0),
+                Take = computed.Length,
+                TotalDataCount = total,
             };
         }
 

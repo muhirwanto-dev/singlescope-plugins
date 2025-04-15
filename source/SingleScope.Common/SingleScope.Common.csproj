@@ -23,17 +23,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\logo.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\SingleScope.Common.SourceGenerator\SingleScope.Common.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="..\SingleScope.Common.SourceGenerator\bin\$(Configuration)\netstandard2.0\SingleScope.Common.SourceGenerator.dll" Pack="true" PackagePath="analyzers" Visible="false" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\assets\img\logo.png" Link="logo.png" Pack="true" PackagePath="." />
+  </ItemGroup>
+
 </Project>

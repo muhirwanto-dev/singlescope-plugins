@@ -11,12 +11,12 @@ namespace SingleScope.Common.SourceGenerator.Generators
     [Generator(LanguageNames.CSharp)]
     public class EnumNameSourceGenerator : IIncrementalGenerator
     {
-        private const string EnumNameAttributeName = "EnumNameAttribute";
-        private const string EnumTypeNamesAttributeName = "EnumTypeNamesAttribute";
+        private const string EnumStringNameAttributeName = "EnumStringNameAttribute";
+        private const string EnumStringMapAttributeName = "EnumStringMapAttribute";
 
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
-            // Collect all enums with the [EnumTypeNames] attribute
+            // Collect all enums with the [EnumStringMap] attribute
             var enumDeclarations = context.SyntaxProvider
                 .CreateSyntaxProvider(
                     predicate: IsEnumWithAttribute,    // Filter nodes to enums with attributes
@@ -29,10 +29,10 @@ namespace SingleScope.Common.SourceGenerator.Generators
             {
                 if (enumInfo is EnumInfo info)
                 {
-                    var generatedCode = GenerateEnumNamesClass(info);
+                    var generatedCode = GenerateEnumStringMapClass(info);
                     var filenamePrefix = $"{info.NameSpace}.{info.EnumName}";
 
-                    ctx.AddSource($"{filenamePrefix}Names.g.cs", SourceText.From(generatedCode, Encoding.UTF8));
+                    ctx.AddSource($"{filenamePrefix}StringMap.g.cs", SourceText.From(generatedCode, Encoding.UTF8));
                 }
             });
         }
@@ -49,7 +49,7 @@ namespace SingleScope.Common.SourceGenerator.Generators
 
             // Get the symbol for the enum
             var enumSymbol = context.SemanticModel.GetDeclaredSymbol(enumDeclaration) as INamedTypeSymbol;
-            if (enumSymbol == null || !HasEnumTypeNamesAttribute(enumSymbol))
+            if (enumSymbol == null || !HasEnumStringMapAttribute(enumSymbol))
                 return null;
 
             // Collect enum members and their names (using the EnumName attribute if present)
@@ -58,7 +58,7 @@ namespace SingleScope.Common.SourceGenerator.Generators
                 .Where(f => f.IsConst)
                 .Select(f =>
                 {
-                    var attr = f.GetAttributes().FirstOrDefault(a => a.AttributeClass?.Name == EnumNameAttributeName);
+                    var attr = f.GetAttributes().FirstOrDefault(a => a.AttributeClass?.Name == EnumStringNameAttributeName);
                     var name = attr != null && attr.ConstructorArguments.Length > 0
                         ? attr.ConstructorArguments[0].Value?.ToString()
                         : f.Name;
@@ -70,14 +70,14 @@ namespace SingleScope.Common.SourceGenerator.Generators
             return new EnumInfo(enumSymbol.ContainingNamespace.ToDisplayString(), enumSymbol.Name, members);
         }
 
-        private static bool HasEnumTypeNamesAttribute(INamedTypeSymbol enumSymbol)
+        private static bool HasEnumStringMapAttribute(INamedTypeSymbol enumSymbol)
         {
-            return enumSymbol.GetAttributes().Any(attr => attr.AttributeClass?.Name == EnumTypeNamesAttributeName);
+            return enumSymbol.GetAttributes().Any(attr => attr.AttributeClass?.Name == EnumStringMapAttributeName);
         }
 
-        private static string GenerateEnumNamesClass(EnumInfo enumInfo)
+        private static string GenerateEnumStringMapClass(EnumInfo enumInfo)
         {
-            string className = $"{enumInfo.EnumName}Names";
+            string className = $"{enumInfo.EnumName}StringMap";
             var sb = new StringBuilder();
 
             sb.AppendLine($"using System.Collections.Generic;");
