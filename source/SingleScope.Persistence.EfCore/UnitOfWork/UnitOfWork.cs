@@ -51,7 +51,6 @@ namespace SingleScope.Persistence.EFCore.UnitOfWork
         /// </returns>
         public virtual Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            // Delegates directly to the _context's SaveChangesAsync method.
             return _context.SaveChangesAsync(cancellationToken);
         }
 
@@ -98,7 +97,7 @@ namespace SingleScope.Persistence.EFCore.UnitOfWork
             {
                 // If commit fails, attempt to rollback.
                 await RollbackTransactionInternalAsync(cancellationToken);
-                throw; // Re-throw the exception that caused the commit failure.
+                throw;
             }
             finally
             {
@@ -117,11 +116,7 @@ namespace SingleScope.Persistence.EFCore.UnitOfWork
             if (_currentTransaction == null)
             {
                 // No explicit transaction active, nothing to roll back in this UoW scope.
-                // Note: Changes might still be tracked by _context but won't be saved
-                // unless SaveChangesAsync is called outside an explicit transaction.
                 return;
-                // Alternatively, could throw:
-                // throw new InvalidOperationException("Cannot rollback transaction - no active transaction.");
             }
 
             try
@@ -134,7 +129,6 @@ namespace SingleScope.Persistence.EFCore.UnitOfWork
             }
         }
 
-        // Internal helper for rollback logic
         private async Task RollbackTransactionInternalAsync(CancellationToken cancellationToken = default)
         {
             if (_currentTransaction != null)
@@ -143,7 +137,6 @@ namespace SingleScope.Persistence.EFCore.UnitOfWork
             }
         }
 
-        // Internal helper for disposing the transaction object
         private async Task DisposeTransactionInternalAsync()
         {
             if (_currentTransaction != null)
@@ -161,9 +154,13 @@ namespace SingleScope.Persistence.EFCore.UnitOfWork
         /// </summary>
         public virtual async ValueTask DisposeAsync()
         {
-            await DisposeAsyncCore(); // Call the async core disposal logic
-            Dispose(disposing: false); // Suppress finalization for this object
-            GC.SuppressFinalize(this); // Request CLR not to call the finalizer
+            await DisposeAsyncCore();
+
+            // Suppress finalization for this object
+            Dispose(disposing: false);
+
+            // Request CLR not to call the finalizer
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -174,18 +171,16 @@ namespace SingleScope.Persistence.EFCore.UnitOfWork
             // Rollback and dispose any lingering explicit transaction if it wasn't committed/rolled back properly.
             try
             {
-                await RollbackTransactionInternalAsync(); // Attempt rollback first
+                await RollbackTransactionInternalAsync();
             }
             finally
             {
-                await DisposeTransactionInternalAsync(); // Ensure transaction object is disposed
+                await DisposeTransactionInternalAsync();
             }
 
             // Note: We generally DO NOT dispose the _context here.
             // The _context lifetime is typically managed by the Dependency Injection container (e.g., Scoped).
             // Disposing it here could lead to issues if other services in the same scope still need it.
-            // If the UoW *were* responsible for creating the _context, you would dispose it here:
-            // await _context.DisposeAsync();
         }
 
         /// <summary>
@@ -193,8 +188,11 @@ namespace SingleScope.Persistence.EFCore.UnitOfWork
         /// </summary>
         public virtual void Dispose()
         {
-            Dispose(disposing: true); // Dispose managed resources
-            GC.SuppressFinalize(this); // Request CLR not to call the finalizer
+            // Dispose managed resources
+            Dispose(disposing: true);
+
+            // Request CLR not to call the finalizer
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -205,28 +203,24 @@ namespace SingleScope.Persistence.EFCore.UnitOfWork
         {
             if (_disposed)
             {
-                return; // Already disposed
+                return;
             }
 
             if (disposing)
             {
-                // Dispose managed state (managed objects).
                 try
                 {
                     // Rollback and dispose any lingering explicit transaction synchronously if possible.
-                    _currentTransaction?.Rollback(); // Attempt sync rollback
+                    _currentTransaction?.Rollback();
                 }
                 finally
                 {
-                    _currentTransaction?.Dispose(); // Dispose transaction object
+                    _currentTransaction?.Dispose();
                     _currentTransaction = null;
                 }
 
                 // Again, typically DO NOT dispose _context here due to DI lifetime management.
-                // _context?.Dispose();
             }
-
-            // Free unmanaged resources (unmanaged objects) and override finalizer if needed. (None in this class)
 
             _disposed = true;
         }

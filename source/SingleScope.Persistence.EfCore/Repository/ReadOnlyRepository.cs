@@ -153,7 +153,6 @@ namespace SingleScope.Persistence.EFCore.Repository
         protected virtual IQueryable<TEntity> ApplySpecification(ISpecification<TEntity> specification, bool evaluateCriteriaOnly = false, bool track = false)
         {
             // Use AsNoTracking() for read operations by default to improve performance.
-            // Pass the DbSet, specification, and optimization flag to the evaluator.
             return _specificationEvaluator.GetQuery(track ? _set.AsTracking() : _set.AsNoTracking(), specification, evaluateCriteriaOnly);
         }
     }

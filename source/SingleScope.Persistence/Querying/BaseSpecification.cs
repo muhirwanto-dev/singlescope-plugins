@@ -51,9 +51,6 @@ namespace SingleScope.Persistence.Querying
         /// <inheritdoc/>
         public bool IsPagingEnabled { get; private set; } = false;
 
-
-        // --- Protected helper methods for building the specification ---
-
         /// <summary>
         /// Adds an include expression for eager loading related data.
         /// </summary>
@@ -62,9 +59,6 @@ namespace SingleScope.Persistence.Querying
         {
             Includes.Add(includeExpression);
         }
-
-        // Optional: AddInclude for string-based includes if needed
-        // protected virtual void AddInclude(string includeString) { ... }
 
         /// <summary>
         /// Applies ascending sorting based on the specified expression.
@@ -124,9 +118,18 @@ namespace SingleScope.Persistence.Querying
         public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>(); // Navigation property
     }
 
-    public class Customer : IEntity<int> { public int Id { get; set; } public string Name { get; set; } }
-    public class OrderItem : IEntity<int> { public int Id { get; set; } public int OrderId { get; set; } public string ProductName { get; set; } }
-
+    public class Customer : IEntity<int>
+    { 
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+    
+    public class OrderItem : IEntity<int>
+    {
+        public int Id { get; set; }
+        public int OrderId { get; set; }
+        public string ProductName { get; set; }
+    }
 
     // Example Specification: Get recent orders over a certain amount, including customer and items, ordered by date descending.
     public class RecentHighValueOrdersSpecification : BaseSpecification<Order>

@@ -11,10 +11,8 @@ namespace SingleScope.Persistence.EFCore.Querying
             var query = inputQuery;
 
             // 1. Apply filtering criteria (WHERE clause)
-            // Checks if the specification defines a filter condition.
             if (specification.Criteria != null)
             {
-                // Applies the filter using LINQ's Where extension method.
                 query = query.Where(specification.Criteria);
             }
 
@@ -34,28 +32,19 @@ namespace SingleScope.Persistence.EFCore.Querying
                                         (current, include) => current.Include(include));
 
             // 3. Apply ordering (ORDER BY clause)
-            // Checks if an ascending order is specified.
             if (specification.OrderBy != null)
             {
-                // Applies sorting using LINQ's OrderBy extension method.
                 query = query.OrderBy(specification.OrderBy);
             }
             // Otherwise, checks if a descending order is specified.
             else if (specification.OrderByDescending != null)
             {
-                // Applies sorting using LINQ's OrderByDescending extension method.
                 query = query.OrderByDescending(specification.OrderByDescending);
             }
-            // Note: If both OrderBy and OrderByDescending were set (which BaseSpecification prevents),
-            // the last one applied would take precedence based on this logic.
 
             // 4. Apply paging (OFFSET/FETCH or equivalent SQL)
-            // Checks if the specification has requested paging.
             if (specification.IsPagingEnabled)
             {
-                // Applies paging using LINQ's Skip and Take extension methods.
-                // Skip specifies how many records to bypass.
-                // Take specifies the maximum number of records to return.
                 query = query.Skip(specification.Skip).Take(specification.Take);
             }
 

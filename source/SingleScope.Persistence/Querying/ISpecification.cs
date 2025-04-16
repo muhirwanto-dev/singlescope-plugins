@@ -19,10 +19,6 @@ namespace SingleScope.Persistence.Querying
         /// </summary>
         List<Expression<Func<T, object>>> Includes { get; }
 
-        // Optional: Include strings can sometimes be useful, especially with EF Core,
-        // but expression-based includes are generally more type-safe.
-        // List<string> IncludeStrings { get; }
-
         /// <summary>
         /// Gets the expression for ascending order sorting.
         /// </summary>
