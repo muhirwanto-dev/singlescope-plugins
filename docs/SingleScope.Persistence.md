@@ -110,6 +110,6 @@ Distributed under the [MIT License](https://github.com/muhirwanto-dev/singlescop
 
 ## Contact
 
-[@muhirwanto-dev](https://github.com/muhirwanto-dev) - [muhammadirwanto.dev@gmail.com](mailto:muhammadirwanto.dev@gmail.com)
+[@muhirwanto-dev](https://github.com/muhirwanto-dev)
 
 Project link: [https://github.com/muhirwanto-dev/singlescope-plugins/tree/main/source/SingleScope.Persistence](https://github.com/muhirwanto-dev/singlescope-plugins/tree/main/source/SingleScope.Persistence)
