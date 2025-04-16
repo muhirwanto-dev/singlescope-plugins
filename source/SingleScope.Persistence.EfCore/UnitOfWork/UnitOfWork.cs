@@ -27,10 +27,11 @@ namespace SingleScope.Persistence.EFCore.UnitOfWork
             _context = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
-        public TRepository? GetRepository<TRepository>()
-            where TRepository : class
+        public TRepository GetRepository<TRepository>()
+            where TRepository : notnull
         {
-            return _repositories.TryGetValue(typeof(TRepository), out var repository) ? (TRepository)repository : default;
+            return _repositories.TryGetValue(typeof(TRepository), out var repository) ? (TRepository)repository :
+                throw new NullReferenceException($"No valid repository exist: {typeof(TRepository)}");
         }
 
         protected void AddRepository<TRepository>(TRepository repository)

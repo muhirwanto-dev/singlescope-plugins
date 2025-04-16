@@ -11,7 +11,7 @@
         /// </summary>
         /// <typeparam name="TRepository"></typeparam>
         /// <returns></returns>
-        TRepository? GetRepository<TRepository>() where TRepository : class;
+        TRepository GetRepository<TRepository>() where TRepository : notnull;
 
         /// <summary>
         /// Saves all changes made within the current unit of work scope to the underlying data store.
