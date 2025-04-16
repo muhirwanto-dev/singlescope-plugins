@@ -56,6 +56,8 @@ namespace SingleScope.Persistence.Repository
 
         void DeleteRange(IEnumerable<TKey> ids);
 
+        void Save();
+
         ValueTask AddAsync(TEntity entity, CancellationToken cancellationToken = default);
 
         Task AddRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
@@ -71,5 +73,7 @@ namespace SingleScope.Persistence.Repository
         Task DeleteAsync(TKey id, CancellationToken cancellationToken = default);
 
         Task DeleteRangeAsync(IEnumerable<TKey> ids, CancellationToken cancellationToken = default);
+
+        Task SaveAsync(CancellationToken cancellationToken = default);
     }
 }

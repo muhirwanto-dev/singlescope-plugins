@@ -13,4 +13,8 @@ namespace SingleScope.Persistence.Repository
         where TKey : IEquatable<TKey>
     {
     }
+
+    public interface IRepository<TEntity, TKey, TContext> : IRepository<TEntity, TKey>
+        where TEntity : class, IEntity<TKey>
+        where TKey : IEquatable<TKey>;
 }

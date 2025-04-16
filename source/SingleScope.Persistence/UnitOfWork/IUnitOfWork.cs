@@ -7,6 +7,13 @@
     public interface IUnitOfWork : IDisposable, IAsyncDisposable
     {
         /// <summary>
+        /// Gets the current repository of the specified type.
+        /// </summary>
+        /// <typeparam name="TRepository"></typeparam>
+        /// <returns></returns>
+        TRepository? GetRepository<TRepository>() where TRepository : class;
+
+        /// <summary>
         /// Saves all changes made within the current unit of work scope to the underlying data store.
         /// </summary>
         /// <param name="cancellationToken">Cancellation token.</param>

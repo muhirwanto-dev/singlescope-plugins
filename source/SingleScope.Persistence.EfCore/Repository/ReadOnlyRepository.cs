@@ -13,7 +13,7 @@ namespace SingleScope.Persistence.EFCore.Repository
     /// <typeparam name="TEntity">The entity type.</typeparam>
     /// <typeparam name="TKey">The entity's primary key type.</typeparam>
     /// <typeparam name="TContext">The DbContext type.</typeparam>
-    public class ReadOnlyRepository<TEntity, TKey, TContext> : IReadRepository<TEntity, TKey>
+    public class ReadOnlyRepository<TEntity, TKey, TContext> : IReadRepository<TEntity, TKey, TContext>
         where TEntity : class, IEntity<TKey>
         where TKey : IEquatable<TKey>
         where TContext : DbContext

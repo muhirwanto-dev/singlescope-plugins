@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SingleScope.Persistence.EFCore.Repository;
 using SingleScope.Persistence.Entities;
 using SingleScope.Persistence.Querying;
 using SingleScope.Persistence.Repository;
@@ -13,7 +12,7 @@ namespace SingleScope.Persistence.EFCore.Repository
     /// <typeparam name="TEntity">The entity type.</typeparam>
     /// <typeparam name="TKey">The entity's primary key type.</typeparam>
     /// <typeparam name="TContext">The DbContext type.</typeparam>
-    public class ReadWriteRepository<TEntity, TKey, TContext> : ReadOnlyRepository<TEntity, TKey, TContext>, IRepository<TEntity, TKey>
+    public class ReadWriteRepository<TEntity, TKey, TContext> : ReadOnlyRepository<TEntity, TKey, TContext>, IRepository<TEntity, TKey, TContext>
         where TEntity : class, IEntity<TKey>
         where TKey : IEquatable<TKey>
         where TContext : DbContext
@@ -125,6 +124,16 @@ namespace SingleScope.Persistence.EFCore.Repository
             this.UpdateRange(entities);
 
             return Task.CompletedTask;
+        }
+
+        public void Save()
+        {
+            _context.SaveChanges();
+        }
+
+        public Task SaveAsync(CancellationToken cancellationToken = default)
+        {
+            return _context.SaveChangesAsync(cancellationToken);
         }
     }
 }

@@ -58,4 +58,8 @@ namespace SingleScope.Persistence.Repository
 
         Task<long> CountAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellation = default);
     }
+
+    public interface IReadRepository<TEntity, TKey, TContext> : IReadRepository<TEntity, TKey>
+        where TEntity : class, IEntity<TKey>
+        where TKey : IEquatable<TKey>;
 }

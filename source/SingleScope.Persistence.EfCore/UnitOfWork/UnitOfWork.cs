@@ -13,6 +13,8 @@ namespace SingleScope.Persistence.EFCore.UnitOfWork
         where TContext : DbContext
     {
         protected readonly TContext _context;
+        private readonly Dictionary<Type, object> _repositories = new();
+
         private IDbContextTransaction? _currentTransaction; // Tracks the explicit transaction, if any
         private bool _disposed = false;
 
@@ -23,6 +25,18 @@ namespace SingleScope.Persistence.EFCore.UnitOfWork
         public UnitOfWork(TContext dbContext)
         {
             _context = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        }
+
+        public TRepository? GetRepository<TRepository>()
+            where TRepository : class
+        {
+            return _repositories.TryGetValue(typeof(TRepository), out var repository) ? (TRepository)repository : default;
+        }
+
+        protected void AddRepository<TRepository>(TRepository repository)
+            where TRepository : notnull
+        {
+            _repositories.Add(typeof(TRepository), repository);
         }
 
         /// <summary>
@@ -137,7 +151,6 @@ namespace SingleScope.Persistence.EFCore.UnitOfWork
                 _currentTransaction = null;
             }
         }
-
 
         #region Dispose Pattern
 
