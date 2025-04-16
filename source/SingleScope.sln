@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SingleScope.Maui", "SingleS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SingleScope.Persistence", "SingleScope.Persistence\SingleScope.Persistence.csproj", "{BF1BA70D-825F-4F00-A4CD-F41A0212A4D4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SingleScope.Collection", "SingleScope.Collection\SingleScope.Collection.csproj", "{7018F1B7-ECA9-4498-AB07-38F7B24AF633}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SingleScope.Common", "SingleScope.Common\SingleScope.Common.csproj", "{905A477A-57C5-4B26-AF10-6350CD305405}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SingleScope.Maui.SourceGenerator", "SingleScope.Maui.SourceGenerator\SingleScope.Maui.SourceGenerator.csproj", "{9F1DA0DE-9B5D-4B2C-A1AD-287236AF598B}"
@@ -37,10 +35,6 @@ Global
 		{BF1BA70D-825F-4F00-A4CD-F41A0212A4D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF1BA70D-825F-4F00-A4CD-F41A0212A4D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF1BA70D-825F-4F00-A4CD-F41A0212A4D4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7018F1B7-ECA9-4498-AB07-38F7B24AF633}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7018F1B7-ECA9-4498-AB07-38F7B24AF633}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7018F1B7-ECA9-4498-AB07-38F7B24AF633}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7018F1B7-ECA9-4498-AB07-38F7B24AF633}.Release|Any CPU.Build.0 = Release|Any CPU
 		{905A477A-57C5-4B26-AF10-6350CD305405}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{905A477A-57C5-4B26-AF10-6350CD305405}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{905A477A-57C5-4B26-AF10-6350CD305405}.Release|Any CPU.ActiveCfg = Release|Any CPU
