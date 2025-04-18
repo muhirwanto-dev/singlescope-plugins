@@ -39,5 +39,12 @@ namespace SingleScope.Persistence.EFCore
 
             return services;
         }
+
+        public static IServiceProvider SetSingleScopeProvider(this IServiceProvider serviceProvider)
+        {
+            ServiceLocator.Provider = serviceProvider;
+
+            return serviceProvider;
+        }
     }
 }

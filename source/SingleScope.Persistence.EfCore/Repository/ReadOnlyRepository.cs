@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using SingleScope.Persistence.Entities;
 using SingleScope.Persistence.Querying;
 using SingleScope.Persistence.Repository;
@@ -24,11 +25,11 @@ namespace SingleScope.Persistence.EFCore.Repository
         /// Initializes a new instance of the <see cref="EfCoreRepository{TEntity, TKey, TContext}"/> class.
         /// </summary>
         /// <param name="dbContext">The EF Core DbContext.</param>
-        public ReadOnlyRepository(TContext dbContext, ISpecificationEvaluator specificationEvaluator)
+        public ReadOnlyRepository(TContext dbContext)
         {
             _context = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
             _set = _context.Set<TEntity>();
-            _specificationEvaluator = specificationEvaluator ?? throw new ArgumentNullException(nameof(specificationEvaluator));
+            _specificationEvaluator = ServiceLocator.Provider.GetService<ISpecificationEvaluator>() ?? throw new ArgumentNullException(nameof(_specificationEvaluator));
         }
 
         public long Count()

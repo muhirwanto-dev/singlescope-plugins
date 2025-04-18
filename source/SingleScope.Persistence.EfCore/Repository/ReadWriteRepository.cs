@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SingleScope.Persistence.Entities;
-using SingleScope.Persistence.Querying;
 using SingleScope.Persistence.Repository;
 
 namespace SingleScope.Persistence.EFCore.Repository
@@ -16,8 +15,8 @@ namespace SingleScope.Persistence.EFCore.Repository
         where TEntity : class, IEntity
         where TContext : DbContext
     {
-        public ReadWriteRepository(TContext dbContext, ISpecificationEvaluator specificationEvaluator)
-            : base(dbContext, specificationEvaluator)
+        public ReadWriteRepository(TContext dbContext)
+            : base(dbContext)
         {
         }
 
