@@ -132,7 +132,7 @@ namespace SingleScope.Common.Queryable
 
                 if (objValue is JsonElement element)
                 {
-                    objValue = element.AsObject();
+                    objValue = element.As<object>();
                 }
 
                 var property = Expression.Property(parameter, filter.Field ?? string.Empty);
