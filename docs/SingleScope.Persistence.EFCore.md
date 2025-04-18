@@ -10,7 +10,7 @@
 
 ## Overview
 
-This library provides concrete implementations of the generic `IRepository<TEntity>` and `IUnitOfWork` interfaces from the [SingleScope.Persistence](https://github.com/muhirwanto-dev/singlescope-plugins/tree/main/source/SingleScope.Persistence) package, leveraging Entity Framework Core for data persistence.
+This library provides concrete implementations of the generic `IReadWriteRepository<TEntity>` and `IUnitOfWork` interfaces from the [SingleScope.Persistence](https://github.com/muhirwanto-dev/singlescope-plugins/tree/main/source/SingleScope.Persistence) package, leveraging Entity Framework Core for data persistence.
 
 ## Features
 
@@ -49,7 +49,7 @@ public class YourDbContext : DbContext
 }
 ```
 
-**Implement `IRepository<TEntity>` and `IUnitOfWork`**
+**Implement `IReadWriteRepository<TEntity>` and `IUnitOfWork`**
 
 ```csharp
 using SingleScope.Persistence.EFCore.Repository;
@@ -95,7 +95,7 @@ services.AddEfCorePersistence();
 services.AddDbContext<YourDbContext>(builder => builder.UseSqlServer("your connection string"));
 
 // Inject specific Repository & UnitOfWork
-services.AddScoped<IRepository<YourEntity, int>, YourRwRepository<YourEntity, int>>();
+services.AddScoped<IReadWriteRepository<YourEntity, int>, YourRwRepository<YourEntity, int>>();
 services.AddScoped<IReadRepository<YourEntity, int>, YourRoRepository<YourEntity, int>>();
 services.AddScoped<IUnitOfWork<YourDbContext>, YourUnitOfWork<YourDbContext>>();
 ```
