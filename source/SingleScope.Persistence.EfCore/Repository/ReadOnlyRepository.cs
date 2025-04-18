@@ -11,11 +11,9 @@ namespace SingleScope.Persistence.EFCore.Repository
     /// This class is designed to be inheritable by specific repositories in consuming applications.
     /// </summary>
     /// <typeparam name="TEntity">The entity type.</typeparam>
-    /// <typeparam name="TKey">The entity's primary key type.</typeparam>
     /// <typeparam name="TContext">The DbContext type.</typeparam>
-    public class ReadOnlyRepository<TEntity, TKey, TContext> : IReadRepository<TEntity, TKey, TContext>
-        where TEntity : class, IEntity<TKey>
-        where TKey : IEquatable<TKey>
+    public class ReadOnlyRepository<TEntity, TContext> : IReadRepository<TEntity, TContext>
+        where TEntity : class, IEntity
         where TContext : DbContext
     {
         protected readonly TContext _context;
@@ -53,12 +51,14 @@ namespace SingleScope.Persistence.EFCore.Repository
             return _set.LongCountAsync(predicate, cancellation);
         }
 
-        public TEntity? Find(TKey key)
+        public TEntity? Find<TKey>(TKey key)
+            where TKey : IEquatable<TKey>
         {
             return _set.Find(key);
         }
 
-        public ValueTask<TEntity?> FindAsync(TKey key, CancellationToken cancellation = default)
+        public ValueTask<TEntity?> FindAsync<TKey>(TKey key, CancellationToken cancellation = default)
+            where TKey : IEquatable<TKey>
         {
             return _set.FindAsync(key, cancellation);
         }

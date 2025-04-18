@@ -16,8 +16,8 @@ namespace SingleScope.Persistence.EFCore
             this IServiceCollection services
             )
         {
-            services.AddScoped(typeof(IRepository<,,>), typeof(ReadWriteRepository<,,>));
-            services.AddScoped(typeof(IReadRepository<,,>), typeof(ReadOnlyRepository<,,>));
+            services.AddScoped(typeof(IReadWriteRepository<,>), typeof(ReadWriteRepository<,>));
+            services.AddScoped(typeof(IReadRepository<,>), typeof(ReadOnlyRepository<,>));
             services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
             services.AddSingleton<ISpecificationEvaluator, SpecificationEvaluator>();
 
@@ -30,8 +30,8 @@ namespace SingleScope.Persistence.EFCore
             )
             where TContext : DbContext
         {
-            services.TryAddScoped(typeof(IRepository<,,>), typeof(ReadWriteRepository<,,>));
-            services.TryAddScoped(typeof(IReadRepository<,,>), typeof(ReadOnlyRepository<,,>));
+            services.TryAddScoped(typeof(IReadWriteRepository<,>), typeof(ReadWriteRepository<,>));
+            services.TryAddScoped(typeof(IReadRepository<,>), typeof(ReadOnlyRepository<,>));
             services.TryAddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
             services.TryAddSingleton<ISpecificationEvaluator, SpecificationEvaluator>();
 

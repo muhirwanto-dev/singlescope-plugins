@@ -12,9 +12,8 @@ namespace SingleScope.Persistence.EFCore.Repository
     /// <typeparam name="TEntity">The entity type.</typeparam>
     /// <typeparam name="TKey">The entity's primary key type.</typeparam>
     /// <typeparam name="TContext">The DbContext type.</typeparam>
-    public class ReadWriteRepository<TEntity, TKey, TContext> : ReadOnlyRepository<TEntity, TKey, TContext>, IRepository<TEntity, TKey, TContext>
-        where TEntity : class, IEntity<TKey>
-        where TKey : IEquatable<TKey>
+    public class ReadWriteRepository<TEntity, TContext> : ReadOnlyRepository<TEntity, TContext>, IReadWriteRepository<TEntity, TContext>
+        where TEntity : class, IEntity
         where TContext : DbContext
     {
         public ReadWriteRepository(TContext dbContext, ISpecificationEvaluator specificationEvaluator)
@@ -47,7 +46,8 @@ namespace SingleScope.Persistence.EFCore.Repository
             _set.Remove(entity);
         }
 
-        public void Delete(TKey id)
+        public void Delete<TKey>(TKey id)
+            where TKey : IEquatable<TKey>
         {
             var entity = _set.Find(id);
             if (entity != null)
@@ -63,7 +63,8 @@ namespace SingleScope.Persistence.EFCore.Repository
             return Task.CompletedTask;
         }
 
-        public async Task DeleteAsync(TKey id, CancellationToken cancellationToken = default)
+        public async Task DeleteAsync<TKey>(TKey id, CancellationToken cancellationToken = default)
+            where TKey : IEquatable<TKey>
         {
             var entity = await _set.FindAsync(id, cancellationToken);
             if (entity != null)
@@ -77,9 +78,10 @@ namespace SingleScope.Persistence.EFCore.Repository
             _set.RemoveRange(entities);
         }
 
-        public void DeleteRange(IEnumerable<TKey> ids)
+        public void DeleteRange<TKey>(IEnumerable<TKey> ids)
+            where TKey : IEquatable<TKey>
         {
-            var entities = base.Where(e => ids.Contains(e.Id));
+            var entities = base.Where(e => ids.Contains(((IEntity<TKey>)e).Id));
             if (entities.Any())
             {
                 _set.RemoveRange(entities);
@@ -93,9 +95,10 @@ namespace SingleScope.Persistence.EFCore.Repository
             return Task.CompletedTask;
         }
 
-        public async Task DeleteRangeAsync(IEnumerable<TKey> ids, CancellationToken cancellationToken = default)
+        public async Task DeleteRangeAsync<TKey>(IEnumerable<TKey> ids, CancellationToken cancellationToken = default)
+            where TKey : IEquatable<TKey>
         {
-            var entities = await base.WhereAsync(e => ids.Contains(e.Id), cancellationToken);
+            var entities = await base.WhereAsync(e => ids.Contains(((IEntity<TKey>)e).Id), cancellationToken);
             if (entities.Any())
             {
                 _set.RemoveRange(entities);

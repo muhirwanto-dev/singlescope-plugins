@@ -9,12 +9,11 @@ namespace SingleScope.Persistence.Repository
     /// Designed to be potentially used independently (e.g., in CQRS read models).
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
-    /// <typeparam name="TKey">The type of the entity's primary key.</typeparam>
-    public interface IReadRepository<TEntity, TKey>
-        where TEntity : class, IEntity<TKey>
-        where TKey : IEquatable<TKey>
+    public interface IReadRepository<TEntity>
+        where TEntity : class, IEntity
     {
-        TEntity? Find(TKey key);
+        TEntity? Find<TKey>(TKey key)
+            where TKey : IEquatable<TKey>;
 
         TEntity? FirstOrDefault(Expression<Func<TEntity, bool>> predicate);
 
@@ -36,7 +35,8 @@ namespace SingleScope.Persistence.Repository
 
         long Count(Expression<Func<TEntity, bool>> predicate);
 
-        ValueTask<TEntity?> FindAsync(TKey key, CancellationToken cancellation = default);
+        ValueTask<TEntity?> FindAsync<TKey>(TKey key, CancellationToken cancellation = default)
+            where TKey : IEquatable<TKey>;
 
         Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellation = default);
 
@@ -59,7 +59,7 @@ namespace SingleScope.Persistence.Repository
         Task<long> CountAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellation = default);
     }
 
-    public interface IReadRepository<TEntity, TKey, TContext> : IReadRepository<TEntity, TKey>
-        where TEntity : class, IEntity<TKey>
-        where TKey : IEquatable<TKey>;
+    public interface IReadRepository<TEntity, TContext> : IReadRepository<TEntity>
+        where TEntity : class, IEntity
+        ;
 }

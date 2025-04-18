@@ -1,6 +1,9 @@
 ﻿namespace SingleScope.Persistence.Entities
 {
-    public interface IEntity<TKey> where TKey : IEquatable<TKey>
+    public interface IEntity;
+
+    public interface IEntity<TKey> : IEntity
+        where TKey : IEquatable<TKey>
     {
         TKey Id { get; set; }
     }

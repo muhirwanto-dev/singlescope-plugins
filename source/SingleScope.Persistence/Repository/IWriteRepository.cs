@@ -8,9 +8,8 @@ namespace SingleScope.Persistence.Repository
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <typeparam name="TKey">The type of the entity's primary key.</typeparam>
-    public interface IWriteRepository<TEntity, TKey>
-        where TEntity : class, IEntity<TKey>
-        where TKey : IEquatable<TKey>
+    public interface IWriteRepository<TEntity>
+        where TEntity : class, IEntity
     {
         /// <summary>
         /// Adds a new entity.
@@ -52,9 +51,11 @@ namespace SingleScope.Persistence.Repository
         /// </summary>
         /// <param name="id">The primary key of the entity to delete.</param>
         /// <returns>Task representing the asynchronous operation.</returns>
-        void Delete(TKey id);
+        void Delete<TKey>(TKey id)
+            where TKey : IEquatable<TKey>;
 
-        void DeleteRange(IEnumerable<TKey> ids);
+        void DeleteRange<TKey>(IEnumerable<TKey> ids)
+            where TKey : IEquatable<TKey>;
 
         void Save();
 
@@ -70,9 +71,11 @@ namespace SingleScope.Persistence.Repository
 
         Task DeleteRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
 
-        Task DeleteAsync(TKey id, CancellationToken cancellationToken = default);
+        Task DeleteAsync<TKey>(TKey id, CancellationToken cancellationToken = default)
+            where TKey : IEquatable<TKey>;
 
-        Task DeleteRangeAsync(IEnumerable<TKey> ids, CancellationToken cancellationToken = default);
+        Task DeleteRangeAsync<TKey>(IEnumerable<TKey> ids, CancellationToken cancellationToken = default)
+            where TKey : IEquatable<TKey>;
 
         Task SaveAsync(CancellationToken cancellationToken = default);
     }
