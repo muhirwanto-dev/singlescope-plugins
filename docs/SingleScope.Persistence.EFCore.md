@@ -95,9 +95,12 @@ services.AddEfCorePersistence();
 services.AddDbContext<YourDbContext>(builder => builder.UseSqlServer("your connection string"));
 
 // Inject specific Repository & UnitOfWork
-services.AddScoped<IReadWriteRepository<YourEntity, int>, YourRwRepository<YourEntity, int>>();
-services.AddScoped<IReadRepository<YourEntity, int>, YourRoRepository<YourEntity, int>>();
+services.AddScoped<IReadWriteRepository<YourEntity>, YourRwRepository<YourEntity>>();
+services.AddScoped<IReadRepository<YourEntity>, YourRoRepository<YourEntity>>();
 services.AddScoped<IUnitOfWork<YourDbContext>, YourUnitOfWork<YourDbContext>>();
+
+// Set Service Locator after build the app
+app.Services.SetSingleScopeProvider();
 ```
 
 ## Contributions
