@@ -1,4 +1,6 @@
-﻿namespace SingleScope.Maui.Dialogs
+﻿using SingleScope.Maui.Dialogs.Options;
+
+namespace SingleScope.Maui.Dialogs
 {
     public class ProgressiveLoadingOptions : LoadingOptions
     {

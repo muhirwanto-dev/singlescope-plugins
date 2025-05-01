@@ -1,7 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
 using SingleScope.Persistence.Benchmark.DataSource;
-using SingleScope.Persistence.UnitTests.DataSource;
 
 namespace SingleScope.Persistence.Benchmark
 {

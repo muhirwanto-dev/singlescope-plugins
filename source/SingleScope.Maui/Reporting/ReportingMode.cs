@@ -15,8 +15,8 @@
         /// <summary>
         /// Write exception as with it's stack tree. Otherwise, only write the exception message.
         /// </summary>
-        EnableExceptionCallStack = 1 << 2,
+        EnableExceptionStackTrace = 1 << 2,
 
-        Default = EnableLogging | EnableErrorDialog | EnableExceptionCallStack,
+        Default = EnableLogging | EnableErrorDialog | EnableExceptionStackTrace,
     }
 }

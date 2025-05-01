@@ -33,12 +33,11 @@ namespace SingleScope.Maui.Reports
                 message = string.Empty;
             }
 
-            string exStr = exception.ToString();
             ReportingMode mode = _options.ReportingMode;
 
-            if ((mode & ReportingMode.EnableExceptionCallStack) != 0)
+            if ((mode & ReportingMode.EnableExceptionStackTrace) != 0)
             {
-                message += exStr;
+                message += exception.StackTrace;
             }
             else
             {
@@ -47,6 +46,12 @@ namespace SingleScope.Maui.Reports
 
             if ((mode & ReportingMode.EnableLogging) != 0)
             {
+                // For logging, always add exception stack trace to the output.
+                if ((mode & ReportingMode.EnableExceptionStackTrace) == 0)
+                {
+                    message += exception.StackTrace;
+                }
+
                 _logger.LogError(message);
             }
 

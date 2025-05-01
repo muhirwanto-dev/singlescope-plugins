@@ -50,21 +50,21 @@ namespace SingleScope.Maui.Mvvm
         {
             Refreshing();
 
-            return new DisposableValue(() => Refreshed());
+            return ValueDisposable.Create(Refreshed);
         }
 
         public IValueDisposable StartNavigation()
         {
             Navigating();
 
-            return new DisposableValue(() => Navigated());
+            return ValueDisposable.Create(Navigated);
         }
 
         public IValueDisposable StartUserInteraction()
         {
             UserInteracting();
 
-            return new DisposableValue(() => UserInteracted());
+            return ValueDisposable.Create(UserInteracted);
         }
 
         protected override void Broadcast<T>(T oldValue, T newValue, string? propertyName)

@@ -10,24 +10,18 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 
-    <AssemblyVersion>2.6.0</AssemblyVersion>
-    <FileVersion>2.6.0.0223</FileVersion>
+    <AssemblyVersion>3.0.0</AssemblyVersion>
+    <FileVersion>3.0.0.0501</FileVersion>
     <VersionPrefix>$(AssemblyVersion)</VersionPrefix>
   </PropertyGroup>
 
   <!--NuGet properties-->
   <PropertyGroup>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>SingleScope.Maui</PackageId>
     <PackageTags>SingleScope;Plugin;MAUI;Dialogs;Loading;Mvvm</PackageTags>
     <Title>SingleScope.Maui</Title>
-    <Authors>muhirwanto.dev</Authors>
     <Description>Plugins for .NET MAUI</Description>
-    <PackageProjectUrl>https://github.com/muhirwanto-dev/singlescope-plugins</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/muhirwanto-dev/singlescope-plugins/main/logo.png</PackageIconUrl>
-    <RepositoryUrl>https://github.com/muhirwanto-dev/singlescope-plugins</RepositoryUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Copyright>Copyright (c)  muhirwanto.dev 2024</Copyright>
-    <PackageIcon>logo.png</PackageIcon>
+    <PackageReadmeFile>docs\SingleScope.Maui.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,14 +31,11 @@
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <None Include="..\..\logo.png" Link="logo.png">
-	    <PackagePath>\</PackagePath>
-	    <Pack>True</Pack>
-	  </None>
-	</ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\docs\SingleScope.Maui.md" Pack="true" PackagePath="docs" />
+  </ItemGroup>
 
-	<ItemGroup>
+  <ItemGroup>
 	  <ProjectReference Include="..\SingleScope.Common\SingleScope.Common.csproj" />
 	  <ProjectReference Include="..\SingleScope.Maui.SourceGenerator\SingleScope.Maui.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 	</ItemGroup>

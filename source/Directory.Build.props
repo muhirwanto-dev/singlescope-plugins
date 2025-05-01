@@ -1,0 +1,17 @@
+<Project>
+  <PropertyGroup>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageOutputPath>..\..\.nupkg</PackageOutputPath>
+    <Authors>muhirwanto.dev</Authors>
+    <PackageProjectUrl>https://github.com/muhirwanto-dev/singlescope-plugins</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/muhirwanto-dev/singlescope-plugins/main/logo.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/muhirwanto-dev/singlescope-plugins</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>Copyright (c) muhirwanto.dev 2024</Copyright>
+    <PackageIcon>assets\img\logo.png</PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\assets\img\logo.png" Link="logo.png" Pack="true" PackagePath="assets\img" />
+  </ItemGroup>
+</Project>

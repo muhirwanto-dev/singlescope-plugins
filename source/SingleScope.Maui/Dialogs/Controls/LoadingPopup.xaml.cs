@@ -1,3 +1,5 @@
+using SingleScope.Maui.Dialogs.Options;
+
 namespace SingleScope.Maui.Dialogs.Controls;
 
 public partial class LoadingPopup : CommunityToolkit.Maui.Views.Popup

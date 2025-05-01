@@ -12,28 +12,18 @@
 
   <!--NuGet properties-->
   <PropertyGroup>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <PackageOutputPath>..\..\.nupkg</PackageOutputPath>
     <PackageId>SingleScope.Persistence</PackageId>
     <PackageTags>SingleScope;Plugin;Persistence;Repository</PackageTags>
     <Title>SingleScope.Persistence</Title>
-    <Authors>muhirwanto.dev</Authors>
     <Description>
       `SingleScope.Persistence` is a C# .NET library providing core abstractions and building blocks for the data persistence layer.
       It facilitates the implementation of patterns like Repository and Unit of Work.
     </Description>
-    <PackageProjectUrl>https://github.com/muhirwanto-dev/singlescope-plugins</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/muhirwanto-dev/singlescope-plugins/main/logo.png</PackageIconUrl>
-    <RepositoryUrl>https://github.com/muhirwanto-dev/singlescope-plugins</RepositoryUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Copyright>Copyright (c)  muhirwanto.dev 2024</Copyright>
-    <PackageIcon>logo.png</PackageIcon>
-    <PackageReadmeFile>SingleScope.Persistence.md</PackageReadmeFile>
+    <PackageReadmeFile>docs\SingleScope.Persistence.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\assets\img\logo.png" Link="logo.png" Pack="true" PackagePath="." />
-    <None Include="..\..\docs\SingleScope.Persistence.md" Pack="true" PackagePath="." />
+    <None Include="..\..\docs\SingleScope.Persistence.md" Pack="true" PackagePath="docs" />
   </ItemGroup>
 
 </Project>

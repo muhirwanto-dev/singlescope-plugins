@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using SingleScope.Common;
 using SingleScope.Maui.Dialogs.Controls;
+using SingleScope.Maui.Dialogs.Options;
 
 namespace SingleScope.Maui.Dialogs
 {
@@ -116,7 +117,7 @@ namespace SingleScope.Maui.Dialogs
                 }
             };
 
-            var disposingNotificator = new DisposableValue(() =>
+            var disposingNotificator = ValueDisposable.Create(() =>
             {
                 if (!cancelled)
                 {
@@ -133,7 +134,7 @@ namespace SingleScope.Maui.Dialogs
             return disposingNotificator;
         }
 
-        public IDisposingNotificator<ProgressiveLoadingPopup> ShowProgressiveLoading(string message, ProgressiveLoadingProgressType progressType = ProgressiveLoadingProgressType.ActivityIndicator, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default)
+        public IValueDisposable<ProgressiveLoadingPopup> ShowProgressiveLoading(string message, ProgressiveLoadingProgressType progressType = ProgressiveLoadingProgressType.ActivityIndicator, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default)
         {
             Page page = Application.Current?.MainPage ?? throw new NullReferenceException("No page available");
             var popup = CreateProgressiveLoadingPopup(message, cancelAction, progressType);
@@ -150,7 +151,7 @@ namespace SingleScope.Maui.Dialogs
                 }
             };
 
-            var disposableAction = new DisposingNotificator<ProgressiveLoadingPopup>(
+            var disposableAction = ValueDisposable<ProgressiveLoadingPopup>.Create(
                 popup,
                 () =>
                 {

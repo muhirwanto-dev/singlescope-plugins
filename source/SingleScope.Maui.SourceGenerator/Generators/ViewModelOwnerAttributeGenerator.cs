@@ -63,7 +63,9 @@ namespace SingleScope.Maui.SourceGenerator.Generators
                 .First(attr => attr.AttributeClass?.ToDisplayString() == AttributeNamespace);
 
             // Full name with namespace
-            var viewModelSymbol = attributeData.ConstructorArguments[0].Value as INamedTypeSymbol;
+            var viewModelSymbol = attributeData.AttributeClass.IsGenericType
+                ? attributeData.AttributeClass.TypeArguments[0] as INamedTypeSymbol
+                : attributeData.ConstructorArguments[0].Value as INamedTypeSymbol;
             var viewModelName = viewModelSymbol?.ToDisplayString();
 
             // Retrieve the IsDefaultConstructor from the named arguments

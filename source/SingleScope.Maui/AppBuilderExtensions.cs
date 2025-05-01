@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using SingleScope.Maui.Dialogs;
+using SingleScope.Maui.Dialogs.Options;
 using SingleScope.Maui.Navigation;
 using SingleScope.Maui.Reports;
 
