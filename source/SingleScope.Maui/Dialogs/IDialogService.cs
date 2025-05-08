@@ -1,5 +1,6 @@
 ﻿using SingleScope.Common;
 using SingleScope.Maui.Dialogs.Controls;
+using SingleScope.Maui.Dialogs.Enums;
 
 namespace SingleScope.Maui.Dialogs
 {

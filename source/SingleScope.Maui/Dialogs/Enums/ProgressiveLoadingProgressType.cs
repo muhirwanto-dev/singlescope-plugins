@@ -1,4 +1,4 @@
-﻿namespace SingleScope.Maui.Dialogs
+﻿namespace SingleScope.Maui.Dialogs.Enums
 {
     public enum ProgressiveLoadingProgressType
     {

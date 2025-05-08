@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SingleScope.Maui.Dialogs;
+using SingleScope.Maui.Reporting.Enums;
+using SingleScope.Maui.Reporting.Options;
 
-namespace SingleScope.Maui.Reports
+namespace SingleScope.Maui.Reporting
 {
     public class ReportingService<T> : IReportingService<T>
     {

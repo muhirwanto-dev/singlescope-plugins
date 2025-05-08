@@ -1,85 +1,131 @@
-﻿namespace SingleScope.Maui.Navigation
+﻿
+namespace SingleScope.Maui.Navigation
 {
     public class ShellNavigationService : IShellNavigationService
     {
-        public void Pop()
+        public Shell Navigation => Shell.Current;
+
+        public void NavigateTo<TView>(bool animated = true) where TView : Page
         {
-            _ = PopAsync();
+            _ = NavigateToAsync<TView>(animated);
         }
 
-        public Task PopAsync()
+        public void NavigateTo<TView>(INavQuery query, bool animated = true) where TView : Page
         {
-            return Shell.Current.GoToAsync("..");
+            _ = NavigateToAsync<TView>(query, animated);
         }
 
-        public void PopToRoot<TRoot>() where TRoot : Page
+        public void NavigateToModal<TView>(bool animated = true) where TView : Page
         {
-            _ = PopToRootAsync<TRoot>();
+            _ = NavigateToModalAsync<TView>(animated);
         }
 
-        public Task PopToRootAsync<TRoot>() where TRoot : Page
+        public void NavigateToModal<TView>(INavQuery query, bool animated = true) where TView : Page
         {
-            return Shell.Current.GoToAsync($"///{typeof(TRoot).Name}");
+            _ = NavigateToModalAsync<TView>(query, animated);
         }
 
-        public void Push<TView>() where TView : Page
+        public void NavigateToRoot<TView>(string shellRoute = "///")
+            where TView : Page
         {
-            _ = PushAsync<TView>();
+            _ = NavigateToRootAsync<TView>(shellRoute);
         }
 
-        public Task PushAsync<TView>() where TView : Page
+        public void NavigateToRoot<TView>(INavQuery query, string shellRoute = "///")
+            where TView : Page
+        {
+            _ = NavigateToRootAsync<TView>(query, shellRoute);
+        }
+
+        public void GoBack()
+        {
+            _ = GoBackAsync();
+        }
+
+        public void GoBack(INavQuery query)
+        {
+            _ = GoBackAsync(query);
+        }
+
+        public void CloseModal()
+        {
+            GoBack();
+        }
+
+        public Task NavigateToAsync<TView>(bool animated = true) where TView : Page
         {
             return Shell.Current.GoToAsync(typeof(TView).Name);
         }
 
-        public void Pop(ShellNavigationQueryParameters? query)
+        public Task NavigateToAsync<TView>(INavQuery query, bool animated = true) where TView : Page
         {
-            _ = PopAsync(query);
+            return Shell.Current.GoToAsync(typeof(TView).Name, animated, query);
         }
 
-        public Task PopAsync(ShellNavigationQueryParameters? query)
+        public Task NavigateToModalAsync<TView>(bool animated = true) where TView : Page
         {
-            return Shell.Current.GoToAsync("..", query);
+            return NavigateToAsync<TView>(animated);
         }
 
-        public void PopToRoot<TRoot>(ShellNavigationQueryParameters? query) where TRoot : Page
+        public Task NavigateToModalAsync<TView>(INavQuery query, bool animated = true) where TView : Page
         {
-            _ = PopToRootAsync<TRoot>(query);
+            return NavigateToAsync<TView>(query, animated);
         }
 
-        public Task PopToRootAsync<TRoot>(ShellNavigationQueryParameters? query) where TRoot : Page
+        public Task NavigateToRootAsync<TView>(string shellRoute = "///")
+            where TView : Page
         {
-            return Shell.Current.GoToAsync($"///{typeof(TRoot).Name}", query);
+            return Shell.Current.GoToAsync($"{shellRoute}{typeof(TView).Name}");
         }
 
-        public void Push<TView>(ShellNavigationQueryParameters? query) where TView : Page
+        public Task NavigateToRootAsync<TView>(INavQuery query, string shellRoute = "///")
+            where TView : Page
         {
-            _ = PushAsync<TView>(query);
+            return Shell.Current.GoToAsync($"{shellRoute}{typeof(TView).Name}", query);
         }
 
-        public Task PushAsync<TView>(ShellNavigationQueryParameters? query) where TView : Page
+        public Task GoBackAsync()
         {
-            return Shell.Current.GoToAsync(typeof(TView).Name, query);
+            return this.Navigation.GoToAsync("..");
         }
 
-        public void Go(ShellNavigationState state)
+        public Task GoBackAsync(INavQuery query)
         {
-            _ = GoAsync(state);
+            return this.Navigation.GoToAsync("..", query);
         }
 
-        public Task GoAsync(ShellNavigationState state)
+        public async Task<TView?> GoBackAsync<TView>() where TView : Page
         {
-            return Shell.Current.GoToAsync(state);
+            if (this.Navigation.CurrentPage is not TView removed)
+            {
+                return null;
+            }
+
+            await GoBackAsync();
+
+            return removed;
         }
 
-        public void Go(ShellNavigationState state, ShellNavigationQueryParameters query)
+        public async Task<TView?> GoBackAsync<TView>(INavQuery query) where TView : Page
         {
-            _ = GoAsync(state, query);
+            if (this.Navigation.CurrentPage is not TView removed)
+            {
+                return null;
+            }
+
+            await GoBackAsync(query);
+
+            return removed;
         }
 
-        public Task GoAsync(ShellNavigationState state, ShellNavigationQueryParameters query)
+        public Task CloseModalAsync()
         {
-            return Shell.Current.GoToAsync(state, query);
+            return GoBackAsync();
+        }
+
+        public Task<TView?> CloseModalAsync<TView>() where TView : Page
+        {
+            return GoBackAsync<TView>();
         }
     }
 }

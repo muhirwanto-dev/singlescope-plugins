@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using CommunityToolkit.Maui.Converters;
+using SingleScope.Maui.Dialogs.Enums;
 
 namespace SingleScope.Maui.Dialogs.Converters
 {

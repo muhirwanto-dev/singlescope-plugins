@@ -1,4 +1,6 @@
-﻿namespace SingleScope.Maui.Reports
+﻿using SingleScope.Maui.Reporting.Enums;
+
+namespace SingleScope.Maui.Reporting.Options
 {
     public class ReportingOptions
     {

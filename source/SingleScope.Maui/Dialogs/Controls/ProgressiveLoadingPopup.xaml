@@ -3,7 +3,7 @@
                xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:converter="clr-namespace:SingleScope.Maui.Dialogs.Converters"
-               xmlns:dialog="clr-namespace:SingleScope.Maui.Dialogs"
+               xmlns:enums="clr-namespace:SingleScope.Maui.Dialogs.Enums"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                Color="Transparent">
     <Border Padding="{Binding Options.PopupPadding}"
@@ -17,7 +17,7 @@
         <VerticalStackLayout HorizontalOptions="Fill"
                              Spacing="10"
                              VerticalOptions="Center">
-            <Grid IsVisible="{Binding Options.ProgressType, Converter={converter:ProgressiveDialogProgressTypeConverter}, ConverterParameter={x:Static dialog:ProgressiveLoadingProgressType.ActivityIndicator}}">
+            <Grid IsVisible="{Binding Options.ProgressType, Converter={converter:ProgressiveDialogProgressTypeConverter}, ConverterParameter={x:Static enums:ProgressiveLoadingProgressType.ActivityIndicator}}">
                 <ActivityIndicator HeightRequest="100"
                                    HorizontalOptions="Center"
                                    IsRunning="True"
@@ -31,7 +31,7 @@
                        VerticalTextAlignment="Center" />
             </Grid>
 
-            <VerticalStackLayout IsVisible="{Binding Options.ProgressType, Converter={converter:ProgressiveDialogProgressTypeConverter}, ConverterParameter={x:Static dialog:ProgressiveLoadingProgressType.ProgressBar}}" Spacing="5">
+            <VerticalStackLayout IsVisible="{Binding Options.ProgressType, Converter={converter:ProgressiveDialogProgressTypeConverter}, ConverterParameter={x:Static enums:ProgressiveLoadingProgressType.ProgressBar}}" Spacing="5">
                 <ProgressBar HorizontalOptions="Fill"
                              Progress="{Binding ProgressValue}"
                              ProgressColor="{Binding Options.IndicatorColor, TargetNullValue={x:Static Colors.Blue}}"

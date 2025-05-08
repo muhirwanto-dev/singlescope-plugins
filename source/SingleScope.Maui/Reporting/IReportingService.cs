@@ -1,4 +1,4 @@
-﻿namespace SingleScope.Maui.Reports
+﻿namespace SingleScope.Maui.Reporting
 {
     public interface IReportingService<T>
     {

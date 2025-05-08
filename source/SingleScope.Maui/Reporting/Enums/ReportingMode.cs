@@ -1,4 +1,4 @@
-﻿namespace SingleScope.Maui.Reports
+﻿namespace SingleScope.Maui.Reporting.Enums
 {
     public enum ReportingMode : uint
     {

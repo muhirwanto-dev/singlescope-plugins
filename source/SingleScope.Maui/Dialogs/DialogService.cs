@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using SingleScope.Common;
 using SingleScope.Maui.Dialogs.Controls;
+using SingleScope.Maui.Dialogs.Enums;
 using SingleScope.Maui.Dialogs.Options;
 
 namespace SingleScope.Maui.Dialogs
