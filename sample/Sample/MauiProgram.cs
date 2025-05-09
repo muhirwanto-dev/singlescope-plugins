@@ -12,25 +12,19 @@ namespace Sample
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
-                .UseSingleScopePlugins(
-                    animatedLoadingOptions: options =>
+                .UseSingleScopeMaui(new SingleScopeBuilderOptions
+                {
+                    AnimatedLoadingOptions = new()
                     {
-                        options.GifImageUri = "file:///android_asset/loading_example.html";
-                        options.GifImageHeight = 64;
+                        GifImageUri = "file:///android_asset/loading_example.html",
+                        GifImageHeight = 64,
                     },
-                    loadingOptions: options =>
+                    ProgressiveLoadingOptions = new()
                     {
-
-                    },
-                    progressiveLoadingOptions: options =>
-                    {
-                        options.PopupPadding = 50;
-                        options.IndicatorColor = Colors.Red;
-                    },
-                    reportOptions: options =>
-                    {
-
-                    })
+                        PopupPadding = 50,
+                        IndicatorColor = Colors.Red,
+                    }
+                })
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

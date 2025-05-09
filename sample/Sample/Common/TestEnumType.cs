@@ -2,10 +2,10 @@
 
 namespace SingleScope.Sample.Common
 {
-    [EnumTypeNames]
+    [EnumStringMap]
     public enum TestEnumType
     {
-        [EnumName("TestingA")]
+        [EnumStringName("TestingA")]
         A,
         B,
     }

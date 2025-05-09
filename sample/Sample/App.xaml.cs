@@ -1,5 +1,6 @@
 ﻿using SingleScope.Maui.Dialogs;
-using SingleScope.Maui.Reports;
+using SingleScope.Maui.Dialogs.Enums;
+using SingleScope.Maui.Reporting;
 
 namespace Sample
 {
@@ -30,21 +31,21 @@ namespace Sample
             {
                 using (var popup = _dialogService.ShowProgressiveLoading("Example progressive activity"))
                 {
-                    while (popup.ReturnValue.ProgressValue < 1.0)
+                    while (popup.Value.ProgressValue < 1.0)
                     {
                         await Task.Delay(delayMs / 10);
 
-                        popup.ReturnValue.ProgressValue += 0.1;
+                        popup.Value.ProgressValue += 0.1;
                     }
                 }
 
                 using (var popup = _dialogService.ShowProgressiveLoading("Example progressive progress bar", ProgressiveLoadingProgressType.ProgressBar))
                 {
-                    while (popup.ReturnValue.ProgressValue < 1.0)
+                    while (popup.Value.ProgressValue < 1.0)
                     {
                         await Task.Delay(delayMs / 10);
 
-                        popup.ReturnValue.ProgressValue += 0.1;
+                        popup.Value.ProgressValue += 0.1;
                     }
                 }
 

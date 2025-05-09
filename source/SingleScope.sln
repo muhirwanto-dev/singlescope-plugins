@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingleScope.Persistence.Ben
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingleScope.Persistence.EFCore", "SingleScope.Persistence.EFCore\SingleScope.Persistence.EFCore.csproj", "{468D772F-35F3-44F5-8EE5-0286930266F0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "..\sample\Sample\Sample.csproj", "{D409D11F-DAA3-7CA1-8A92-F2A871580D36}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,12 @@ Global
 		{468D772F-35F3-44F5-8EE5-0286930266F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{468D772F-35F3-44F5-8EE5-0286930266F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{468D772F-35F3-44F5-8EE5-0286930266F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D409D11F-DAA3-7CA1-8A92-F2A871580D36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D409D11F-DAA3-7CA1-8A92-F2A871580D36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D409D11F-DAA3-7CA1-8A92-F2A871580D36}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D409D11F-DAA3-7CA1-8A92-F2A871580D36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D409D11F-DAA3-7CA1-8A92-F2A871580D36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D409D11F-DAA3-7CA1-8A92-F2A871580D36}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
