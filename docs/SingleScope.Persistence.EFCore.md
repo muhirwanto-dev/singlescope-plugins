@@ -10,11 +10,11 @@
 
 ## Overview
 
-This library provides concrete implementations of the generic `IReadWriteRepository<TEntity>` and `IUnitOfWork` interfaces from the [SingleScope.Persistence](https://github.com/muhirwanto-dev/singlescope-plugins/tree/main/source/SingleScope.Persistence) package, leveraging Entity Framework Core for data persistence.
+This library provides concrete implementations of the generic `IReadWriteRepository<TEntity>`, `IReadRepository<TEntity>`, `IWriteRepository<TEntity>` and `IUnitOfWork` interfaces from the [SingleScope.Persistence](https://github.com/muhirwanto-dev/singlescope-plugins/tree/main/source/SingleScope.Persistence) package, leveraging Entity Framework Core for data persistence.
 
 ## Features
 
-* Generic Repository implementation (`Repository<TEntity>`) for `EntityFrameworkCore`.
+* Generic Repository implementation (`ReadWriteRepository`, `ReadOnlyRepository`) for `EntityFrameworkCore`.
 * Unit of Work implementation (`UnitOfWork`) to manage transactions across multiple repositories.
 * Easy integration with .NET Dependency Injection.
 
@@ -49,21 +49,23 @@ public class YourDbContext : DbContext
 }
 ```
 
-**Implement `IReadWriteRepository<TEntity>` and `IUnitOfWork`**
+**Implement `*Repository<TEntity>` and `UnitOfWork`**
 
 ```csharp
 using SingleScope.Persistence.EFCore.Repository;
 using SingleScope.Persistence.EFCore.UnitOfWork;
 
 // Read-Write repository
-public class YourRwRepository<TEntity, TKey> : ReadWriteRepository<TEntity, TKey>
+public class YourRwRepository<TEntity, TContext> : ReadWriteRepository<TEntity, TContext>
     where TEntity : class
+    where TContext : DbContext
 {   
 }
 
 // Read-Only repository
-public class YourRoRepository<TEntity, TKey> : ReadOnlyRepository<TEntity, TKey>
+public class YourRoRepository<TEntity, TContext> : ReadOnlyRepository<TEntity, TContext>
     where TEntity : class
+    where TContext : DbContext
 {
 }
 
@@ -95,12 +97,12 @@ services.AddEfCorePersistence();
 services.AddDbContext<YourDbContext>(builder => builder.UseSqlServer("your connection string"));
 
 // Inject specific Repository & UnitOfWork
-services.AddScoped<IReadWriteRepository<YourEntity>, YourRwRepository<YourEntity>>();
-services.AddScoped<IReadRepository<YourEntity>, YourRoRepository<YourEntity>>();
+services.AddScoped<IReadWriteRepository<YourEntity, YourDbContext>, YourRwRepository<YourEntity, YourDbContext>>();
+services.AddScoped<IReadRepository<YourEntity, YourDbContext>, YourRoRepository<YourEntity, YourDbContext>>();
 services.AddScoped<IUnitOfWork<YourDbContext>, YourUnitOfWork<YourDbContext>>();
 
 // Set Service Locator after build the app
-app.Services.SetSingleScopeProvider();
+app.Services.UseSingleScopePersistence();
 ```
 
 ## Contributions

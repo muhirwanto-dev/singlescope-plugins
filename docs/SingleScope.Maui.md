@@ -1,7 +1,7 @@
-# SingleScope.Persistence
+# SingleScope.Maui
 
-[![NuGet Version](https://img.shields.io/nuget/v/SingleScope.Persistence.svg?style=flat-square)](https://www.nuget.org/packages/SingleScope.Persistence/)
-[![NuGet Downloads](https://img.shields.io/nuget/dt/SingleScope.Persistence.svg?style=flat-square)](https://www.nuget.org/packages/SingleScope.Persistence/)
+[![NuGet Version](https://img.shields.io/nuget/v/SingleScope.Maui.svg?style=flat-square)](https://www.nuget.org/packages/SingleScope.Maui/)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/SingleScope.Maui.svg?style=flat-square)](https://www.nuget.org/packages/SingleScope.Maui/)
 [![License](https://img.shields.io/github/license/muhirwanto-dev/singlescope-plugins?style=flat-square)](LICENSE)
 [![GitHub Issues](https://img.shields.io/github/issues/muhirwanto-dev/singlescope-plugins?style=flat-square)](https://github.com/muhirwanto-dev/singlescope-plugins/issues)
 [![GitHub Stars](https://img.shields.io/github/stars/muhirwanto-dev/singlescope-plugins?style=flat-square)](https://github.com/muhirwanto-dev/singlescope-plugins/stargazers)
@@ -10,84 +10,120 @@
 
 ## Overview
 
-`SingleScope.Persistence` is a C# .NET library providing core abstractions and building blocks for the **data persistence layer** of your applications. It aims to promote cleaner architecture, testability, and flexibility by offering common interfaces and patterns for interacting with data sources. While it facilitates the implementation of patterns like **Repository** and **Unit of Work**, its scope extends to general persistence concerns, providing a solid base for your data access strategy.
+`SingleScope.Maui` is a C# .NET library contains some features and utilities to build a `.NET MAUI` app faster. `ViewModelOwnerAttribute` used to minimize binding between `APageView` and `APageViewModel`, also `IAnimatedLoadingDialogService` can be used to show loading popup with custom animation.
 
 ## Key Features
 
-* **Core Abstractions for Data Persistence:** Provides fundamental interfaces and potentially base classes relevant to various data persistence tasks.
-* **Facilitates Data Access Patterns:** Simplifies the implementation of common patterns like Repository and Unit of Work.
-* **Generic `IReadWriteRepository<TEntity, TKey>`:** Defines standard data access operations (Add, Update, Delete, GetAll, Find, etc.) adaptable for any entity.
-* **`IUnitOfWork` Interface:** Offers a mechanism for managing atomic operations and coordinating changes across multiple data operations within a single transaction.
-* **Promotes Separation of Concerns:** Helps isolate data access logic from your domain and application layers.
-* **Dependency Injection Friendly:** Designed for seamless integration with standard .NET dependency injection containers.
+* **Animated Loading:** Provide loading popup with custom animation.
+* **Navigation Service:** Extended abstraction to handle page & shell navigation.
+* **Reporting:** Write exception into logging and popup dialog with single line of code.
+* **MVVM:** Write less code to bind between `Page` and `ViewModel`.
 
 ## Installation
-
-This library primarily provides **abstractions**. You will typically need to implement the provided interfaces based on your chosen data access technology (e.g., Entity Framework Core, Dapper, NHibernate, etc.), or potentially use a separate companion implementation package if available.
 
 Install the abstractions package via NuGet:
 
 **Package Manager Console:**
 
 ```powershell
-Install-Package SingleScope.Persistence
+Install-Package SingleScope.Maui
 ```
 
 **.NET CLI**
 ```bash
-dotnet add package SingleScope.Persistence
+dotnet add package SingleScope.Maui
 ```
 
 ## Usage
 
-This library provides several abstractions for persistence. Below is an example demonstrating how to use the `IReadWriteRepository<TEntity, TKey>` and `IUnitOfWork` interfaces, which are common components facilitated by this library. You might find other useful interfaces or base classes within the library depending on your specific persistence needs.
-
-**Define Your Entity**
-
-Implement your entity with `IEntity<TKey>` interface.
+**Dialog Service**
 
 ```csharp
-public class Product : IEntity<int>
+using (var popup = _dialogService.ShowProgressiveLoading("Example progressive activity"))
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public decimal Price { get; set; }
+    while (popup.ReturnValue.ProgressValue < 1.0)
+    {
+        popup.ReturnValue.ProgressValue += 0.1;
+    }
+}
+
+using (var popup = _dialogService.ShowProgressiveLoading("Example progressive progress bar", ProgressiveLoadingProgressType.ProgressBar))
+{
+    while (popup.ReturnValue.ProgressValue < 1.0)
+    {
+        popup.ReturnValue.ProgressValue += 0.1;
+    }
+}
+
+using (var popup = _dialogService.ShowFullPageLoading())
+{
+}
+
+using (var popup = _dialogService.ShowLoading("Example scoped loading"))
+{
+}
+
+using (var popup = _dialogService.ShowLoading("Example cancellable loading", cancelAction: () => { }))
+{
+}
+
+using (var popup = _animatedLoadingDialogService.ShowLoading("Example gif loading"))
+{
 }
 ```
 
-**Implement `IReadWriteRepository<TEntity>` and `IUnitOfWork`**
+**View Model Owner**
 
 ```csharp
-// Read-Write repository
-public class YourRwRepository<TEntity, TKey> : IReadWriteRepository<TEntity, TKey>
-    where TEntity : class
-{   
-}
-
-// Read-Only repository
-public class YourRoRepository<TEntity, TKey> : IReadRepository<TEntity, TKey>
-    where TEntity : class
+[ViewModelOwner(typeof(ExampleViewModel), IsDefaultConstructor = true)]
+public partial class TestPage : ContentPage
 {
 }
 
-// Unit of work
-public class YourUnitOfWork<TContext> : IUnitOfWork<TContext>
-    where TContext : DbContext
+// or
+
+[ViewModelOwner<ExampleViewModel>(IsDefaultConstructor = false)]
+public partial class TestPage : ContentPage
 {
+    public TestPage()
+    {
+        InitializeComponent();
+        PostInitializeComponent();
+    }
 }
 ```
 
-[`SingleScope.Persistence.EFCore`](https://github.com/muhirwanto-dev/singlescope-plugins/tree/main/source/SingleScope.Persistence.EfCore)
-already have the implementation of both `IReadWriteRepository` and `IUnitOfWork` specific to `EntityFrameworkCore`.
+**Reporting**
+```csharp
+try
+{
+    // do something
+}
+catch (Exception ex)
+{
+    await _reportService.ReportAsync(ex);
+}
+```
+
+**Navigation Service**
+```chasrp
+_navigationService.NavigateTo<TestPage>();
+
+// this navigation works both for Page & Shell Navigation
+_navigationService.NavigateTo<TestPage>(new Dictionary<string, object>
+{
+    ["key0"] = "value0",
+    ["key1"] = "value1"
+});
+```
 
 **Configure Dependency Injection**
 
 ```csharp
-// Inject the services in Program.cs
-
-services.AddScoped<IReadWriteRepository<Entity, int>, YourRwRepository<Entity, int>>();
-services.AddScoped<IReadRepository<Entity, int>, YourRoRepository<Entity, int>>();
-services.AddScoped<IUnitOfWork<DbContext>, YourUnitOfWork<DbContext>>();
+// Inject the services in MauiProgram.cs
+builder
+    .UseMauiApp<App>()
+    .UseSingleScopeMaui();
 ```
 
 ## Contributions
@@ -112,4 +148,4 @@ Distributed under the [MIT License](https://github.com/muhirwanto-dev/singlescop
 
 [@muhirwanto-dev](https://github.com/muhirwanto-dev)
 
-Project link: [https://github.com/muhirwanto-dev/singlescope-plugins/tree/main/source/SingleScope.Persistence](https://github.com/muhirwanto-dev/singlescope-plugins/tree/main/source/SingleScope.Persistence)
+Project link: [https://github.com/muhirwanto-dev/singlescope-plugins/tree/main/source/SingleScope.Maui](https://github.com/muhirwanto-dev/singlescope-plugins/tree/main/source/SingleScope.Maui)

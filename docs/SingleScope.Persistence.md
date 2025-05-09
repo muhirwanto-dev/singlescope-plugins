@@ -16,7 +16,7 @@
 
 * **Core Abstractions for Data Persistence:** Provides fundamental interfaces and potentially base classes relevant to various data persistence tasks.
 * **Facilitates Data Access Patterns:** Simplifies the implementation of common patterns like Repository and Unit of Work.
-* **Generic `IReadWriteRepository<TEntity, TKey>`:** Defines standard data access operations (Add, Update, Delete, GetAll, Find, etc.) adaptable for any entity.
+* **Generic `IReadWriteRepository<TEntity>`:** Defines standard data access operations (Add, Update, Delete, GetAll, Find, etc.) adaptable for any entity.
 * **`IUnitOfWork` Interface:** Offers a mechanism for managing atomic operations and coordinating changes across multiple data operations within a single transaction.
 * **Promotes Separation of Concerns:** Helps isolate data access logic from your domain and application layers.
 * **Dependency Injection Friendly:** Designed for seamless integration with standard .NET dependency injection containers.
@@ -40,7 +40,7 @@ dotnet add package SingleScope.Persistence
 
 ## Usage
 
-This library provides several abstractions for persistence. Below is an example demonstrating how to use the `IReadWriteRepository<TEntity, TKey>` and `IUnitOfWork` interfaces, which are common components facilitated by this library. You might find other useful interfaces or base classes within the library depending on your specific persistence needs.
+This library provides several abstractions for persistence. Below is an example demonstrating how to use the `IReadWriteRepository<TEntity>` and `IUnitOfWork` interfaces, which are common components facilitated by this library. You might find other useful interfaces or base classes within the library depending on your specific persistence needs.
 
 **Define Your Entity**
 
@@ -59,20 +59,24 @@ public class Product : IEntity<int>
 
 ```csharp
 // Read-Write repository
-public class YourRwRepository<TEntity, TKey> : IReadWriteRepository<TEntity, TKey>
-    where TEntity : class
+public class YourRwRepository<TEntity> : IReadWriteRepository<TEntity>
+    where TEntity : class, IEntity
 {   
 }
 
 // Read-Only repository
-public class YourRoRepository<TEntity, TKey> : IReadRepository<TEntity, TKey>
-    where TEntity : class
+public class YourRoRepository<TEntity> : IReadRepository<TEntity>
+    where TEntity : class, IEntity
 {
 }
 
 // Unit of work
 public class YourUnitOfWork<TContext> : IUnitOfWork<TContext>
     where TContext : DbContext
+{
+}
+
+public class YourUnitOfWork : IUnitOfWork
 {
 }
 ```
@@ -85,8 +89,8 @@ already have the implementation of both `IReadWriteRepository` and `IUnitOfWork`
 ```csharp
 // Inject the services in Program.cs
 
-services.AddScoped<IReadWriteRepository<Entity, int>, YourRwRepository<Entity, int>>();
-services.AddScoped<IReadRepository<Entity, int>, YourRoRepository<Entity, int>>();
+services.AddScoped<IReadWriteRepository<Entity>, YourRwRepository<Entity>>();
+services.AddScoped<IReadRepository<Entity>, YourRoRepository<Entity>>();
 services.AddScoped<IUnitOfWork<DbContext>, YourUnitOfWork<DbContext>>();
 ```
 

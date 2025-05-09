@@ -7,6 +7,8 @@ namespace SingleScope.Maui
 {
     public class SingleScopeBuilderOptions
     {
+        public static readonly SingleScopeBuilderOptions Default = new();
+
         public LoadingOptions LoadingOptions { get; set; } = new();
 
         public AnimatedLoadingOptions AnimatedLoadingOptions { get; set; } = new();

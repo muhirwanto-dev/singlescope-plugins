@@ -60,6 +60,5 @@ namespace SingleScope.Persistence.Repository
     }
 
     public interface IReadRepository<TEntity, TContext> : IReadRepository<TEntity>
-        where TEntity : class, IEntity
-        ;
+        where TEntity : class, IEntity;
 }

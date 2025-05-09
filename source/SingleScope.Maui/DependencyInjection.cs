@@ -11,7 +11,12 @@ namespace SingleScope.Maui
 {
     public static class DependencyInjection
     {
-        public static MauiAppBuilder UseSingleScopePlugins(this MauiAppBuilder builder,
+        public static MauiAppBuilder UseSingleScopeMaui(this MauiAppBuilder builder)
+        {
+            return UseSingleScopeMaui(builder, SingleScopeBuilderOptions.Default);
+        }
+
+        public static MauiAppBuilder UseSingleScopeMaui(this MauiAppBuilder builder,
             SingleScopeBuilderOptions options)
         {
             builder.Services.Configure<AnimatedLoadingOptions>(opt =>
