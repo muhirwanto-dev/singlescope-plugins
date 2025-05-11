@@ -43,9 +43,13 @@ namespace SingleScope.Maui.SourceGenerator.Generators
                 foreach (var attribute in attributeList.Attributes)
                 {
                     var symbol = context.SemanticModel.GetSymbolInfo(attribute).Symbol?.ContainingType;
-                    if (symbol?.ToDisplayString() == AttributeNamespace)
+                    if (symbol != null)
                     {
-                        return context.SemanticModel.GetDeclaredSymbol(classDeclaration) as INamedTypeSymbol;
+                        var symbolName = symbol?.ToDisplayString();
+                        if (symbolName.StartsWith(AttributeNamespace))
+                        {
+                            return context.SemanticModel.GetDeclaredSymbol(classDeclaration) as INamedTypeSymbol;
+                        }
                     }
                 }
             }
@@ -60,7 +64,7 @@ namespace SingleScope.Maui.SourceGenerator.Generators
 
             // Retrieve attribute class data
             var attributeData = classSymbol.GetAttributes()
-                .First(attr => attr.AttributeClass?.ToDisplayString() == AttributeNamespace);
+                .First(attr => attr.AttributeClass?.ToDisplayString().StartsWith(AttributeNamespace) ?? false);
 
             // Full name with namespace
             var viewModelSymbol = attributeData.AttributeClass.IsGenericType

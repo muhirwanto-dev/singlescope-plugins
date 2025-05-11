@@ -3,7 +3,7 @@ using SingleScope.Sample.ViewModel;
 
 namespace SingleScope.Sample;
 
-[ViewModelOwner<ExampleViewModel>(IsDefaultConstructor = true)]
+[ViewModelOwner(typeof(ExampleViewModel), IsDefaultConstructor = true)]
 public partial class TestPage : ContentPage
 {
 }
