@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Text;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SingleScope.Maui.Dialogs;
 using SingleScope.Maui.Reporting.Enums;
@@ -26,40 +27,42 @@ namespace SingleScope.Maui.Reporting
 
         public async Task ReportAsync(Exception exception, string? message = null)
         {
+            StringBuilder sb = new();
+
             if (!string.IsNullOrEmpty(message))
             {
-                message += "\n---> Original stack trace:\n";
-            }
-            else
-            {
-                message = string.Empty;
+                sb.AppendLine(message);
+                sb.AppendLine("---> Original stack trace:");
             }
 
             ReportingMode mode = _options.ReportingMode;
 
             if ((mode & ReportingMode.EnableExceptionStackTrace) != 0)
             {
-                message += exception.StackTrace;
+                sb.AppendLine(exception.ToString());
             }
             else
             {
-                message += exception.Message;
+                sb.Append(exception.Message);
             }
+
+            // build the dialog message before adding the stack trace, so that it doesn't get included in the dialog message.
+            string dialogMessage = sb.ToString();
 
             if ((mode & ReportingMode.EnableLogging) != 0)
             {
                 // For logging, always add exception stack trace to the output.
                 if ((mode & ReportingMode.EnableExceptionStackTrace) == 0)
                 {
-                    message += exception.StackTrace;
+                    sb.AppendLine(exception.StackTrace);
                 }
 
-                _logger.LogError(message);
+                _logger.LogError(sb.ToString());
             }
 
             if ((mode & ReportingMode.EnableErrorDialog) != 0)
             {
-                await _dialogService.ShowErrorDialogAsync(message);
+                await _dialogService.ShowErrorDialogAsync(dialogMessage);
             }
         }
     }
