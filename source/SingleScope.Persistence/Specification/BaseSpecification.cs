@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace SingleScope.Persistence.Querying
+namespace SingleScope.Persistence.Specification
 {
     /// <summary>
     /// Base class for creating specifications, implementing ISpecification<T>.
@@ -29,7 +29,7 @@ namespace SingleScope.Persistence.Querying
         public Expression<Func<T, bool>>? Criteria { get; private set; }
 
         /// <inheritdoc/>
-        public List<Expression<Func<T, object>>> Includes { get; } = new List<Expression<Func<T, object>>>();
+        public List<Expression<Func<T, object>>> Includes { get; } = [];
 
         /// <inheritdoc/>
         public Expression<Func<T, object>>? OrderBy { get; private set; }

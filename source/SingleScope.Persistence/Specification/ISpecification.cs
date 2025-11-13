@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace SingleScope.Persistence.Querying
+namespace SingleScope.Persistence.Specification
 {
     /// <summary>
     /// Defines a contract for the Specification pattern.

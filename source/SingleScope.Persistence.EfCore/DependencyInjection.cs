@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using SingleScope.Persistence.EFCore.Querying;
 using SingleScope.Persistence.EFCore.Repository;
+using SingleScope.Persistence.EFCore.Specification;
 using SingleScope.Persistence.EFCore.UnitOfWork;
-using SingleScope.Persistence.Querying;
 using SingleScope.Persistence.Repository;
+using SingleScope.Persistence.Specification;
 using SingleScope.Persistence.UnitOfWork;
 
 namespace SingleScope.Persistence.EFCore

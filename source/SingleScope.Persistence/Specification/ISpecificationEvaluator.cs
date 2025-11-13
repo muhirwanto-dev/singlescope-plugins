@@ -1,4 +1,4 @@
-﻿namespace SingleScope.Persistence.Querying
+﻿namespace SingleScope.Persistence.Specification
 {
     /// <summary>
     /// Utility class to apply ISpecification logic to an IQueryable.

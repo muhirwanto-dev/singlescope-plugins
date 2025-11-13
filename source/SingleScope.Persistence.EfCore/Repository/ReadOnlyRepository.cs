@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SingleScope.Persistence.Entities;
-using SingleScope.Persistence.Querying;
 using SingleScope.Persistence.Repository;
+using SingleScope.Persistence.Specification;
 
 namespace SingleScope.Persistence.EFCore.Repository
 {
@@ -52,6 +52,11 @@ namespace SingleScope.Persistence.EFCore.Repository
             return _set.LongCountAsync(predicate, cancellation);
         }
 
+        public void DetatchFromTracking(TEntity entity)
+        {
+            _context.Entry(entity).State = EntityState.Detached;
+        }
+
         public TEntity? Find<TKey>(TKey key)
             where TKey : IEquatable<TKey>
         {
@@ -89,9 +94,29 @@ namespace SingleScope.Persistence.EFCore.Repository
             return _set.AsNoTracking().ToList();
         }
 
+        public IList<TEntity> GetAll(ISpecification<TEntity> specification)
+        {
+            return ApplySpecification(specification).ToList();
+        }
+
         public Task<List<TEntity>> GetAllAsync(CancellationToken cancellation = default)
         {
             return _set.AsNoTracking().ToListAsync(cancellation);
+        }
+
+        public IAsyncEnumerable<TEntity> StreamAllAsync()
+        {
+            return _set.AsNoTracking().AsAsyncEnumerable();
+        }
+
+        public Task<List<TEntity>> GetAllAsync(ISpecification<TEntity> specification, CancellationToken cancellation = default)
+        {
+            return ApplySpecification(specification).ToListAsync(cancellation);
+        }
+
+        public IAsyncEnumerable<TEntity> StreamAllAsync(ISpecification<TEntity> specification)
+        {
+            return ApplySpecification(specification).AsAsyncEnumerable();
         }
 
         public bool IsExists(Expression<Func<TEntity, bool>> predicate)
