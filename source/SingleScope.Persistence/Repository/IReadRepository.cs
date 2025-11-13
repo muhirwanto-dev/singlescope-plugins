@@ -62,6 +62,10 @@ namespace SingleScope.Persistence.Repository
 
         Task<List<TEntity>> WhereAsync(ISpecification<TEntity> specification, CancellationToken cancellation = default);
 
+        IAsyncEnumerable<TEntity> StreamWhereAsync(Expression<Func<TEntity, bool>> predicate);
+
+        IAsyncEnumerable<TEntity> StreamWhereAsync(ISpecification<TEntity> specification);
+
         Task<bool> IsExistsAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellation = default);
 
         Task<long> CountAsync(CancellationToken cancellation = default);

@@ -169,6 +169,16 @@ namespace SingleScope.Persistence.EFCore.Repository
             return ApplySpecification(specification).ToListAsync(cancellation);
         }
 
+        public IAsyncEnumerable<TEntity> StreamWhereAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return _set.AsNoTracking().Where(predicate).AsAsyncEnumerable();
+        }
+
+        public IAsyncEnumerable<TEntity> StreamWhereAsync(ISpecification<TEntity> specification)
+        {
+            return ApplySpecification(specification).AsAsyncEnumerable();
+        }
+
         /// <summary>
         /// Central method to apply the logic from an ISpecification object to the DbSet IQueryable.
         /// Delegates the actual application logic to the SpecificationEvaluator helper class.
