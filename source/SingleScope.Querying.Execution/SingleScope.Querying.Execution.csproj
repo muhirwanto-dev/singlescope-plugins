@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+
+    <AssemblyVersion>1.0.2</AssemblyVersion>
+    <FileVersion>1.0.2.0103</FileVersion>
+    <VersionPrefix>$(AssemblyVersion)</VersionPrefix>
+
+    <!--NuGet-->
+    <PackageId>SingleScope.Querying.Execution</PackageId>
+    <PackageTags>SingleScope;Plugin;Querying;NET</PackageTags>
+    <Title>SingleScope.Querying.Execution</Title>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SingleScope.Querying\SingleScope.Querying.csproj" />
+  </ItemGroup>
+
+</Project>

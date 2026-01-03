@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SingleScope.Querying\SingleScope.Querying.csproj" />
+    <ProjectReference Include="..\SingleScope.Querying.Execution\SingleScope.Querying.Execution.csproj" />
   </ItemGroup>
 
 </Project>

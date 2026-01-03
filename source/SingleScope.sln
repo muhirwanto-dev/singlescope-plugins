@@ -25,6 +25,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingleScope.Querying", "Sin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingleScope.Querying.Execution.EFCore", "SingleScope.Querying.Execution.EFCore\SingleScope.Querying.Execution.EFCore.csproj", "{37A27D7F-E1C7-8B30-FB3F-F964F464D35F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingleScope.Querying.Test", "..\tests\SingleScope.Querying.Test\SingleScope.Querying.Test.csproj", "{722B206F-F93F-4542-9D71-2ED0519975E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingleScope.Querying.Execution", "SingleScope.Querying.Execution\SingleScope.Querying.Execution.csproj", "{797A857D-5EB9-4392-A407-12DA648E7E3A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +81,14 @@ Global
 		{37A27D7F-E1C7-8B30-FB3F-F964F464D35F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37A27D7F-E1C7-8B30-FB3F-F964F464D35F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37A27D7F-E1C7-8B30-FB3F-F964F464D35F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{722B206F-F93F-4542-9D71-2ED0519975E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{722B206F-F93F-4542-9D71-2ED0519975E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{722B206F-F93F-4542-9D71-2ED0519975E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{722B206F-F93F-4542-9D71-2ED0519975E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{797A857D-5EB9-4392-A407-12DA648E7E3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{797A857D-5EB9-4392-A407-12DA648E7E3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{797A857D-5EB9-4392-A407-12DA648E7E3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{797A857D-5EB9-4392-A407-12DA648E7E3A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

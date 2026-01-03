@@ -1,33 +1,30 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using SingleScope.Querying.Abstractions;
+using SingleScope.Querying.Execution.Abstraction;
+using SingleScope.Querying.Execution.Cursor;
 using SingleScope.Querying.Execution.EFCore.Expressions;
 using SingleScope.Querying.Filtering;
 using SingleScope.Querying.Paging;
 using SingleScope.Querying.Sorting;
 
-namespace SingleScope.Querying.Execution.EFCore
+namespace SingleScope.Querying.Execution.EFCore.Queryable
 {
-    public class QueryableQueryExecutor<T> : IQueryExecutor<T>
+    public class EfQueryableQueryExecutor<T> : IQueryExecutor<IQueryable<T>, T>
     {
-        public QueryResult<T> Execute(Query query, IEnumerable<T> source)
+        public QueryResult<T> Execute(Query query, IQueryable<T> source)
         {
-            var queryable = ToQueryableOrThrow(source);
+            source = ApplyFiltering(source, query.Filters);
+            source = ApplySorting(source, query.Sort);
 
-            queryable = ApplyFiltering(queryable, query.Filters);
-            queryable = ApplySorting(queryable, query.Sort);
-
-            return ApplyPaging(queryable, query);
+            return ApplyPaging(source, query);
         }
 
-        public Task<QueryResult<T>> ExecuteAsync(Query query, IEnumerable<T> source, CancellationToken cancellationToken = default)
+        public Task<QueryResult<T>> ExecuteAsync(Query query, IQueryable<T> source, CancellationToken cancellationToken = default)
         {
-            var queryable = ToQueryableOrThrow(source);
+            source = ApplyFiltering(source, query.Filters);
+            source = ApplySorting(source, query.Sort);
 
-            queryable = ApplyFiltering(queryable, query.Filters);
-            queryable = ApplySorting(queryable, query.Sort);
-
-            return ApplyPagingAsync(queryable, query, cancellationToken);
+            return ApplyPagingAsync(source, query, cancellationToken);
         }
 
         private static IQueryable<T> ApplyFiltering(IQueryable<T> source, FilterOptions filters)
@@ -269,16 +266,6 @@ namespace SingleScope.Querying.Execution.EFCore
             return typeof(T)
                 .GetProperty(field)?
                 .GetValue(entity);
-        }
-
-        private static IQueryable<T> ToQueryableOrThrow(IEnumerable<T> source)
-        {
-            if (source is not IQueryable<T> queryable)
-            {
-                throw new InvalidOperationException();
-            }
-
-            return queryable;
         }
     }
 }
