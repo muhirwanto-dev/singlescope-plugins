@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using SingleScope.Querying.Abstractions;
 using SingleScope.Querying.Filtering;
 using SingleScope.Querying.Paging;
@@ -21,6 +23,11 @@ namespace SingleScope.Querying.Executors
             data = ApplySorting(data, query.Sort);
 
             return ApplyPaging(data, query);
+        }
+
+        public Task<QueryResult<T>> ExecuteAsync(Query query, IEnumerable<T> source, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(Execute(query, source));
         }
 
         private static IEnumerable<T> ApplyFiltering(IEnumerable<T> source, FilterOptions filters)
@@ -111,13 +118,11 @@ namespace SingleScope.Querying.Executors
             return ordered ?? source;
         }
 
-        private static QueryResult<T> ApplyPaging(
-            IEnumerable<T> source,
-            Query query)
+        private static QueryResult<T> ApplyPaging(IEnumerable<T> source, Query query)
         {
             if (query.UsesCursorPaging)
             {
-                var paging = query.CursorPaging;
+                var paging = query.CursorPaging!;
                 var prop = typeof(T).GetProperty(paging.CursorField)
                     ?? throw new InvalidOperationException(
                         $"Cursor field '{paging.CursorField}' not found on type '{typeof(T).Name}'.");

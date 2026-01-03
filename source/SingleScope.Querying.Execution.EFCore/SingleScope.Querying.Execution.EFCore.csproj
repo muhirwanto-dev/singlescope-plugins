@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0103</FileVersion>
+    <VersionPrefix>$(AssemblyVersion)</VersionPrefix>
+
+    <!--NuGet-->
+    <PackageId>SingleScope.Querying.Execution.EFCore</PackageId>
+    <PackageTags>SingleScope;Plugin;Querying;EFCore;NET</PackageTags>
+    <Title>SingleScope.Querying.Execution.EFCore</Title>  
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.11" Condition="'$(TargetFramework)' == 'net9.0'" />
+
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.1" Condition="'$(TargetFramework)' == 'net10.0'" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SingleScope.Querying\SingleScope.Querying.csproj" />
+  </ItemGroup>
+
+</Project>
