@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using SingleScope.Querying.Abstractions;
 using SingleScope.Querying.Filtering;
 using SingleScope.Querying.Paging;
 using SingleScope.Querying.Sorting;
@@ -10,6 +11,7 @@ using SingleScope.Querying.Sorting;
 namespace SingleScope.Querying.Executors
 {
     public sealed class EnumerableQueryExecutor<T>
+        : IQueryExecutor<T>
     {
         public QueryResult<T> Execute(Query query, IEnumerable<T> source)
         {
