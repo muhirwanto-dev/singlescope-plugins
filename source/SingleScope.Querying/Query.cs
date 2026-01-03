@@ -25,6 +25,14 @@ namespace SingleScope.Querying
         }
 
         public Query(
+            SortOptions? sort,
+            OffsetPaginationOptions? offsetPaging = null,
+            CursorPaginationOptions? cursorPaging = null)
+            : this(FilterOptions.Empty, sort, offsetPaging, cursorPaging)
+        {
+        }
+
+        public Query(
             FilterOptions filters,
             SortOptions? sort = null,
             OffsetPaginationOptions? offsetPaging = null,
