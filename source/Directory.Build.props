@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 
     <Authors>muhirwanto.dev</Authors>
     <Copyright>Copyright (c) muhirwanto.dev 2024</Copyright>

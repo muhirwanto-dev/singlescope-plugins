@@ -12,17 +12,17 @@
     <!--NuGet-->
     <PackageId>SingleScope.Querying.Execution.EFCore</PackageId>
     <PackageTags>SingleScope;Plugin;Querying;EFCore;NET</PackageTags>
+    <PackageDescription>SingleScope.Querying.Execution.EFCore provides Entity Framework Core–specific execution adapters for the SingleScope.Querying ecosystem.</PackageDescription>
     <Title>SingleScope.Querying.Execution.EFCore</Title>  
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.11" Condition="'$(TargetFramework)' == 'net9.0'" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.11" 
+                      Condition="'$(TargetFramework)' == 'net9.0'" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.1" 
+                      Condition="'$(TargetFramework)' == 'net10.0'" />
 
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.1" Condition="'$(TargetFramework)' == 'net10.0'" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\SingleScope.Querying.Execution\SingleScope.Querying.Execution.csproj" />
+    <PackageReference Include="SingleScope.Querying.Execution" Version="1.0.0" />
   </ItemGroup>
 
 </Project>
