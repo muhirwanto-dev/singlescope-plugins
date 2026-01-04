@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
 
     <AssemblyVersion>1.0.2</AssemblyVersion>
-    <FileVersion>1.0.2.0103</FileVersion>
+    <FileVersion>1.0.2.0104</FileVersion>
     <VersionPrefix>$(AssemblyVersion)</VersionPrefix>
 
     <!--NuGet-->
