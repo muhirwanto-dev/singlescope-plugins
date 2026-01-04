@@ -5,6 +5,8 @@ namespace SingleScope.Persistence.EFCore.Specifications
 {
     internal class SpecificationEvaluator : ISpecificationEvaluator
     {
+        public static readonly SpecificationEvaluator Default = new();
+
         public IQueryable<TEntity> Apply<TEntity>(IQueryable<TEntity> query, ISpecification<TEntity> specification, bool evaluateCriteriaOnly = false)
             where TEntity : class
         {

@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using SingleScope.Persistence.Abstraction;
+using SingleScope.Persistence.EFCore.Specifications;
 using SingleScope.Querying;
 using SingleScope.Querying.Execution.EFCore.Extensions;
 
@@ -16,7 +17,7 @@ namespace SingleScope.Persistence.EFCore.Repositories
     /// Initializes a new instance of the <see cref="EfCoreRepository{TEntity, TKey, TContext}"/> class.
     /// </remarks>
     /// <param name="dbContext">The EF Core DbContext.</param>
-    public class ReadRepository<TEntity, TContext>(TContext @context, ISpecificationEvaluator _specificationEvaluator) : IReadRepository<TEntity, TContext>
+    public class ReadRepository<TEntity, TContext>(TContext @context) : IReadRepository<TEntity, TContext>
         where TEntity : class, IEntity
         where TContext : DbContext
     {
@@ -192,7 +193,7 @@ namespace SingleScope.Persistence.EFCore.Repositories
         protected virtual IQueryable<TEntity> ApplySpecification(ISpecification<TEntity> specification, bool evaluateCriteriaOnly = false, bool track = false)
         {
             // Use AsNoTracking() for read operations by default to improve performance.
-            return _specificationEvaluator.Apply(track ? _set.AsTracking() : _set.AsNoTracking(), specification, evaluateCriteriaOnly);
+            return SpecificationEvaluator.Default.Apply(track ? _set.AsTracking() : _set.AsNoTracking(), specification, evaluateCriteriaOnly);
         }
     }
 }

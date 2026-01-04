@@ -14,8 +14,7 @@ namespace SingleScope.Persistence.EFCore.UnitOfWork
     /// Initializes a new instance of the <see cref="UnitOfWork{TContext}"/> class.
     /// </remarks>
     /// <param name="dbContext">The _context instance, typically provided by Dependency Injection.</param>
-    public class UnitOfWork<TContext>(TContext dbContext,
-        ISpecificationEvaluator _specificationEvaluator) : IUnitOfWork<TContext>
+    public class UnitOfWork<TContext>(TContext dbContext) : IUnitOfWork<TContext>
         where TContext : DbContext
     {
         protected readonly TContext _context = dbContext;
@@ -35,7 +34,7 @@ namespace SingleScope.Persistence.EFCore.UnitOfWork
             }
 
             // use the same context as the UoW
-            var rw = new ReadWriteRepository<TEntity, TContext>(_context, _specificationEvaluator);
+            var rw = new ReadWriteRepository<TEntity, TContext>(_context);
 
             _repositories[key] = rw;
 

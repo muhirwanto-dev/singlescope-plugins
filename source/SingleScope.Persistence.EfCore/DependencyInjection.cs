@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using SingleScope.Persistence.Abstraction;
 using SingleScope.Persistence.EFCore.Repositories;
-using SingleScope.Persistence.EFCore.Specifications;
 using SingleScope.Persistence.EFCore.UnitOfWork;
 
 namespace SingleScope.Persistence.EFCore
@@ -14,8 +13,7 @@ namespace SingleScope.Persistence.EFCore
             ) => services
                 .AddScoped(typeof(IReadWriteRepository<,>), typeof(ReadWriteRepository<,>))
                 .AddScoped(typeof(IReadRepository<,>), typeof(ReadRepository<,>))
-                .AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>))
-                .AddSingleton<ISpecificationEvaluator, SpecificationEvaluator>();
+                .AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
 
         public static IServiceCollection AddEfCorePersistence<TContext>(
             this IServiceCollection services,
