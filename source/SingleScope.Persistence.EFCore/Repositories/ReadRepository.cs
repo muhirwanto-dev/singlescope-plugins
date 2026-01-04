@@ -21,7 +21,7 @@ namespace SingleScope.Persistence.EFCore.Repositories
         where TEntity : class, IEntity
         where TContext : DbContext
     {
-        protected readonly DbContext _context = @context;
+        protected readonly TContext _context = @context;
         protected readonly DbSet<TEntity> _set = @context.Set<TEntity>();
 
         public long Count()
