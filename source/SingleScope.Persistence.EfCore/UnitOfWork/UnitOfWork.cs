@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using SingleScope.Persistence.UnitOfWork;
+using SingleScope.Persistence.Abstraction;
+using SingleScope.Persistence.EFCore.Repositories;
 
 namespace SingleScope.Persistence.EFCore.UnitOfWork
 {
@@ -9,35 +10,36 @@ namespace SingleScope.Persistence.EFCore.UnitOfWork
     /// Wraps a _context instance to manage saving changes and optionally transactions.
     /// </summary>
     /// <typeparam name="TContext">The type of the _context being wrapped.</typeparam>
-    public class UnitOfWork<TContext> : IUnitOfWork<TContext>
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="UnitOfWork{TContext}"/> class.
+    /// </remarks>
+    /// <param name="dbContext">The _context instance, typically provided by Dependency Injection.</param>
+    public class UnitOfWork<TContext>(TContext dbContext,
+        ISpecificationEvaluator _specificationEvaluator) : IUnitOfWork<TContext>
         where TContext : DbContext
     {
-        protected readonly TContext _context;
-        private readonly Dictionary<Type, object> _repositories = new();
+        protected readonly TContext _context = dbContext;
+        private readonly Dictionary<Type, object> _repositories = [];
 
-        private IDbContextTransaction? _currentTransaction; // Tracks the explicit transaction, if any
+        private IDbContextTransaction? _currentTransaction;
         private bool _disposed = false;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UnitOfWork{TContext}"/> class.
-        /// </summary>
-        /// <param name="dbContext">The _context instance, typically provided by Dependency Injection.</param>
-        public UnitOfWork(TContext dbContext)
+        public IReadWriteRepository<TEntity> GetRepository<TEntity>()
+            where TEntity : class, IEntity
         {
-            _context = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-        }
+            var key = typeof(TEntity);
 
-        public TRepository GetRepository<TRepository>()
-            where TRepository : notnull
-        {
-            return _repositories.TryGetValue(typeof(TRepository), out var repository) ? (TRepository)repository :
-                throw new NullReferenceException($"No valid repository exist: {typeof(TRepository)}");
-        }
+            if (_repositories.TryGetValue(key, out var repository))
+            {
+                return (IReadWriteRepository<TEntity>)repository;
+            }
 
-        protected void AddRepository<TRepository>(TRepository repository)
-            where TRepository : notnull
-        {
-            _repositories.Add(typeof(TRepository), repository);
+            // use the same context as the UoW
+            var rw = new ReadWriteRepository<TEntity, TContext>(_context, _specificationEvaluator);
+
+            _repositories[key] = rw;
+
+            return rw;
         }
 
         /// <summary>
@@ -126,6 +128,23 @@ namespace SingleScope.Persistence.EFCore.UnitOfWork
             finally
             {
                 await DisposeTransactionInternalAsync();
+            }
+        }
+
+        public async Task ExecuteAsync(Func<CancellationToken, Task> action, CancellationToken cancellationToken = default)
+        {
+            await BeginTransactionAsync(cancellationToken);
+
+            try
+            {
+                await action(cancellationToken);
+                await SaveChangesAsync(cancellationToken);
+                await CommitTransactionAsync(cancellationToken);
+            }
+            catch
+            {
+                await RollbackTransactionAsync(cancellationToken);
+                throw;
             }
         }
 

@@ -1,16 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SingleScope.Persistence.Specification;
+using SingleScope.Persistence.Abstraction;
 
-namespace SingleScope.Persistence.EFCore.Specification
+namespace SingleScope.Persistence.EFCore.Specifications
 {
     internal class SpecificationEvaluator : ISpecificationEvaluator
     {
-        public IQueryable<TEntity> GetQuery<TEntity>(IQueryable<TEntity> inputQuery, ISpecification<TEntity> specification, bool evaluateCriteriaOnly = false)
+        public IQueryable<TEntity> Apply<TEntity>(IQueryable<TEntity> query, ISpecification<TEntity> specification, bool evaluateCriteriaOnly = false)
             where TEntity : class
         {
-            var query = inputQuery;
-
-            // 1. Apply filtering criteria (WHERE clause)
             if (specification.Criteria != null)
             {
                 query = query.Where(specification.Criteria);

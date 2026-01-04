@@ -1,11 +1,10 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using SingleScope.Persistence.Entities;
-using SingleScope.Persistence.Repository;
-using SingleScope.Persistence.Specification;
+using SingleScope.Persistence.Abstraction;
+using SingleScope.Querying;
+using SingleScope.Querying.Execution.EFCore.Extensions;
 
-namespace SingleScope.Persistence.EFCore.Repository
+namespace SingleScope.Persistence.EFCore.Repositories
 {
     /// <summary>
     /// Generic repository implementation using Entity Framework Core.
@@ -13,24 +12,16 @@ namespace SingleScope.Persistence.EFCore.Repository
     /// </summary>
     /// <typeparam name="TEntity">The entity type.</typeparam>
     /// <typeparam name="TContext">The DbContext type.</typeparam>
-    public class ReadOnlyRepository<TEntity, TContext> : IReadRepository<TEntity, TContext>
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="EfCoreRepository{TEntity, TKey, TContext}"/> class.
+    /// </remarks>
+    /// <param name="dbContext">The EF Core DbContext.</param>
+    public class ReadRepository<TEntity, TContext>(TContext @context, ISpecificationEvaluator _specificationEvaluator) : IReadRepository<TEntity, TContext>
         where TEntity : class, IEntity
         where TContext : DbContext
     {
-        protected readonly TContext _context;
-        protected readonly DbSet<TEntity> _set;
-        private readonly ISpecificationEvaluator _specificationEvaluator;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EfCoreRepository{TEntity, TKey, TContext}"/> class.
-        /// </summary>
-        /// <param name="dbContext">The EF Core DbContext.</param>
-        public ReadOnlyRepository(TContext dbContext)
-        {
-            _context = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-            _set = _context.Set<TEntity>();
-            _specificationEvaluator = ServiceLocator.Provider.GetService<ISpecificationEvaluator>() ?? throw new ArgumentNullException(nameof(_specificationEvaluator));
-        }
+        protected readonly DbContext _context = @context;
+        protected readonly DbSet<TEntity> _set = @context.Set<TEntity>();
 
         public long Count()
         {
@@ -104,14 +95,14 @@ namespace SingleScope.Persistence.EFCore.Repository
             return _set.AsNoTracking().ToListAsync(cancellation);
         }
 
-        public IAsyncEnumerable<TEntity> StreamAllAsync()
-        {
-            return _set.AsNoTracking().AsAsyncEnumerable();
-        }
-
         public Task<List<TEntity>> GetAllAsync(ISpecification<TEntity> specification, CancellationToken cancellation = default)
         {
             return ApplySpecification(specification).ToListAsync(cancellation);
+        }
+
+        public IAsyncEnumerable<TEntity> StreamAllAsync()
+        {
+            return _set.AsNoTracking().AsAsyncEnumerable();
         }
 
         public IAsyncEnumerable<TEntity> StreamAllAsync(ISpecification<TEntity> specification)
@@ -179,6 +170,18 @@ namespace SingleScope.Persistence.EFCore.Repository
             return ApplySpecification(specification).AsAsyncEnumerable();
         }
 
+        public Task<QueryResult<TEntity>> QueryAsync(Query query, CancellationToken cancellation = default)
+        {
+            return query.ExecuteAsync(_set.AsNoTracking(), cancellation);
+        }
+
+        public Task<QueryResult<TEntity>> QueryAsync(Query query, ISpecification<TEntity> specification, CancellationToken cancellation = default)
+        {
+            var queryable = ApplySpecification(specification);
+
+            return query.ExecuteAsync(queryable, cancellation);
+        }
+
         /// <summary>
         /// Central method to apply the logic from an ISpecification object to the DbSet IQueryable.
         /// Delegates the actual application logic to the SpecificationEvaluator helper class.
@@ -189,7 +192,7 @@ namespace SingleScope.Persistence.EFCore.Repository
         protected virtual IQueryable<TEntity> ApplySpecification(ISpecification<TEntity> specification, bool evaluateCriteriaOnly = false, bool track = false)
         {
             // Use AsNoTracking() for read operations by default to improve performance.
-            return _specificationEvaluator.GetQuery(track ? _set.AsTracking() : _set.AsNoTracking(), specification, evaluateCriteriaOnly);
+            return _specificationEvaluator.Apply(track ? _set.AsTracking() : _set.AsNoTracking(), specification, evaluateCriteriaOnly);
         }
     }
 }

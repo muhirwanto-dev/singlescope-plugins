@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SingleScope.Persistence.Entities;
-using SingleScope.Persistence.Repository;
+using SingleScope.Persistence.Abstraction;
 
-namespace SingleScope.Persistence.EFCore.Repository
+namespace SingleScope.Persistence.EFCore.Repositories
 {
     /// <summary>
     /// Generic repository implementation using Entity Framework Core.
@@ -11,15 +10,12 @@ namespace SingleScope.Persistence.EFCore.Repository
     /// <typeparam name="TEntity">The entity type.</typeparam>
     /// <typeparam name="TKey">The entity's primary key type.</typeparam>
     /// <typeparam name="TContext">The DbContext type.</typeparam>
-    public class ReadWriteRepository<TEntity, TContext> : ReadOnlyRepository<TEntity, TContext>, IReadWriteRepository<TEntity, TContext>
+    public class ReadWriteRepository<TEntity, TContext>(TContext @context, ISpecificationEvaluator specificationEvaluator)
+        : ReadRepository<TEntity, TContext>(@context, specificationEvaluator)
+        , IReadWriteRepository<TEntity, TContext>
         where TEntity : class, IEntity
         where TContext : DbContext
     {
-        public ReadWriteRepository(TContext dbContext)
-            : base(dbContext)
-        {
-        }
-
         public void Add(TEntity entity)
         {
             _set.Add(entity);

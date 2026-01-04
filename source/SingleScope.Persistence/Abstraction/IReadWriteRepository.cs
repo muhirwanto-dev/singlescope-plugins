@@ -1,14 +1,6 @@
-﻿using SingleScope.Persistence.Entities;
-
-namespace SingleScope.Persistence.Repository
+﻿namespace SingleScope.Persistence.Abstraction
 {
-    /// <summary>
-    /// Interface defining write operations for a repository.
-    /// Designed to be potentially used independently.
-    /// </summary>
-    /// <typeparam name="TEntity">The type of the entity.</typeparam>
-    /// <typeparam name="TKey">The type of the entity's primary key.</typeparam>
-    public interface IWriteRepository<TEntity>
+    public interface IReadWriteRepository<TEntity> : IReadRepository<TEntity>, IRepository<TEntity>
         where TEntity : class, IEntity
     {
         /// <summary>
@@ -79,4 +71,7 @@ namespace SingleScope.Persistence.Repository
 
         Task SaveAsync(CancellationToken cancellationToken = default);
     }
+
+    public interface IReadWriteRepository<TEntity, TContext> : IReadWriteRepository<TEntity>, IReadRepository<TEntity, TContext>
+        where TEntity : class, IEntity;
 }

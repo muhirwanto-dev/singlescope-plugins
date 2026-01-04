@@ -1,4 +1,4 @@
-# SingleScope.Persistence
+# SingleScope.Persistence.EFCore
 
 [![NuGet Version](https://img.shields.io/nuget/v/SingleScope.Persistence.EFCore.svg?style=flat-square)](https://www.nuget.org/packages/SingleScope.Persistence.EFCore/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/SingleScope.Persistence.EFCore.svg?style=flat-square)](https://www.nuget.org/packages/SingleScope.Persistence.EFCore/)
@@ -14,7 +14,7 @@ This library provides concrete implementations of the generic `IReadWriteReposit
 
 ## Features
 
-* Generic Repository implementation (`ReadWriteRepository`, `ReadOnlyRepository`) for `EntityFrameworkCore`.
+* Generic ReadWriteRepository implementation (`ReadWriteRepository`, `ReadOnlyRepository`) for `EntityFrameworkCore`.
 * Unit of Work implementation (`UnitOfWork`) to manage transactions across multiple repositories.
 * Easy integration with .NET Dependency Injection.
 
@@ -49,10 +49,10 @@ public class YourDbContext : DbContext
 }
 ```
 
-**Implement `*Repository<TEntity>` and `UnitOfWork`**
+**Implement `*ReadWriteRepository<TEntity>` and `UnitOfWork`**
 
 ```csharp
-using SingleScope.Persistence.EFCore.Repository;
+using SingleScope.Persistence.EFCore.Repositories;
 using SingleScope.Persistence.EFCore.UnitOfWork;
 
 // Read-Write repository
@@ -89,14 +89,14 @@ public class YourUnitOfWork<TContext> : UnitOfWork<TContext>
 ```csharp
 // Inject the services in Program.cs
 
-// Option 1: inject generic Repository & UnitOfWork with db context at once
+// Option 1: inject generic ReadWriteRepository & UnitOfWork with db context at once
 services.AddEfCorePersistence<YourDbContext>(builder => builder.UseSqlServer("your connection string"));
 
-// Option 2: inject generic Repository & UnitOfWork and db context separately
+// Option 2: inject generic ReadWriteRepository & UnitOfWork and db context separately
 services.AddEfCorePersistence();
 services.AddDbContext<YourDbContext>(builder => builder.UseSqlServer("your connection string"));
 
-// Inject specific Repository & UnitOfWork
+// Inject specific ReadWriteRepository & UnitOfWork
 services.AddScoped<IReadWriteRepository<YourEntity, YourDbContext>, YourRwRepository<YourEntity, YourDbContext>>();
 services.AddScoped<IReadRepository<YourEntity, YourDbContext>, YourRoRepository<YourEntity, YourDbContext>>();
 services.AddScoped<IUnitOfWork<YourDbContext>, YourUnitOfWork<YourDbContext>>();

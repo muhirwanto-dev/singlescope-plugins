@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
+using SingleScope.Persistence.Abstraction;
 
-namespace SingleScope.Persistence.Specification
+namespace SingleScope.Persistence.Specifications
 {
     /// <summary>
     /// Base class for creating specifications, implementing ISpecification<T>.
@@ -29,7 +30,7 @@ namespace SingleScope.Persistence.Specification
         public Expression<Func<T, bool>>? Criteria { get; private set; }
 
         /// <inheritdoc/>
-        public List<Expression<Func<T, object>>> Includes { get; } = [];
+        public List<Expression<Func<T, object?>>> Includes { get; } = [];
 
         /// <inheritdoc/>
         public Expression<Func<T, object>>? OrderBy { get; private set; }
@@ -55,7 +56,7 @@ namespace SingleScope.Persistence.Specification
         /// Adds an include expression for eager loading related data.
         /// </summary>
         /// <param name="includeExpression">The expression specifying the related data to include.</param>
-        protected virtual void AddInclude(Expression<Func<T, object>> includeExpression)
+        protected virtual void AddInclude(Expression<Func<T, object?>> includeExpression)
         {
             Includes.Add(includeExpression);
         }

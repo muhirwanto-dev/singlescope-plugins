@@ -1,4 +1,4 @@
-﻿namespace SingleScope.Persistence.UnitOfWork
+﻿namespace SingleScope.Persistence.Abstraction
 {
     /// <summary>
     /// Defines the contract for a Unit of Work.
@@ -11,7 +11,8 @@
         /// </summary>
         /// <typeparam name="TRepository"></typeparam>
         /// <returns></returns>
-        TRepository GetRepository<TRepository>() where TRepository : notnull;
+        IReadWriteRepository<TEntity> GetRepository<TEntity>()
+            where TEntity : class, IEntity;
 
         /// <summary>
         /// Saves all changes made within the current unit of work scope to the underlying data store.
@@ -38,6 +39,14 @@
         /// </summary>
         /// <param name="cancellationToken">Cancellation token.</param>
         Task RollbackTransactionAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Executes the provided action within the unit of work scope.
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task ExecuteAsync(Func<CancellationToken, Task> action, CancellationToken cancellationToken = default);
     }
 
     public interface IUnitOfWork<TContext> : IUnitOfWork;

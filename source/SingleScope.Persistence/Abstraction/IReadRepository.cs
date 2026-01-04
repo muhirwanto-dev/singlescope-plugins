@@ -1,15 +1,18 @@
 ﻿using System.Linq.Expressions;
-using SingleScope.Persistence.Entities;
-using SingleScope.Persistence.Specification;
+using SingleScope.Querying;
 
-namespace SingleScope.Persistence.Repository
+namespace SingleScope.Persistence.Abstraction
 {
     /// <summary>
-    /// Interface defining read operations for a repository.
-    /// Designed to be potentially used independently (e.g., in CQRS read models).
+    /// Defines a read-only repository for querying entities of a specified type from a data source.
     /// </summary>
-    /// <typeparam name="TEntity">The type of the entity.</typeparam>
-    public interface IReadRepository<TEntity>
+    /// <remarks>This interface provides a set of methods for retrieving entities using various query
+    /// patterns, including key-based lookup, predicate expressions, and specifications. It supports both synchronous
+    /// and asynchronous operations, as well as streaming for large result sets. Implementations are expected to provide
+    /// read-only access and should not expose methods for modifying or deleting entities. Thread safety and query
+    /// capabilities may vary depending on the underlying data source.</remarks>
+    /// <typeparam name="TEntity">The type of entity managed by the repository. Must implement the IEntity interface.</typeparam>
+    public interface IReadRepository<TEntity> : IRepository<TEntity>
         where TEntity : class, IEntity
     {
         TEntity? Find<TKey>(TKey key)
@@ -52,9 +55,9 @@ namespace SingleScope.Persistence.Repository
 
         Task<List<TEntity>> GetAllAsync(CancellationToken cancellation = default);
 
-        IAsyncEnumerable<TEntity> StreamAllAsync();
-
         Task<List<TEntity>> GetAllAsync(ISpecification<TEntity> specification, CancellationToken cancellation = default);
+
+        IAsyncEnumerable<TEntity> StreamAllAsync();
 
         IAsyncEnumerable<TEntity> StreamAllAsync(ISpecification<TEntity> specification);
 
@@ -71,6 +74,10 @@ namespace SingleScope.Persistence.Repository
         Task<long> CountAsync(CancellationToken cancellation = default);
 
         Task<long> CountAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellation = default);
+
+        Task<QueryResult<TEntity>> QueryAsync(Query query, CancellationToken cancellation = default);
+
+        Task<QueryResult<TEntity>> QueryAsync(Query query, ISpecification<TEntity> specification, CancellationToken cancellation = default);
     }
 
     public interface IReadRepository<TEntity, TContext> : IReadRepository<TEntity>

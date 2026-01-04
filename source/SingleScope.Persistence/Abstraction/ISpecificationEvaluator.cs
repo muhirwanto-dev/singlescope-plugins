@@ -1,4 +1,4 @@
-﻿namespace SingleScope.Persistence.Specification
+﻿namespace SingleScope.Persistence.Abstraction
 {
     /// <summary>
     /// Utility class to apply ISpecification logic to an IQueryable.
@@ -19,7 +19,7 @@
         /// and paging are unnecessary and would add overhead. Defaults to false.
         /// </param>
         /// <returns>An IQueryable<TEntity> with the specification's logic applied.</returns>
-        public IQueryable<TEntity> GetQuery<TEntity>(IQueryable<TEntity> inputQuery, ISpecification<TEntity> specification, bool evaluateCriteriaOnly = false)
+        public IQueryable<TEntity> Apply<TEntity>(IQueryable<TEntity> query, ISpecification<TEntity> specification, bool evaluateCriteriaOnly = false)
             where TEntity : class;
     }
 }

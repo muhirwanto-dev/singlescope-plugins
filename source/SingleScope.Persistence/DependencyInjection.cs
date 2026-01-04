@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using SingleScope.Persistence.Entities;
-using SingleScope.Persistence.Repository;
+using SingleScope.Persistence.Abstraction;
 
 namespace SingleScope.Persistence
 {
@@ -12,7 +11,6 @@ namespace SingleScope.Persistence
             where TEntity : class, IEntity
         {
             Type rr = typeof(IReadRepository<TEntity>);
-            Type wr = typeof(IWriteRepository<TEntity>);
             Type rw = typeof(IReadWriteRepository<TEntity>);
 
             services.AddScoped<TImpl>();
@@ -20,11 +18,6 @@ namespace SingleScope.Persistence
             if (rr.IsAssignableFrom(typeof(TImpl)))
             {
                 services.AddScoped(sp => (IReadRepository<TEntity>)sp.GetRequiredService<TImpl>());
-            }
-
-            if (wr.IsAssignableFrom(typeof(TImpl)))
-            {
-                services.AddScoped(sp => (IWriteRepository<TEntity>)sp.GetRequiredService<TImpl>());
             }
 
             if (rw.IsAssignableFrom(typeof(TImpl)))
@@ -52,7 +45,6 @@ namespace SingleScope.Persistence
             where TEntity : class, IEntity
         {
             Type rr = typeof(IReadRepository<TEntity>);
-            Type wr = typeof(IWriteRepository<TEntity>);
             Type rw = typeof(IReadWriteRepository<TEntity>);
 
             services.AddTransient<TImpl>();
@@ -60,11 +52,6 @@ namespace SingleScope.Persistence
             if (rr.IsAssignableFrom(typeof(TImpl)))
             {
                 services.AddTransient(sp => (IReadRepository<TEntity>)sp.GetRequiredService<TImpl>());
-            }
-
-            if (wr.IsAssignableFrom(typeof(TImpl)))
-            {
-                services.AddTransient(sp => (IWriteRepository<TEntity>)sp.GetRequiredService<TImpl>());
             }
 
             if (rw.IsAssignableFrom(typeof(TImpl)))
@@ -92,7 +79,6 @@ namespace SingleScope.Persistence
             where TEntity : class, IEntity
         {
             Type rr = typeof(IReadRepository<TEntity>);
-            Type wr = typeof(IWriteRepository<TEntity>);
             Type rw = typeof(IReadWriteRepository<TEntity>);
 
             services.AddSingleton<TImpl>();
@@ -100,11 +86,6 @@ namespace SingleScope.Persistence
             if (rr.IsAssignableFrom(typeof(TImpl)))
             {
                 services.AddSingleton(sp => (IReadRepository<TEntity>)sp.GetRequiredService<TImpl>());
-            }
-
-            if (wr.IsAssignableFrom(typeof(TImpl)))
-            {
-                services.AddSingleton(sp => (IWriteRepository<TEntity>)sp.GetRequiredService<TImpl>());
             }
 
             if (rw.IsAssignableFrom(typeof(TImpl)))

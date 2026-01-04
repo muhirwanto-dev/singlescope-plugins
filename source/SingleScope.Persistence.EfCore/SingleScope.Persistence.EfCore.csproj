@@ -4,18 +4,18 @@
     <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyVersion>3.1.0</AssemblyVersion>
-    <FileVersion>3.1.0.1114</FileVersion>
+    <AssemblyVersion>4.0.0</AssemblyVersion>
+    <FileVersion>4.0.0.0104</FileVersion>
     <VersionPrefix>$(AssemblyVersion)</VersionPrefix>
   </PropertyGroup>
 
   <!--NuGet properties-->
   <PropertyGroup>
     <PackageId>SingleScope.Persistence.EFCore</PackageId>
-    <PackageTags>SingleScope;Plugin;Persistence;Repository;EFCore</PackageTags>
+    <PackageTags>SingleScope;Plugin;Persistence;ReadWriteRepository;EFCore</PackageTags>
     <Title>SingleScope.Persistence.EFCore</Title>
     <Description>
-      `SingleScope.Persistence.EFCore` implements Repository and Unit of Work abstraction using `EntityFrameworkCore`.
+      `SingleScope.Persistence.EFCore` implements ReadWriteRepository and Unit of Work abstraction using `EntityFrameworkCore`.
     </Description>
     <PackageReadmeFile>docs\SingleScope.Persistence.EFCore.md</PackageReadmeFile>
   </PropertyGroup>
@@ -25,15 +25,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.*"
-                      Condition="'$(TargetFramework)' == 'net9.0'" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.*" Condition="'$(TargetFramework)' == 'net9.0'" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.*" Condition="'$(TargetFramework)' == 'net10.0'" />
 
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.*"
-                      Condition="'$(TargetFramework)' == 'net10.0'" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\SingleScope.Persistence\SingleScope.Persistence.csproj" />
+    <PackageReference Include="SingleScope.Persistence" Version="6.0.0" />
+    <PackageReference Include="SingleScope.Querying.Execution.EFCore" Version="1.0.0" />
   </ItemGroup>
 
 </Project>

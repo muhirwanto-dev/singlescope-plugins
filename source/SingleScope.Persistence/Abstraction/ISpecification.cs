@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace SingleScope.Persistence.Specification
+namespace SingleScope.Persistence.Abstraction
 {
     /// <summary>
     /// Defines a contract for the Specification pattern.
@@ -17,7 +17,7 @@ namespace SingleScope.Persistence.Specification
         /// <summary>
         /// Gets the list of related entities to include (eager loading).
         /// </summary>
-        List<Expression<Func<T, object>>> Includes { get; }
+        List<Expression<Func<T, object?>>> Includes { get; }
 
         /// <summary>
         /// Gets the expression for ascending order sorting.
