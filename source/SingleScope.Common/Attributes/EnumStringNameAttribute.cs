@@ -1,4 +1,6 @@
-﻿namespace SingleScope.Common.Attributes
+﻿using System;
+
+namespace SingleScope.Common.Attributes
 {
     [AttributeUsage(AttributeTargets.Field, Inherited = false)]
     public sealed class EnumStringNameAttribute : Attribute
