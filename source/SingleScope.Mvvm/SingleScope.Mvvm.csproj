@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
+    <Nullable>enable</Nullable>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0105</FileVersion>
+    <VersionPrefix>$(AssemblyVersion)</VersionPrefix>
+  </PropertyGroup>
+
+  <!--NuGet properties-->
+  <PropertyGroup>
+    <PackageId>SingleScope.Mvvm</PackageId>
+    <PackageTags>SingleScope;Plugin;MVVM</PackageTags>
+    <Title>SingleScope.Mvvm</Title>
+    <Description>
+      A lightweight, modern MVVM foundation built on top of CommunityToolkit.Mvvm.
+      It focuses on architecture and structure, not reimplementing MVVM mechanics.
+    </Description>
+    <PackageReadmeFile>docs\SingleScope.Mvvm.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\docs\SingleScope.Mvvm.md" Pack="true" PackagePath="docs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="SingleScope.Common" Version="4.1.0" />
+  </ItemGroup>
+
+
+</Project>
