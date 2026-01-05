@@ -26,6 +26,9 @@ namespace SingleScope.Reporting.Maui.Sinks
             CancellationToken cancellationToken)
         {
             var page = Application.Current?.Windows[0].Page;
+            var message = mode.HasFlag(ReportingMode.IncludeStackTrace) && report.Exception != null
+                ? $"{report.Message}\n\n{report.Exception}"
+                : report.Message;
 
 #if NET10_0_OR_GREATER
             return MainThread.InvokeOnMainThreadAsync(() => page?.DisplayAlertAsync(
@@ -33,7 +36,7 @@ namespace SingleScope.Reporting.Maui.Sinks
             return MainThread.InvokeOnMainThreadAsync(() => page?.DisplayAlert(
 #endif // NET10_0_OR_GREATER
                 "Error",
-                report.Message,
+                message,
                 "Ok"
                 ));
         }
