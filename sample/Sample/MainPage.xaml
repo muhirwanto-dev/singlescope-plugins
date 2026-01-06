@@ -7,14 +7,11 @@
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
-            <Image Source="dotnet_bot.png" />
-            <Image Source="loading_example.gif" />
-            
             <Image
                 Source="dotnet_bot.png"
                 HeightRequest="185"
                 Aspect="AspectFit"
-                SemanticProperties.Description="dot net bot in a race car number eight" />
+                SemanticProperties.Description="dot net bot in a submarine number ten" />
 
             <Label
                 Text="Hello, World!"

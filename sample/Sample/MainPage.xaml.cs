@@ -1,15 +1,22 @@
-﻿namespace Sample
+﻿using Sample.Views;
+using SingleScope.Navigations.Abstractions;
+
+namespace Sample
 {
     public partial class MainPage : ContentPage
     {
-        public MainPage()
-        {
-            InitializeComponent();
-        }
+        private readonly INavigationService _navigationService;
 
         int count = 0;
 
-        private void OnCounterClicked(object sender, EventArgs e)
+        public MainPage(INavigationService navigationService)
+        {
+            _navigationService = navigationService;
+
+            InitializeComponent();
+        }
+
+        private void OnCounterClicked(object? sender, EventArgs e)
         {
             count++;
 
@@ -19,7 +26,8 @@
                 CounterBtn.Text = $"Clicked {count} times";
 
             SemanticScreenReader.Announce(CounterBtn.Text);
+
+            _navigationService.NavigateToAsync<OnePageView>();
         }
     }
-
 }

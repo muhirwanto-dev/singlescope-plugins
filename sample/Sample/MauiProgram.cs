@@ -1,5 +1,11 @@
-﻿using CommunityToolkit.Maui;
-using SingleScope.Maui;
+﻿using Microsoft.Extensions.Logging;
+using Sample.ViewModels;
+using Sample.Views;
+using SingleScope.Navigations.Maui.Enums;
+using SingleScope.Navigations.Maui.Extensions;
+using SingleScope.Reporting.Extensions;
+using SingleScope.Reporting.Logging.Extensions;
+using SingleScope.Reporting.Maui.Extensions;
 
 namespace Sample
 {
@@ -10,20 +16,6 @@ namespace Sample
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
-                .UseMauiCommunityToolkit()
-                .UseSingleScopeMaui(new SingleScopeBuilderOptions
-                {
-                    AnimatedLoadingOptions = new()
-                    {
-                        GifImageUri = "file:///android_asset/loading_example.html",
-                        GifImageHeight = 64,
-                    },
-                    ProgressiveLoadingOptions = new()
-                    {
-                        PopupPadding = 50,
-                        IndicatorColor = Colors.Red,
-                    }
-                })
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -33,6 +25,18 @@ namespace Sample
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
+            builder.Services.AddSingleScopeNavigations(opt => opt.AdapterName = NavigationAdapterName.Shell);
+            builder.Services.AddSingleScopeReporting()
+                .AddLogReporting()
+                .AddDialogReporting();
+
+            builder.Services.AddTransient<OnePageView>();
+            builder.Services.AddTransient<OneViewModel>();
+            builder.Services.AddTransient<TwoPageView>();
+            builder.Services.AddTransient<TwoViewModel>();
+
+            Routing.RegisterRoute(nameof(OnePageView), typeof(OnePageView));
+            Routing.RegisterRoute(nameof(TwoPageView), typeof(TwoPageView));
 
             return builder.Build();
         }
