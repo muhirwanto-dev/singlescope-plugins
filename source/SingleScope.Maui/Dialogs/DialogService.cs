@@ -1,6 +1,7 @@
-﻿using CommunityToolkit.Maui.Views;
+﻿using CommunityToolkit.Maui.Extensions;
 using Microsoft.Extensions.Options;
-using SingleScope.Common;
+using SingleScope.Common.Lifetimes;
+using SingleScope.Common.Lifetimes.Abstraction;
 using SingleScope.Maui.Dialogs.Controls;
 using SingleScope.Maui.Dialogs.Enums;
 using SingleScope.Maui.Dialogs.Options;
@@ -20,7 +21,11 @@ namespace SingleScope.Maui.Dialogs
 
         public Task<string?> ShowActionSheetAsync(string title, string cancel = "Cancel", FlowDirection flowDirection = FlowDirection.MatchParent, params string[] buttons)
         {
-            Task<string?>? displayTask = Application.Current?.MainPage?.DisplayActionSheet(
+#if NET10_0_OR_GREATER
+            Task<string?>? displayTask = Application.Current?.Windows[0].Page?.DisplayActionSheetAsync(
+#else
+            Task<string?>? displayTask = Application.Current?.Windows[0].Page?.DisplayActionSheet(
+#endif // NET10_0_OR_GREATER
                 title,
                 cancel,
                 destruction: null,
@@ -33,7 +38,11 @@ namespace SingleScope.Maui.Dialogs
 
         public Task<bool> ShowConfirmationDialogAsync(string message, string title, string accept = "Ok", string cancel = "Cancel")
         {
-            Task<bool>? displayTask = Application.Current?.MainPage?.DisplayAlert(
+#if NET10_0_OR_GREATER
+            Task<bool>? displayTask = Application.Current?.Windows[0].Page?.DisplayAlertAsync(
+#else
+            Task<bool>? displayTask = Application.Current?.Windows[0].Page?.DisplayAlert(
+#endif // NET10_0_OR_GREATER
                 title,
                 message,
                 accept,
@@ -45,7 +54,11 @@ namespace SingleScope.Maui.Dialogs
 
         public Task ShowErrorDialogAsync(string message)
         {
-            return MainThread.InvokeOnMainThreadAsync(() => Application.Current?.MainPage?.DisplayAlert(
+#if NET10_0_OR_GREATER
+            return MainThread.InvokeOnMainThreadAsync(() => Application.Current?.Windows[0].Page?.DisplayAlertAsync(
+#else
+            return MainThread.InvokeOnMainThreadAsync(() => Application.Current?.Windows[0].Page?.DisplayAlert(
+#endif // NET10_0_OR_GREATER
                 "Error",
                 message,
                 "Ok"
@@ -54,7 +67,11 @@ namespace SingleScope.Maui.Dialogs
 
         public Task ShowInfoDialogAsync(string message)
         {
-            return MainThread.InvokeOnMainThreadAsync(() => Application.Current?.MainPage?.DisplayAlert(
+#if NET10_0_OR_GREATER
+            return MainThread.InvokeOnMainThreadAsync(() => Application.Current?.Windows[0].Page?.DisplayAlertAsync(
+#else
+            return MainThread.InvokeOnMainThreadAsync(() => Application.Current?.Windows[0].Page?.DisplayAlert(
+#endif // NET10_0_OR_GREATER
                 "Info",
                 message,
                 "Ok"
@@ -63,7 +80,11 @@ namespace SingleScope.Maui.Dialogs
 
         public Task ShowWarningDialogAsync(string message)
         {
-            return MainThread.InvokeOnMainThreadAsync(() => Application.Current?.MainPage?.DisplayAlert(
+#if NET10_0_OR_GREATER
+            return MainThread.InvokeOnMainThreadAsync(() => Application.Current?.Windows[0].Page?.DisplayAlertAsync(
+#else
+            return MainThread.InvokeOnMainThreadAsync(() => Application.Current?.Windows[0].Page?.DisplayAlert(
+#endif // NET10_0_OR_GREATER
                 "Warning",
                 message,
                 "Ok"
@@ -87,7 +108,11 @@ namespace SingleScope.Maui.Dialogs
 
         public Task<string?> ShowInputPromptAsync(string title, string message, string accept = "Ok", string cancel = "Cancel", string? placeholder = null, int maxLength = -1, Keyboard? keyboard = null, string initialValue = "")
         {
-            Task<string?>? displayTask = Application.Current?.MainPage?.DisplayPromptAsync(
+#if NET10_0_OR_GREATER
+            Task<string?>? displayTask = Application.Current?.Windows[0].Page?.DisplayPromptAsync(
+#else
+            Task<string?>? displayTask = Application.Current?.Windows[0].Page?.DisplayPromptAsync(
+#endif // NET10_0_OR_GREATER
                 title,
                 message,
                 accept,
@@ -103,7 +128,11 @@ namespace SingleScope.Maui.Dialogs
 
         public IDisposable ShowLoading(string message, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default)
         {
-            Page page = Application.Current?.MainPage ?? throw new NullReferenceException("No page available");
+#if NET10_0_OR_GREATER
+            Page page = Application.Current?.Windows[0].Page ?? throw new NullReferenceException("No page available");
+#else
+            Page page = Application.Current?.Windows[0].Page ?? throw new NullReferenceException("No page available");
+#endif // NET10_0_OR_GREATER
             var popup = CreateLoadingPopup(message, cancelAction);
 
             cancellationTokenSource ??= new CancellationTokenSource();
@@ -111,18 +140,18 @@ namespace SingleScope.Maui.Dialogs
 
             popup.Closed += (sender, arg) =>
             {
-                if (arg.WasDismissedByTappingOutsideOfPopup && !cancelled)
+                if (!cancelled)
                 {
                     cancelled = true;
                     cancellationTokenSource.Cancel();
                 }
             };
 
-            var disposingNotificator = ValueDisposable.Create(() =>
+            var disposingNotificator = DisposableScope.Create(() =>
             {
                 if (!cancelled)
                 {
-                    popup?.Close();
+                    popup?.CloseAsync();
                 }
 
                 popup = null;
@@ -135,9 +164,9 @@ namespace SingleScope.Maui.Dialogs
             return disposingNotificator;
         }
 
-        public IValueDisposable<ProgressiveLoadingPopup> ShowProgressiveLoading(string message, ProgressiveLoadingProgressType progressType = ProgressiveLoadingProgressType.ActivityIndicator, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default)
+        public IDisposableScope<ProgressiveLoadingPopup> ShowProgressiveLoading(string message, ProgressiveLoadingProgressType progressType = ProgressiveLoadingProgressType.ActivityIndicator, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default)
         {
-            Page page = Application.Current?.MainPage ?? throw new NullReferenceException("No page available");
+            Page page = Application.Current?.Windows[0].Page ?? throw new NullReferenceException("No page available");
             var popup = CreateProgressiveLoadingPopup(message, cancelAction, progressType);
 
             cancellationTokenSource ??= new CancellationTokenSource();
@@ -145,20 +174,20 @@ namespace SingleScope.Maui.Dialogs
 
             popup.Closed += (sender, arg) =>
             {
-                if (arg.WasDismissedByTappingOutsideOfPopup && !cancelled)
+                if (!cancelled)
                 {
                     cancelled = true;
                     cancellationTokenSource.Cancel();
                 }
             };
 
-            var disposableAction = ValueDisposable<ProgressiveLoadingPopup>.Create(
+            var disposableAction = DisposableScope<ProgressiveLoadingPopup>.Create(
                 popup,
                 () =>
                 {
                     if (!cancelled)
                     {
-                        popup?.Close();
+                        popup?.CloseAsync();
                     }
 
                     popup = null;

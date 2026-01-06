@@ -1,4 +1,4 @@
-﻿using SingleScope.Common;
+﻿using SingleScope.Common.Lifetimes.Abstraction;
 using SingleScope.Maui.Dialogs.Controls;
 using SingleScope.Maui.Dialogs.Enums;
 
@@ -26,7 +26,7 @@ namespace SingleScope.Maui.Dialogs
 
         IDisposable ShowLoading(string message, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default);
 
-        IValueDisposable<ProgressiveLoadingPopup> ShowProgressiveLoading(string message, ProgressiveLoadingProgressType progressType = ProgressiveLoadingProgressType.ActivityIndicator, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default);
+        IDisposableScope<ProgressiveLoadingPopup> ShowProgressiveLoading(string message, ProgressiveLoadingProgressType progressType = ProgressiveLoadingProgressType.ActivityIndicator, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default);
 
         IDisposable ShowFullPageLoading(Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default);
     }
