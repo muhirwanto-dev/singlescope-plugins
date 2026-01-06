@@ -6,11 +6,12 @@ namespace SingleScope.Reporting.Logging.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddSingleScopeReportingLogging(
-            this IServiceCollection services)
+        public static SingleScopeReportingServiceContainer AddLogReporting(
+            this SingleScopeReportingServiceContainer container)
         {
-            return services
-                .AddSingleton<IReportSink, LoggerReportSink>();
+            container.Services.AddSingleton<IReportSink, LoggerReportSink>();
+
+            return container;
         }
     }
 }

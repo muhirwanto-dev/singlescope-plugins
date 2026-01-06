@@ -80,6 +80,12 @@ Reporting behavior is controlled via `ReportingMode` flags:
 ## 🔧 Basic Usage
 
 ```csharp
+    // inject to container
+    builder.Services.AddSingleScopeReporting()
+        .AddLogReporting()      // report as logging
+        .AddDialogReporting();  // report as dialog
+
+    // use somewhere in your code
     try
     {
         // application code

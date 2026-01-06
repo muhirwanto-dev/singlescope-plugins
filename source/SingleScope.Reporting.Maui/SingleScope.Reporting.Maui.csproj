@@ -38,7 +38,11 @@
 
   <ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
-		<PackageReference Include="SingleScope.Reporting" Version="1.0.0" />
 	</ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\SingleScope.Reporting\SingleScope.Reporting.csproj" />
+  </ItemGroup>
 
 </Project>
