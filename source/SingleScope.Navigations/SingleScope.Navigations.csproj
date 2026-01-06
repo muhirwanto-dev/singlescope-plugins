@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0106</FileVersion>
+    <VersionPrefix>$(AssemblyVersion)</VersionPrefix>
+  </PropertyGroup>
+
+  <!--NuGet properties-->
+  <PropertyGroup>
+    <PackageId>SingleScope.Navigations</PackageId>
+    <PackageTags>SingleScope;Plugin;Navigations</PackageTags>
+    <Title>SingleScope.Navigations</Title>
+    <Description>
+      A platform-agnostic navigation abstraction designed to model the full navigation feature set of .NET MAUI (Page Navigation and Shell Navigation).
+    </Description>
+    <PackageReadmeFile>docs\SingleScope.Navigations.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\docs\SingleScope.Navigations.md" Pack="true" PackagePath="docs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.1" />
+  </ItemGroup>
+
+</Project>
