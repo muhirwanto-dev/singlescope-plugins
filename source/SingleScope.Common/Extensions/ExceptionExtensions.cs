@@ -10,37 +10,32 @@ namespace SingleScope.Common.Extensions
         public static string GetDeepMessage(this Exception exception, bool writeNewLine = true)
         {
             var sb = new StringBuilder();
-            string? line;
 
-            if (exception is HttpRequestException httpException)
-            {
-                line = httpException.Message;
-
-                if (writeNewLine)
-                {
-                    sb.AppendLine(line);
-                }
-                else
-                {
-                    sb.Append(line);
-                }
-            }
-            else if (exception is TaskCanceledException cte)
+            if (exception is TaskCanceledException cte)
             {
                 sb.Append(cte.Message);
 
                 return sb.ToString();
             }
+
+            string? line;
+
+            if (exception is HttpRequestException httpException)
+            {
+                line = httpException.Message;
+            }
             else
             {
-                if (writeNewLine)
-                {
-                    sb.AppendLine(exception.Message);
-                }
-                else
-                {
-                    sb.Append(exception.Message);
-                }
+                line = exception.Message;
+            }
+
+            if (writeNewLine)
+            {
+                sb.AppendLine(line);
+            }
+            else
+            {
+                sb.Append(line);
             }
 
             if (exception.InnerException != null)
