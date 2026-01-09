@@ -12,6 +12,7 @@ namespace SingleScope.Persistence
         {
             Type rr = typeof(IReadRepository<TEntity>);
             Type rw = typeof(IReadWriteRepository<TEntity>);
+            Type ro = typeof(IRepository<TEntity>);
 
             services.AddScoped<TImpl>();
 
@@ -23,6 +24,11 @@ namespace SingleScope.Persistence
             if (rw.IsAssignableFrom(typeof(TImpl)))
             {
                 services.AddScoped(sp => (IReadWriteRepository<TEntity>)sp.GetRequiredService<TImpl>());
+            }
+
+            if (ro.IsAssignableFrom(typeof(TImpl)))
+            {
+                services.AddScoped(sp => (IRepository<TEntity>)sp.GetRequiredService<TImpl>());
             }
 
             return services;
@@ -46,6 +52,7 @@ namespace SingleScope.Persistence
         {
             Type rr = typeof(IReadRepository<TEntity>);
             Type rw = typeof(IReadWriteRepository<TEntity>);
+            Type ro = typeof(IRepository<TEntity>);
 
             services.AddTransient<TImpl>();
 
@@ -57,6 +64,11 @@ namespace SingleScope.Persistence
             if (rw.IsAssignableFrom(typeof(TImpl)))
             {
                 services.AddTransient(sp => (IReadWriteRepository<TEntity>)sp.GetRequiredService<TImpl>());
+            }
+
+            if (ro.IsAssignableFrom(typeof(TImpl)))
+            {
+                services.AddTransient(sp => (IRepository<TEntity>)sp.GetRequiredService<TImpl>());
             }
 
             return services;
@@ -80,6 +92,7 @@ namespace SingleScope.Persistence
         {
             Type rr = typeof(IReadRepository<TEntity>);
             Type rw = typeof(IReadWriteRepository<TEntity>);
+            Type ro = typeof(IRepository<TEntity>);
 
             services.AddSingleton<TImpl>();
 
@@ -91,6 +104,11 @@ namespace SingleScope.Persistence
             if (rw.IsAssignableFrom(typeof(TImpl)))
             {
                 services.AddSingleton(sp => (IReadWriteRepository<TEntity>)sp.GetRequiredService<TImpl>());
+            }
+
+            if (ro.IsAssignableFrom(typeof(TImpl)))
+            {
+                services.AddSingleton(sp => (IRepository<TEntity>)sp.GetRequiredService<TImpl>());
             }
 
             return services;
