@@ -7,13 +7,14 @@ namespace SingleScope.Common.Lifetimes
     {
         public static readonly DisposableScope Empty = new DisposableScope(() => { }, () => { });
 
-        private readonly Action _disposingAction;
-        private readonly Action _action;
+        private readonly Action _onDisposing;
+        private readonly Action _onDispose;
+        private bool _disposed;
 
-        protected DisposableScope(Action action, Action disposingAction)
+        protected DisposableScope(Action onDispose, Action onDisposing)
         {
-            _action = action;
-            _disposingAction = disposingAction;
+            _onDispose = onDispose;
+            _onDisposing = onDisposing;
         }
 
         public static IDisposableScope Create(Action onDispose)
@@ -26,30 +27,36 @@ namespace SingleScope.Common.Lifetimes
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+            if (_disposed)
             {
-                _disposingAction.Invoke();
+                return;
             }
 
-            _action.Invoke();
+            if (disposing)
+            {
+                _onDisposing.Invoke();
+            }
+
+            _onDispose.Invoke();
+            _disposed = true;
         }
     }
 
     public sealed class DisposableScope<T> : DisposableScope, IDisposableScope<T>
         where T : class
     {
-        public T Value { get; }
+        public T Context { get; }
 
-        private DisposableScope(T value, Action action, Action disposingAction)
+        private DisposableScope(T context, Action action, Action disposingAction)
             : base(action, disposingAction)
         {
-            Value = value;
+            Context = context;
         }
 
-        public static DisposableScope<T> Create(T value, Action onDispose)
-            => new DisposableScope<T>(value, onDispose, () => { });
+        public static DisposableScope<T> Create(T context, Action onDispose)
+            => new DisposableScope<T>(context, onDispose, () => { });
 
-        public static DisposableScope<T> Create(T value, Action onDispose, Action onDisposing)
-            => new DisposableScope<T>(value, onDispose, onDisposing);
+        public static DisposableScope<T> Create(T context, Action onDispose, Action onDisposing)
+            => new DisposableScope<T>(context, onDispose, onDisposing);
     }
 }

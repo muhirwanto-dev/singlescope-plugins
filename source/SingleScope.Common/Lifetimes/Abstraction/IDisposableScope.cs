@@ -8,6 +8,6 @@ namespace SingleScope.Common.Lifetimes.Abstraction
 
     public interface IDisposableScope<T> : IDisposableScope
     {
-        T Value { get; }
+        T Context { get; }
     }
 }
