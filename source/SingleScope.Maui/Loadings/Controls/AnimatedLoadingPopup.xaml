@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    x:Class="SingleScope.Maui.Loadings.Controls.AnimatedLoadingPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:SingleScope.Maui.Loadings.Controls"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:DataType="{x:Type controls:AnimatedLoadingPopup}">
+    <Border
+        Padding="{Binding Options.Padding}"
+        BackgroundColor="{Binding Options.PanelColor, TargetNullValue={Static Colors.White}}"
+        MinimumHeightRequest="{Binding Options.MinimumHeight}"
+        MinimumWidthRequest="{Binding Options.MinimumWidth}"
+        StrokeThickness="0">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="{Binding Options.CornerRadius}" />
+        </Border.StrokeShape>
+        <VerticalStackLayout
+            HorizontalOptions="Fill"
+            Spacing="10"
+            VerticalOptions="Center">
+            <WebView
+                HeightRequest="{Binding Options.Animation.GifImageHeight}"
+                HorizontalOptions="Center"
+                Source="{Binding Options.Animation.GifImageUri}"
+                WidthRequest="{Binding Options.Animation.GifImageWidth}" />
+
+            <Label
+                HorizontalOptions="Center"
+                IsVisible="{Binding Message, Converter={toolkit:IsNotNullConverter}}"
+                Text="{Binding Message}" />
+        </VerticalStackLayout>
+    </Border>
+</toolkit:Popup>

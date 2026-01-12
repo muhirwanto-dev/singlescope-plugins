@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.Logging;
 using Sample.ViewModels;
 using Sample.Views;
+using SingleScope.Maui;
 using SingleScope.Navigations.Maui.Enums;
 using SingleScope.Navigations.Maui.Extensions;
 using SingleScope.Reporting.Extensions;
@@ -16,6 +18,8 @@ namespace Sample
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
+                .UseSingleScopeMaui()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

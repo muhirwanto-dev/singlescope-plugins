@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    x:Class="SingleScope.Maui.Loadings.Controls.ProgressiveLoadingPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:SingleScope.Maui.Loadings.Controls"
+    xmlns:converter="clr-namespace:SingleScope.Maui.Loadings.Converters"
+    xmlns:core="clr-namespace:SingleScope.Maui.Loadings.Core"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:DataType="{x:Type controls:ProgressiveLoadingPopup}">
+    <Border
+        Padding="{Binding Options.Padding}"
+        BackgroundColor="{Binding Options.PanelColor, TargetNullValue={Static Colors.White}}"
+        MinimumHeightRequest="{Binding Options.MinimumHeight}"
+        MinimumWidthRequest="{Binding Options.MinimumWidth}"
+        StrokeThickness="0">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="{Binding Options.CornerRadius}" />
+        </Border.StrokeShape>
+        <VerticalStackLayout
+            HorizontalOptions="Fill"
+            Spacing="10"
+            VerticalOptions="Center">
+            <Grid IsVisible="{Binding Options.Type, Converter={converter:ProgressTypeComparatorConverter}, ConverterParameter={x:Static core:ProgressiveType.ActivityIndicator}}">
+                <ActivityIndicator
+                    HeightRequest="100"
+                    HorizontalOptions="Center"
+                    IsRunning="True"
+                    VerticalOptions="Center"
+                    WidthRequest="100"
+                    Color="{Binding Options.IndicatorColor, TargetNullValue={x:Static Colors.Blue}}" />
+                <Label
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding ProgressValuePercent, StringFormat='{0:F0}%'}"
+                    VerticalOptions="Center"
+                    VerticalTextAlignment="Center" />
+            </Grid>
+
+            <VerticalStackLayout IsVisible="{Binding Options.Type, Converter={converter:ProgressTypeComparatorConverter}, ConverterParameter={x:Static core:ProgressiveType.ProgressBar}}" Spacing="5">
+                <ProgressBar
+                    HorizontalOptions="Fill"
+                    Progress="{Binding ProgressValue}"
+                    ProgressColor="{Binding Options.IndicatorColor, TargetNullValue={x:Static Colors.Blue}}"
+                    VerticalOptions="Center" />
+                <Label
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding ProgressValuePercent, StringFormat='{0:F0}%'}"
+                    VerticalOptions="Center"
+                    VerticalTextAlignment="Center" />
+            </VerticalStackLayout>
+
+            <Label
+                HorizontalOptions="Center"
+                IsVisible="{Binding Message, Converter={toolkit:IsNotNullConverter}}"
+                Text="{Binding Message}" />
+        </VerticalStackLayout>
+    </Border>
+</toolkit:Popup>

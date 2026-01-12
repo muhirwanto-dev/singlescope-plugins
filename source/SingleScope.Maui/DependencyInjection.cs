@@ -1,6 +1,11 @@
 ﻿using CommunityToolkit.Maui;
-using SingleScope.Maui.Dialogs;
+using SingleScope.Maui.Dialogs.Abstractions;
+using SingleScope.Maui.Dialogs.Core;
 using SingleScope.Maui.Dialogs.Options;
+using SingleScope.Maui.Loadings.Abstractions;
+using SingleScope.Maui.Loadings.Core;
+using SingleScope.Maui.Loadings.Options;
+using SingleScope.Maui.Shared.Options;
 
 namespace SingleScope.Maui
 {
@@ -14,43 +19,45 @@ namespace SingleScope.Maui
         public static MauiAppBuilder UseSingleScopeMaui(this MauiAppBuilder builder,
             SingleScopeBuilderOptions options)
         {
-            builder.Services.Configure<AnimatedLoadingOptions>(opt =>
+            builder.Services.AddSingleton<IDialogService, DialogService>();
+            builder.Services.Configure<DialogOptions>(opt =>
             {
-                opt.BackgroundColor = options.AnimatedLoadingOptions.BackgroundColor;
-                opt.CornerRadius = options.AnimatedLoadingOptions.CornerRadius;
-                opt.GifImageHeight = options.AnimatedLoadingOptions.GifImageHeight;
-                opt.GifImageUri = options.AnimatedLoadingOptions.GifImageUri;
-                opt.GifImageWidth = options.AnimatedLoadingOptions.GifImageWidth;
-                opt.Message = options.AnimatedLoadingOptions.Message;
-                opt.MinimumHeight = options.AnimatedLoadingOptions.MinimumHeight;
-                opt.MinimumWidth = options.AnimatedLoadingOptions.MinimumWidth;
-                opt.PopupPadding = options.AnimatedLoadingOptions.PopupPadding;
+                opt.PageOptions.PageSource = options.DialogOptions.PageOptions.PageSource;
             });
 
             builder.Services.Configure<LoadingOptions>(opt =>
             {
-                opt.BackgroundColor = options.LoadingOptions.BackgroundColor;
+                opt.PageOptions.PageSource = options.LoadingOptions.PageOptions.PageSource;
+                opt.Animation = options.LoadingOptions.Animation;
                 opt.CornerRadius = options.LoadingOptions.CornerRadius;
-                opt.Message = options.LoadingOptions.Message;
                 opt.MinimumHeight = options.LoadingOptions.MinimumHeight;
                 opt.MinimumWidth = options.LoadingOptions.MinimumWidth;
-                opt.PopupPadding = options.LoadingOptions.PopupPadding;
+                opt.Padding = options.LoadingOptions.Padding;
+                opt.PanelColor = options.LoadingOptions.PanelColor;
             });
 
             builder.Services.Configure<ProgressiveLoadingOptions>(opt =>
             {
-                opt.BackgroundColor = options.ProgressiveLoadingOptions.BackgroundColor;
-                opt.CornerRadius = options.ProgressiveLoadingOptions.CornerRadius;
+                opt.PageOptions.PageSource = options.ProgressiveLoadingOptions.PageOptions.PageSource;
+                opt.Type = options.ProgressiveLoadingOptions.Type;
+                opt.InitialProgress = options.ProgressiveLoadingOptions.InitialProgress;
                 opt.IndicatorColor = options.ProgressiveLoadingOptions.IndicatorColor;
-                opt.Message = options.ProgressiveLoadingOptions.Message;
+                opt.CornerRadius = options.ProgressiveLoadingOptions.CornerRadius;
                 opt.MinimumHeight = options.ProgressiveLoadingOptions.MinimumHeight;
                 opt.MinimumWidth = options.ProgressiveLoadingOptions.MinimumWidth;
-                opt.PopupPadding = options.ProgressiveLoadingOptions.PopupPadding;
-                opt.ProgressType = options.ProgressiveLoadingOptions.ProgressType;
+                opt.Padding = options.ProgressiveLoadingOptions.Padding;
+                opt.PanelColor = options.ProgressiveLoadingOptions.PanelColor;
             });
 
-            builder.Services.AddSingleton<IAnimatedLoadingDialogService, AnimatedLoadingDialogService>();
-            builder.Services.AddSingleton<IDialogService, DialogService>();
+            // Register Renderers
+            builder.Services.AddTransient<ILoadingRenderer, LoadingRenderer>();
+            builder.Services.AddSingleton<ILoadingService, LoadingService>();
+            builder.Services.AddTransient<IProgressiveLoadingRenderer, ProgressiveLoadingRenderer>();
+            builder.Services.AddSingleton<IProgressiveLoadingService, ProgressiveLoadingService>();
+            builder.Services.AddSingleton<LoadingFactory>();
+
+            builder.Services.AddTransient<Func<ILoadingRenderer>>(sp => () => sp.GetRequiredService<ILoadingRenderer>());
+            builder.Services.AddTransient<Func<IProgressiveLoadingRenderer>>(sp => () => sp.GetRequiredService<IProgressiveLoadingRenderer>());
 
             return builder;
         }

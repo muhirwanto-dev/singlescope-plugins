@@ -14,6 +14,7 @@
 		<OutputType>Exe</OutputType>
 		<RootNamespace>Sample</RootNamespace>
 		<UseMaui>true</UseMaui>
+    <MauiVersion>10.0.10</MauiVersion>
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
@@ -36,8 +37,8 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
-		<AssemblyVersion>1.0.0.0106</AssemblyVersion>
-		<FileVersion>1.0.0.0106</FileVersion>
+		<AssemblyVersion>1.0.0.0112</AssemblyVersion>
+		<FileVersion>1.0.0.0112</FileVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -64,6 +65,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\..\source\SingleScope.Maui\SingleScope.Maui.csproj" />
 	  <ProjectReference Include="..\..\source\SingleScope.Mvvm.Maui\SingleScope.Mvvm.Maui.csproj" />
 	  <ProjectReference Include="..\..\source\SingleScope.Navigations.Maui\SingleScope.Navigations.Maui.csproj" />
 	  <ProjectReference Include="..\..\source\SingleScope.Reporting.Logging\SingleScope.Reporting.Logging.csproj" />

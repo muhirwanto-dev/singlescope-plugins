@@ -1,25 +1,27 @@
-namespace SingleScope.Maui.Dialogs.Controls;
+using SingleScope.Maui.Loadings.Options;
+
+namespace SingleScope.Maui.Loadings.Controls;
 
 public partial class ProgressiveLoadingPopup : CommunityToolkit.Maui.Views.Popup
 {
-    private ProgressiveLoadingOptions? _options;
+    public ProgressiveLoadingOptions? Options { get; }
 
-    public ProgressiveLoadingOptions? Options
+    private string? _message = string.Empty;
+    public string? Message
     {
-        get => _options;
+        get => _message;
         set
         {
-            _options = value;
+            _message = value;
             OnPropertyChanged();
         }
     }
-
-    private double _progressValue = 0.0;
 
     /// <summary>
     /// A double value that represents the current progress as a value from 0 to 1.
     /// Progress values less than 0 will be clamped to 0, values greater than 1 will be clamped to 1. The default value of this property is 0.
     /// </summary>
+    private double _progressValue = 0.0;
     public double ProgressValue
     {
         get => _progressValue;
@@ -33,10 +35,12 @@ public partial class ProgressiveLoadingPopup : CommunityToolkit.Maui.Views.Popup
 
     public double ProgressValuePercent => ProgressValue * 100;
 
-    public ProgressiveLoadingPopup()
+    public ProgressiveLoadingPopup(ProgressiveLoadingOptions options, string? message)
     {
-        InitializeComponent();
-
         BindingContext = this;
+        Options = options;
+        Message = message;
+
+        InitializeComponent();
     }
 }
