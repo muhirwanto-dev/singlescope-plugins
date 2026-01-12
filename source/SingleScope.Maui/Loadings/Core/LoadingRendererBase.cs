@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Extensions;
 using CommunityToolkit.Maui.Views;
+using Microsoft.Maui.Controls.Shapes;
 using SingleScope.Maui.Loadings.Abstractions;
 
 namespace SingleScope.Maui.Loadings.Core
@@ -47,6 +48,11 @@ namespace SingleScope.Maui.Loadings.Core
                 {
                     IsCancelled = true;
                     _onClosed.Invoke(IsCancelled);
+                },
+                Shadow = null,
+                Shape = new RoundRectangle
+                {
+                    StrokeThickness = 0,
                 },
             }) ?? Task.CompletedTask);
         }

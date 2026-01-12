@@ -7,7 +7,8 @@
     xmlns:converter="clr-namespace:SingleScope.Maui.Loadings.Converters"
     xmlns:core="clr-namespace:SingleScope.Maui.Loadings.Core"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    x:DataType="{x:Type controls:ProgressiveLoadingPopup}">
+    x:DataType="{x:Type controls:ProgressiveLoadingPopup}"
+    BackgroundColor="Transparent">
     <Border
         Padding="{Binding Options.Padding}"
         BackgroundColor="{Binding Options.PanelColor, TargetNullValue={Static Colors.White}}"

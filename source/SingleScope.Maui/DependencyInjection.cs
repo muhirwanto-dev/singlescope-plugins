@@ -22,12 +22,12 @@ namespace SingleScope.Maui
             builder.Services.AddSingleton<IDialogService, DialogService>();
             builder.Services.Configure<DialogOptions>(opt =>
             {
-                opt.PageOptions.PageSource = options.DialogOptions.PageOptions.PageSource;
+                opt.PageOptions.PageSourceType = options.DialogOptions.PageOptions.PageSourceType;
             });
 
             builder.Services.Configure<LoadingOptions>(opt =>
             {
-                opt.PageOptions.PageSource = options.LoadingOptions.PageOptions.PageSource;
+                opt.PageOptions.PageSourceType = options.LoadingOptions.PageOptions.PageSourceType;
                 opt.Animation = options.LoadingOptions.Animation;
                 opt.CornerRadius = options.LoadingOptions.CornerRadius;
                 opt.MinimumHeight = options.LoadingOptions.MinimumHeight;
@@ -38,7 +38,7 @@ namespace SingleScope.Maui
 
             builder.Services.Configure<ProgressiveLoadingOptions>(opt =>
             {
-                opt.PageOptions.PageSource = options.ProgressiveLoadingOptions.PageOptions.PageSource;
+                opt.PageOptions.PageSourceType = options.ProgressiveLoadingOptions.PageOptions.PageSourceType;
                 opt.Type = options.ProgressiveLoadingOptions.Type;
                 opt.InitialProgress = options.ProgressiveLoadingOptions.InitialProgress;
                 opt.IndicatorColor = options.ProgressiveLoadingOptions.IndicatorColor;

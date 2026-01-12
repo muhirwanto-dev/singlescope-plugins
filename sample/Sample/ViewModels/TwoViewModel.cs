@@ -2,7 +2,7 @@
 
 namespace Sample.ViewModels
 {
-    internal partial class TwoViewModel : ViewModelBase
+    public partial class TwoViewModel : ViewModelBase
     {
     }
 }

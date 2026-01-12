@@ -3,6 +3,8 @@ using Microsoft.Extensions.Logging;
 using Sample.ViewModels;
 using Sample.Views;
 using SingleScope.Maui;
+using SingleScope.Maui.Loadings.Options;
+using SingleScope.Maui.Shared.Options;
 using SingleScope.Navigations.Maui.Enums;
 using SingleScope.Navigations.Maui.Extensions;
 using SingleScope.Reporting.Extensions;
@@ -19,7 +21,13 @@ namespace Sample
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
-                .UseSingleScopeMaui()
+                .UseSingleScopeMaui(new SingleScopeBuilderOptions
+                {
+                    ProgressiveLoadingOptions = new ProgressiveLoadingOptions
+                    {
+                        Type = SingleScope.Maui.Loadings.Core.ProgressiveType.ProgressBar
+                    },
+                })
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

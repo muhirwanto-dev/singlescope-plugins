@@ -6,7 +6,7 @@
     xmlns:vm="clr-namespace:Sample.ViewModels"
     Title="OnePageView"
     x:DataType="{x:Type vm:OneViewModel}">
-    <VerticalStackLayout>
+    <VerticalStackLayout Padding="20" Spacing="10">
         <Label
             HorizontalOptions="Center"
             Text="Welcome to .NET MAUI!"
@@ -15,5 +15,6 @@
         <Button Command="{Binding OpenCancellableScopedLoadingCommand}" Text="Open Scoped Loading (Cancellable)" />
         <Button Command="{Binding OpenProgressiveLoadingCommand}" Text="Open Progressive Loading" />
         <Button Command="{Binding OpenCancellableProgressiveLoadingCommand}" Text="Open Progressive Loading (Cancellable)" />
+        <Button Command="{Binding OpenAlertCommand}" Text="Open Alert" />
     </VerticalStackLayout>
 </ContentPage>

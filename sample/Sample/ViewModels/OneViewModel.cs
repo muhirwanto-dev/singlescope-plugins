@@ -1,14 +1,16 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using SingleScope.Maui.Dialogs.Abstractions;
 using SingleScope.Maui.Loadings.Abstractions;
 using SingleScope.Mvvm.Base;
 using SingleScope.Reporting.Abstractions;
 
 namespace Sample.ViewModels
 {
-    internal partial class OneViewModel(
+    public partial class OneViewModel(
         IReportingService _reportingService,
         ILoadingService _loadingService,
+        IDialogService _dialogService,
         IProgressiveLoadingService _progressiveLoading
         ) : ViewModelBase
     {
@@ -95,6 +97,19 @@ namespace Sample.ViewModels
                     await Task.Delay(500);
                 }
                 while (progress < 1.0);
+            }
+            catch (Exception ex)
+            {
+                _reportingService.Report(ex);
+            }
+        }
+
+        [RelayCommand]
+        private async Task OpenAlertAsync()
+        {
+            try
+            {
+                await _dialogService.ShowAsync(DialogRequest.Alert("titel", "ahahe", cancel: "tidak"));
             }
             catch (Exception ex)
             {

@@ -5,7 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:SingleScope.Maui.Loadings.Controls"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    x:DataType="{x:Type controls:LoadingPopup}">
+    x:DataType="{x:Type controls:LoadingPopup}"
+    BackgroundColor="Transparent">
     <Border
         Padding="{Binding Options.Padding}"
         BackgroundColor="{Binding Options.PanelColor, TargetNullValue={Static Colors.White}}"

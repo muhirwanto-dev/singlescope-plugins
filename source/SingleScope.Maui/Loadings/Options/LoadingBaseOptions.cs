@@ -6,14 +6,14 @@ namespace SingleScope.Maui.Loadings.Options
     {
         public PageOptions PageOptions { get; set; } = new();
 
-        public Thickness Padding { get; set; } = new(8);
+        public Thickness Padding { get; set; } = new(16);
 
         public double CornerRadius { get; set; } = 12;
 
-        public Color PanelColor { get; set; } = Colors.Black.WithAlpha(0.6f);
+        public Color PanelColor { get; set; } = Colors.White.WithAlpha(0.6f);
 
-        public double MinimumWidth { get; set; } = 120;
+        public double MinimumWidth { get; set; } = 196;
 
-        public double MinimumHeight { get; set; } = 120;
+        public double MinimumHeight { get; set; } = 196;
     }
 }

@@ -62,14 +62,14 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
+		<PackageReference Include="SingleScope.Mvvm.Maui" Version="1.0.1" />
+		<PackageReference Include="SingleScope.Navigations.Maui" Version="1.0.0" />
+		<PackageReference Include="SingleScope.Reporting.Logging" Version="1.0.1" />
+		<PackageReference Include="SingleScope.Reporting.Maui" Version="1.0.3" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\source\SingleScope.Maui\SingleScope.Maui.csproj" />
-	  <ProjectReference Include="..\..\source\SingleScope.Mvvm.Maui\SingleScope.Mvvm.Maui.csproj" />
-	  <ProjectReference Include="..\..\source\SingleScope.Navigations.Maui\SingleScope.Navigations.Maui.csproj" />
-	  <ProjectReference Include="..\..\source\SingleScope.Reporting.Logging\SingleScope.Reporting.Logging.csproj" />
-	  <ProjectReference Include="..\..\source\SingleScope.Reporting.Maui\SingleScope.Reporting.Maui.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
