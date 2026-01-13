@@ -15,5 +15,35 @@
 
         public string CombinePath(string path)
             => $"{ShellRoute}{path}";
+
+        private ShellNavigationParams() { }
+
+        private ShellNavigationParams(NavigationQuery query)
+            => Query = query;
+
+        private ShellNavigationParams(NavigationQuery query, string route)
+            : this(query)
+            => ShellRoute = route;
+
+        public static ShellNavigationParams Create(NavigationQuery query)
+            => new(query);
+
+        public static ShellNavigationParams Create(NavigationQuery query, string route)
+            => new(query, route);
+
+        public static ShellNavigationParams Create(params (string key, object value)[] queries)
+            => Create(Relative, queries);
+
+        public static ShellNavigationParams Create(string route, params (string key, object value)[] queries)
+        {
+            var q = new NavigationQuery();
+
+            foreach (var (key, value) in queries)
+            {
+                q[key] = value;
+            }
+
+            return new(q, route);
+        }
     }
 }
