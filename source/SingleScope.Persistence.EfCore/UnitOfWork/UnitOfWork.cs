@@ -137,7 +137,6 @@ namespace SingleScope.Persistence.EFCore.UnitOfWork
             try
             {
                 await action(cancellationToken);
-                await SaveChangesAsync(cancellationToken);
                 await CommitTransactionAsync(cancellationToken);
             }
             catch
