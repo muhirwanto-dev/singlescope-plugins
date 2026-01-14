@@ -7,7 +7,7 @@ namespace SingleScope.Maui.Loadings.Core
         LoadingFactory _factory
         ) : ILoadingService
     {
-        public IDisposable Show(string message, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default)
+        public IDisposable Show(string? message = null, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default)
         {
             cancellationTokenSource ??= new CancellationTokenSource();
 
@@ -39,7 +39,7 @@ namespace SingleScope.Maui.Loadings.Core
             return disposable;
         }
 
-        public void ShowFor(string message, Action<CancellationToken> action, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default)
+        public void ShowFor(Action<CancellationToken> action, string? message = null, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default)
         {
             using var scope = Show(message, cancelAction, cancellationTokenSource);
 
@@ -48,7 +48,7 @@ namespace SingleScope.Maui.Loadings.Core
             action(cancellationTokenSource.Token);
         }
 
-        public async Task ShowForAsync(string message, Func<CancellationToken, Task> action, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default)
+        public async Task ShowForAsync(Func<CancellationToken, Task> action, string? message = null, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default)
         {
             using var scope = Show(message, cancelAction, cancellationTokenSource);
 
