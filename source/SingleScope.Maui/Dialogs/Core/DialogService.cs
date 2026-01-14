@@ -1,4 +1,5 @@
 ﻿using SingleScope.Maui.Dialogs.Abstractions;
+using SingleScope.Maui.Dialogs.Models;
 
 namespace SingleScope.Maui.Dialogs.Core
 {
@@ -6,106 +7,104 @@ namespace SingleScope.Maui.Dialogs.Core
     {
         private static Page? CurrentPage => Shell.Current;
 
-        public void Show(DialogRequest request) => _ = ShowAsync(request);
+        public void Show(Dialog dialog) => _ = ShowAsync(dialog);
 
-        public async Task<DialogResult> ShowAsync(DialogRequest request)
+        public async Task ShowAsync(Dialog dialog)
         {
             ArgumentNullException.ThrowIfNull(CurrentPage, nameof(CurrentPage));
 
-            switch (request.Type)
+            switch (dialog)
             {
-                case DialogRequestType.Alert:
+                case Alert alert:
                 {
 #if NET10_0_OR_GREATER
                     var displayTask = CurrentPage?.DisplayAlertAsync(
 #else
                     var displayTask = CurrentPage?.DisplayAlert(
 #endif // NET10_0_OR_GREATER
-                        request.Title,
-                        request.Message,
-                        request.Accept
+                        alert.Title,
+                        alert.Message,
+                        alert.Cancel,
+                        alert.FlowDirection
                         );
 
                     await (displayTask ?? Task.CompletedTask);
-                    bool isConfirmed = displayTask is not null;
 
-                    return new DialogResult(
-                        isConfirmed,
-                        Action: isConfirmed
-                            ? request.Accept
-                            : null
-                            );
+                    break;
                 }
-                case DialogRequestType.Confirmation:
+                case Confirmation confirmation:
                 {
-#if NET10_0_OR_GREATER
-                    var displayTask = CurrentPage?.DisplayAlertAsync(
-#else
-                    var displayTask = CurrentPage?.DisplayAlert(
-#endif // NET10_0_OR_GREATER
-                        request.Title,
-                        request.Message,
-                        request.Accept,
-                        request.Cancel
-                        );
+                    _ = ShowAsync(confirmation);
 
-                    bool isConfirmed = displayTask is not null && await displayTask;
-
-                    return new DialogResult(
-                        isConfirmed,
-                        Action: isConfirmed
-                            ? request.Accept
-                            : displayTask is not null
-                                ? request.Cancel
-                                : null
-                                );
+                    break;
                 }
-                case DialogRequestType.ActionSheet:
+                case ActionSheet actionSheet:
                 {
-#if NET10_0_OR_GREATER
-                    var displayTask = CurrentPage?.DisplayActionSheetAsync(
-#else
-                    var displayTask = CurrentPage?.DisplayActionSheet(
-#endif // NET10_0_OR_GREATER
-                        request.Title,
-                        request.Cancel,
-                        null,
-                        FlowDirection.MatchParent,
-                        request.Actions
-                        );
+                    _ = ShowAsync(actionSheet);
 
-                    string? result = await (displayTask ?? Task.FromResult<string?>(null));
-
-                    return new DialogResult(
-                        result is not null,
-                        Action: result
-                        );
+                    break;
                 }
-                case DialogRequestType.Prompt:
+                case Prompt prompt:
                 {
-                    var displayTask = CurrentPage?.DisplayPromptAsync(
-                        request.Title,
-                        request.Message,
-                        request.Accept,
-                        request.Cancel,
-                        null,
-                        -1,
-                        null,
-                        request.InitialValue
-                        );
+                    _ = ShowAsync(prompt);
 
-                    string? result = await (displayTask ?? Task.FromResult<string?>(null));
-
-                    return new DialogResult(
-                        result is not null,
-                        Text: result
-                        );
+                    break;
                 }
                 default:
                 {
-                    throw new NotSupportedException($"The dialog request type '{request.Type}' is not supported.");
+                    throw new NotSupportedException($"The dialog request type '{dialog.GetType()}' is not supported.");
                 }
             }
+        }
+
+        public Task<string> ShowAsync(ActionSheet dialog)
+        {
+#if NET10_0_OR_GREATER
+            var displayTask = CurrentPage?.DisplayActionSheetAsync(
+#else
+            var displayTask = CurrentPage?.DisplayActionSheet(
+#endif // NET10_0_OR_GREATER
+                dialog.Title,
+                dialog.Cancel,
+                dialog.Destruction,
+                dialog.FlowDirection,
+                dialog.Buttons
+                );
+
+            return displayTask ?? Task.FromResult(string.Empty);
+        }
+
+        public Task<string> ShowAsync(Prompt dialog)
+        {
+            var displayTask = CurrentPage?.DisplayPromptAsync(
+                dialog.Title,
+                dialog.Message,
+                dialog.Accept,
+                dialog.Cancel,
+                dialog.Placeholder,
+                dialog.MaxLength,
+                dialog.Keyboard,
+                dialog.InitialValue
+                );
+
+            return displayTask ?? Task.FromResult(string.Empty);
+        }
+
+        public Task<bool> ShowAsync(Confirmation dialog)
+        {
+#if NET10_0_OR_GREATER
+            var displayTask = CurrentPage?.DisplayAlertAsync(
+#else
+            var displayTask = CurrentPage?.DisplayAlert(
+#endif // NET10_0_OR_GREATER
+                dialog.Title,
+                dialog.Message,
+                dialog.Accept,
+                dialog.Cancel,
+                dialog.FlowDirection
+                );
+
+            return displayTask ?? Task.FromResult(false);
         }
     }
 }

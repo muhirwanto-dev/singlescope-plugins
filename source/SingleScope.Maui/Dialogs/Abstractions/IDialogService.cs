@@ -1,9 +1,17 @@
-﻿namespace SingleScope.Maui.Dialogs.Abstractions
+﻿using SingleScope.Maui.Dialogs.Models;
+
+namespace SingleScope.Maui.Dialogs.Abstractions
 {
     public interface IDialogService
     {
-        void Show(DialogRequest request);
+        void Show(Dialog dialog);
 
-        Task<DialogResult> ShowAsync(DialogRequest request);
+        Task ShowAsync(Dialog dialog);
+
+        Task<string> ShowAsync(ActionSheet dialog);
+
+        Task<string> ShowAsync(Prompt dialog);
+
+        Task<bool> ShowAsync(Confirmation dialog);
     }
 }
