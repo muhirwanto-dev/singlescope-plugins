@@ -50,11 +50,12 @@ namespace SingleScope.Maui
             });
 
             // Register Renderers
-            builder.Services.AddTransient<ILoadingRenderer, LoadingRenderer>();
             builder.Services.AddSingleton<ILoadingService, LoadingService>();
+
+            builder.Services.AddTransient<LoadingFactory>();
+            builder.Services.AddTransient<ILoadingRenderer, LoadingRenderer>();
             builder.Services.AddTransient<IProgressiveLoadingRenderer, ProgressiveLoadingRenderer>();
-            builder.Services.AddSingleton<IProgressiveLoadingService, ProgressiveLoadingService>();
-            builder.Services.AddSingleton<LoadingFactory>();
+            builder.Services.AddTransient<IProgressiveLoadingService, ProgressiveLoadingService>();
 
             builder.Services.AddTransient<Func<ILoadingRenderer>>(sp => () => sp.GetRequiredService<ILoadingRenderer>());
             builder.Services.AddTransient<Func<IProgressiveLoadingRenderer>>(sp => () => sp.GetRequiredService<IProgressiveLoadingRenderer>());

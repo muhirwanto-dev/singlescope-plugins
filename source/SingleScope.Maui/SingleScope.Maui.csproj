@@ -16,8 +16,8 @@
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
     <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 
-    <AssemblyVersion>10.1.0</AssemblyVersion>
-    <FileVersion>10.1.0.0114</FileVersion>
+    <AssemblyVersion>10.2.0</AssemblyVersion>
+    <FileVersion>10.2.0.0117</FileVersion>
     <VersionPrefix>$(AssemblyVersion)</VersionPrefix>
   </PropertyGroup>
 
@@ -36,7 +36,7 @@
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
-		<PackageReference Include="SingleScope.Common" Version="4.1.1" />
+		<PackageReference Include="SingleScope.Common" Version="4.2.0" />
 	</ItemGroup>
 
   <ItemGroup>

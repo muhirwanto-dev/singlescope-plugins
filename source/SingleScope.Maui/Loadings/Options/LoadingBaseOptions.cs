@@ -15,5 +15,7 @@ namespace SingleScope.Maui.Loadings.Options
         public double MinimumWidth { get; set; } = 196;
 
         public double MinimumHeight { get; set; } = 196;
+
+        public int MinimumTimeframeMs { get; set; } = 1000;
     }
 }

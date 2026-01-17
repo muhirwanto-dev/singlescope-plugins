@@ -11,7 +11,7 @@ namespace SingleScope.Maui.Loadings.Core
         protected bool _isCancellable = false;
         protected Action<bool> _onClosed = _ => { };
 
-        public bool IsCancelled { get; protected set; }
+        public bool IsCancelled { get; protected set; } = false;
 
         public ILoadingRenderer Cancellable(bool enable)
         {
@@ -37,24 +37,29 @@ namespace SingleScope.Maui.Loadings.Core
         {
             popup.Closed += (_, _) =>
             {
-                IsCancelled = false;
                 _onClosed.Invoke(IsCancelled);
             };
 
-            return (page?.ShowPopupAsync(popup, new PopupOptions
+            var options = new PopupOptions
             {
                 CanBeDismissedByTappingOutsideOfPopup = _isCancellable,
                 OnTappingOutsideOfPopup = () =>
                 {
                     IsCancelled = true;
-                    _onClosed.Invoke(IsCancelled);
                 },
                 Shadow = null,
                 Shape = new RoundRectangle
                 {
                     StrokeThickness = 0,
                 },
-            }) ?? Task.CompletedTask);
+            };
+
+            if (page is Shell shell)
+            {
+                return (shell?.ShowPopupAsync(popup, options) ?? Task.CompletedTask);
+            }
+
+            return (page?.ShowPopupAsync(popup, options) ?? Task.CompletedTask);
         }
     }
 }

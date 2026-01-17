@@ -1,60 +1,72 @@
-﻿using SingleScope.Common.Lifetimes;
+﻿using System.Diagnostics;
+using Microsoft.Extensions.Options;
+using SingleScope.Common.Lifetimes;
 using SingleScope.Maui.Loadings.Abstractions;
+using SingleScope.Maui.Loadings.Options;
 
 namespace SingleScope.Maui.Loadings.Core
 {
     internal class LoadingService(
-        LoadingFactory _factory
+        IOptions<LoadingOptions> _options,
+        IServiceProvider _provider
         ) : ILoadingService
     {
-        public IDisposable Show(string? message = null, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default)
+        private readonly Stopwatch _stopwatch = new();
+
+        public IAsyncDisposable ShowAsync(string? message = null, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = null)
+            => ShowAsync(_options.Value.MinimumTimeframeMs, message, cancelAction, cancellationTokenSource);
+
+        public IAsyncDisposable ShowAsync(int loadingTimeMs, string? message = null, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = null)
         {
             cancellationTokenSource ??= new CancellationTokenSource();
 
-            var renderer = _factory.CreateLoading()
+            var renderer = CreateRenderer(cancelAction, cancellationTokenSource);
+            var disposable = AsyncDisposableScope.Create(async () =>
+            {
+                if (!renderer.IsCancelled)
+                {
+                    while (_stopwatch.ElapsedMilliseconds <= loadingTimeMs)
+                    { }
+
+                    // fix: popup scrim will never fade if the interval between ShowAsync() and HideAsync() is too short
+                    await Task.Delay(_options.Value.MinimumTimeframeMs);
+                    await renderer.HideAsync();
+                }
+            });
+
+            cancellationTokenSource.Token.Register(async () => await disposable.DisposeAsync());
+            renderer.ShowAsync(message).ConfigureAwait(false);
+
+            _stopwatch.Restart();
+
+            return disposable;
+        }
+
+        public Task ShowForAsync(Func<CancellationToken, Task> action, string? message = null, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default)
+            => ShowForAsync(action, _options.Value.MinimumTimeframeMs, message, cancelAction, cancellationTokenSource);
+
+        public async Task ShowForAsync(Func<CancellationToken, Task> action, int loadingTimeMs, string? message = null, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = null)
+        {
+            cancellationTokenSource ??= new CancellationTokenSource();
+
+            await using var scope = ShowAsync(loadingTimeMs, message, cancelAction, cancellationTokenSource);
+
+            await action(cancellationTokenSource.Token);
+        }
+
+        private ILoadingRenderer CreateRenderer(Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = null)
+        {
+            var factory = _provider.GetRequiredService<LoadingFactory>();
+            return factory.CreateLoading()
                 .Cancellable(cancelAction != null)
                 .WhenClosed(cancelled =>
                 {
                     if (cancelled)
                     {
-                        cancellationTokenSource.Cancel();
+                        cancelAction?.Invoke();
+                        cancellationTokenSource?.Cancel();
                     }
                 });
-
-            var disposable = DisposableScope.Create(() =>
-            {
-                if (!renderer.IsCancelled)
-                {
-                    MainThread.InvokeOnMainThreadAsync(renderer.HideAsync);
-                }
-            });
-
-            cancellationTokenSource.Token.Register(disposable.Dispose);
-
-            MainThread.InvokeOnMainThreadAsync(async () =>
-            {
-                await renderer.ShowAsync(message);
-            });
-
-            return disposable;
-        }
-
-        public void ShowFor(Action<CancellationToken> action, string? message = null, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default)
-        {
-            using var scope = Show(message, cancelAction, cancellationTokenSource);
-
-            ArgumentNullException.ThrowIfNull(cancellationTokenSource, nameof(cancellationTokenSource));
-
-            action(cancellationTokenSource.Token);
-        }
-
-        public async Task ShowForAsync(Func<CancellationToken, Task> action, string? message = null, Action? cancelAction = null, CancellationTokenSource? cancellationTokenSource = default)
-        {
-            using var scope = Show(message, cancelAction, cancellationTokenSource);
-
-            ArgumentNullException.ThrowIfNull(cancellationTokenSource, nameof(cancellationTokenSource));
-
-            await action(cancellationTokenSource.Token);
         }
     }
 }
