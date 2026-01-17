@@ -31,7 +31,19 @@ namespace SingleScope.Maui.Loadings.Core
 
         public abstract Task ShowAsync(string? message = null);
 
-        protected static Task HideInternalAsync(Popup? popup) => popup?.CloseAsync() ?? Task.CompletedTask;
+        protected static async Task HideInternalAsync(Popup? popup)
+        {
+            try
+            {
+                await (popup?.CloseAsync() ?? Task.CompletedTask);
+            }
+            catch
+            {
+                // Intentionally ignore exceptions that occur when closing a popup
+                // which has already been removed or cannot be found (e.g. PopupNotFoundException).
+                // Swallowing prevents these non-critical race-condition errors from bubbling.
+            }
+        }
 
         protected Task ShowInternalAsync(Page? page, Popup popup)
         {
