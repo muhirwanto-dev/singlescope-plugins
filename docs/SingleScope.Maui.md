@@ -8,18 +8,27 @@
 [![GitHub Forks](https://img.shields.io/github/forks/muhirwanto-dev/singlescope-plugins?style=flat-square)](https://github.com/muhirwanto-dev/singlescope-plugins/network/members)
 [![Contributions Welcome](https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg?style=flat-square)](https://github.com/muhirwanto-dev/singlescope-plugins/pulls)
 
-## Overview
+## 🔎 Overview
 
-`SingleScope.Maui` is a C# .NET library contains some features and utilities to build a `.NET MAUI` app faster. `ViewModelOwnerAttribute` used to minimize binding between `APageView` and `APageViewModel`, also `IAnimatedLoadingDialogService` can be used to show loading popup with custom animation.
+`SingleScope.Maui` is a dedicated UI utility library for .NET MAUI, providing essential custom controls and helper services to streamline app development. It focuses on simplifying common UI tasks—like dialog management and loading states—through a clean, DI-friendly (Dependency Injection) architecture.
 
-## Key Features
+## 🔑 Key Features
 
-* **Animated Loading:** Provide loading popup with custom animation.
-* **Navigation Service:** Extended abstraction to handle page & shell navigation.
-* **Reporting:** Write exception into logging and popup dialog with single line of code.
-* **MVVM:** Write less code to bind between `Page` and `ViewModel`.
+### Dialogs
+`IDialogService`, A helper service that allows you to trigger system alerts and popups directly from your `ViewModel` and integrates seamlessly with your DI container, removing the need for View-specific logic for simple user notifications.
 
-## Installation
+![Alert Dialog Sample](../assets/singlescope-maui-alert.gif)
+
+### Loading Popups
+`ILoadingService`, Built-in loading controls designed to handle "waiting" states during long-running processes. These can be easily toggled to provide a smooth, professional user experience while your app processes data.
+
+#### Loading
+![Loading Sample](../assets/singlescope-maui-loading.gif)
+
+#### Progressive Loading
+![Progressive Loading Sample](../assets/singlescope-maui-progresive-loading.gif)
+
+## 🛠️ Installation
 
 Install the abstractions package via NuGet:
 
@@ -34,96 +43,44 @@ Install-Package SingleScope.Maui
 dotnet add package SingleScope.Maui
 ```
 
-## Usage
-
-**Dialog Service**
-
-```csharp
-using (var popup = _dialogService.ShowProgressiveLoading("Example progressive activity"))
-{
-    while (popup.ReturnValue.ProgressValue < 1.0)
-    {
-        popup.ReturnValue.ProgressValue += 0.1;
-    }
-}
-
-using (var popup = _dialogService.ShowProgressiveLoading("Example progressive progress bar", ProgressiveLoadingProgressType.ProgressBar))
-{
-    while (popup.ReturnValue.ProgressValue < 1.0)
-    {
-        popup.ReturnValue.ProgressValue += 0.1;
-    }
-}
-
-using (var popup = _dialogService.ShowFullPageLoading())
-{
-}
-
-using (var popup = _dialogService.ShowLoading("Example scoped loading"))
-{
-}
-
-using (var popup = _dialogService.ShowLoading("Example cancellable loading", cancelAction: () => { }))
-{
-}
-
-using (var popup = _animatedLoadingDialogService.ShowLoading("Example gif loading"))
-{
-}
-```
-
-**View Model Owner**
-
-```csharp
-[ViewModelOwner(typeof(ExampleViewModel), IsDefaultConstructor = true)]
-public partial class TestPage : ContentPage
-{
-}
-
-// or
-
-[ViewModelOwner<ExampleViewModel>(IsDefaultConstructor = false)]
-public partial class TestPage : ContentPage
-{
-    public TestPage()
-    {
-        InitializeComponent();
-        PostInitializeComponent();
-    }
-}
-```
-
-**Reporting**
-```csharp
-try
-{
-    // do something
-}
-catch (Exception ex)
-{
-    await _reportService.ReportAsync(ex);
-}
-```
-
-**Navigation Service**
-```chasrp
-_navigationService.NavigateTo<TestPage>();
-
-// this navigation works both for Page & Shell Navigation
-_navigationService.NavigateTo<TestPage>(new Dictionary<string, object>
-{
-    ["key0"] = "value0",
-    ["key1"] = "value1"
-});
-```
+## 🚀 Getting Started
 
 **Configure Dependency Injection**
 
 ```csharp
-// Inject the services in MauiProgram.cs
+// MauiProgram.cs
 builder
     .UseMauiApp<App>()
     .UseSingleScopeMaui();
+```
+
+**Dialogs**
+
+```csharp
+await _dialogService.ShowAsync(Dialog.Alert("Dialog title", "The message: lorem ipsum dolor sir amet", cancel: "Close"));
+
+await _dialogService.ShowAsync(Alert.Info(AppStrings.SignInPage_Msg_EmailNotConfirmed));
+
+```
+
+**Loadings**
+
+```csharp
+// default minimum loading time: 100 ms
+// loading disappear at the end of the scope
+await using var _ = _loadingService.ShowAsync("scoped loading");
+
+// minimum loading time: 3000 ms
+await using var _ = _loadingService.ShowAsync(3000, "scoped loading");
+
+// can be cancelled by tapping outside
+await using var _ = _loadingService.ShowAsync("scoped loading cancelable", cancelAction: () => { });
+
+// progressive loading has the same behavior
+await using var loading = _progressiveLoading.ShowAsync("progressive loading");
+
+// update the progress
+loading.Context.UpdateProgress(progress);
 ```
 
 ## Contributions
