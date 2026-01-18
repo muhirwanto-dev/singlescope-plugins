@@ -17,7 +17,7 @@
 ### Dialogs
 `IDialogService`, A helper service that allows you to trigger system alerts and popups directly from your `ViewModel` and integrates seamlessly with your DI container, removing the need for View-specific logic for simple user notifications.
 
-![Alert Dialog Sample](assets/singlescope-maui-alert.gif)
+![Alert Dialog Sample](../assets/singlescope-maui-alert.gif)
 
 ### Loading Popups
 `ILoadingService`, Built-in loading controls designed to handle "waiting" states during long-running processes. These can be easily toggled to provide a smooth, professional user experience while your app processes data.
