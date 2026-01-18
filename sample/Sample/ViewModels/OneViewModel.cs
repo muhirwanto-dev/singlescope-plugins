@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using SingleScope.Maui.Dialogs;
 using SingleScope.Maui.Dialogs.Abstractions;
+using SingleScope.Maui.Dialogs.Models;
 using SingleScope.Maui.Loadings.Abstractions;
 using SingleScope.Mvvm.Base;
 using SingleScope.Reporting.Abstractions;
@@ -35,7 +37,7 @@ namespace Sample.ViewModels
         {
             try
             {
-                using var _ = _loadingService.Show("scoped loading");
+                await using var _ = _loadingService.ShowAsync("scoped loading");
                 await Task.Delay(3000);
             }
             catch (Exception ex)
@@ -49,7 +51,7 @@ namespace Sample.ViewModels
         {
             try
             {
-                using var _ = _loadingService.Show("scoped loading cancelable", () => { });
+                await using var _ = _loadingService.ShowAsync("scoped loading cancelable", cancelAction: () => { });
                 await Task.Delay(10000);
             }
             catch (Exception ex)
@@ -63,7 +65,7 @@ namespace Sample.ViewModels
         {
             try
             {
-                using var loading = _progressiveLoading.Show("progressive loading");
+                await using var loading = _progressiveLoading.ShowAsync("progressive loading");
                 double progress = 0;
 
                 do
@@ -86,7 +88,7 @@ namespace Sample.ViewModels
         {
             try
             {
-                using var loading = _progressiveLoading.Show("cancellable progressive loading", () => { });
+                await using var loading = _progressiveLoading.ShowAsync("cancellable progressive loading", () => { });
                 double progress = 0;
 
                 do
@@ -109,7 +111,7 @@ namespace Sample.ViewModels
         {
             try
             {
-                await _dialogService.ShowAsync(DialogRequest.Alert("titel", "ahahe", cancel: "tidak"));
+                await _dialogService.ShowAsync(Dialog.Alert("Dialog title", "The message: lorem ipsum dolor sir amet", cancel: "Close"));
             }
             catch (Exception ex)
             {
