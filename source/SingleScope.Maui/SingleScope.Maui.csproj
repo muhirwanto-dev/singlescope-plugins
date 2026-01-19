@@ -16,8 +16,8 @@
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
     <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 
-    <AssemblyVersion>10.2.1</AssemblyVersion>
-    <FileVersion>10.2.1.0117</FileVersion>
+    <AssemblyVersion>10.2.2</AssemblyVersion>
+    <FileVersion>10.2.2.0119</FileVersion>
     <VersionPrefix>$(AssemblyVersion)</VersionPrefix>
   </PropertyGroup>
 

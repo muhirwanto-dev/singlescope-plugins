@@ -26,7 +26,9 @@ namespace SingleScope.Maui.Loadings.Core
                 if (!renderer.IsCancelled)
                 {
                     while (_stopwatch.ElapsedMilliseconds <= loadingTimeMs)
-                    { }
+                    {
+                        await Task.Yield();
+                    }
 
                     // fix: popup scrim will never fade if the interval between ShowAsync() and HideAsync() is too short
                     await Task.Delay(_options.Value.MinimumTimeframeMs);
