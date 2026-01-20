@@ -7,7 +7,7 @@
         public const string Absolute = "//";
         public const string AbsoluteClearStack = "///";
 
-        public static readonly ShellNavigationParams Empty = new();
+        public static ShellNavigationParams Empty => new();
 
         public NavigationQuery Query { get; init; } = [];
 
