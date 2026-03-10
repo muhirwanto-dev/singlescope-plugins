@@ -1,4 +1,4 @@
-# SingleScope.Persistence
+# SingleScope.Persistence.EFCore
 
 [![NuGet Version](https://img.shields.io/nuget/v/SingleScope.Persistence.EFCore.svg?style=flat-square)](https://www.nuget.org/packages/SingleScope.Persistence.EFCore/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/SingleScope.Persistence.EFCore.svg?style=flat-square)](https://www.nuget.org/packages/SingleScope.Persistence.EFCore/)
@@ -10,11 +10,11 @@
 
 ## Overview
 
-This library provides concrete implementations of the generic `IRepository<TEntity>` and `IUnitOfWork` interfaces from the [SingleScope.Persistence](https://github.com/muhirwanto-dev/singlescope-plugins/tree/main/source/SingleScope.Persistence) package, leveraging Entity Framework Core for data persistence.
+This library provides concrete implementations of the generic `IReadWriteRepository<TEntity>`, `IReadRepository<TEntity>`, `IWriteRepository<TEntity>` and `IUnitOfWork` interfaces from the [SingleScope.Persistence](https://github.com/muhirwanto-dev/singlescope-plugins/tree/main/source/SingleScope.Persistence) package, leveraging Entity Framework Core for data persistence.
 
 ## Features
 
-* Generic Repository implementation (`Repository<TEntity>`) for `EntityFrameworkCore`.
+* Generic ReadWriteRepository implementation (`ReadWriteRepository`, `ReadOnlyRepository`) for `EntityFrameworkCore`.
 * Unit of Work implementation (`UnitOfWork`) to manage transactions across multiple repositories.
 * Easy integration with .NET Dependency Injection.
 
@@ -49,21 +49,23 @@ public class YourDbContext : DbContext
 }
 ```
 
-**Implement `IRepository<TEntity>` and `IUnitOfWork`**
+**Implement `*ReadWriteRepository<TEntity>` and `UnitOfWork`**
 
 ```csharp
-using SingleScope.Persistence.EFCore.Repository;
+using SingleScope.Persistence.EFCore.Repositories;
 using SingleScope.Persistence.EFCore.UnitOfWork;
 
 // Read-Write repository
-public class YourRwRepository<TEntity, TKey> : ReadWriteRepository<TEntity, TKey>
+public class YourRwRepository<TEntity, TContext> : ReadWriteRepository<TEntity, TContext>
     where TEntity : class
+    where TContext : DbContext
 {   
 }
 
 // Read-Only repository
-public class YourRoRepository<TEntity, TKey> : ReadOnlyRepository<TEntity, TKey>
+public class YourRoRepository<TEntity, TContext> : ReadOnlyRepository<TEntity, TContext>
     where TEntity : class
+    where TContext : DbContext
 {
 }
 
@@ -87,17 +89,20 @@ public class YourUnitOfWork<TContext> : UnitOfWork<TContext>
 ```csharp
 // Inject the services in Program.cs
 
-// Option 1: inject generic Repository & UnitOfWork with db context at once
+// Option 1: inject generic ReadWriteRepository & UnitOfWork with db context at once
 services.AddEfCorePersistence<YourDbContext>(builder => builder.UseSqlServer("your connection string"));
 
-// Option 2: inject generic Repository & UnitOfWork and db context separately
+// Option 2: inject generic ReadWriteRepository & UnitOfWork and db context separately
 services.AddEfCorePersistence();
 services.AddDbContext<YourDbContext>(builder => builder.UseSqlServer("your connection string"));
 
-// Inject specific Repository & UnitOfWork
-services.AddScoped<IRepository<YourEntity, int>, YourRwRepository<YourEntity, int>>();
-services.AddScoped<IReadRepository<YourEntity, int>, YourRoRepository<YourEntity, int>>();
+// Inject specific ReadWriteRepository & UnitOfWork
+services.AddScoped<IReadWriteRepository<YourEntity, YourDbContext>, YourRwRepository<YourEntity, YourDbContext>>();
+services.AddScoped<IReadRepository<YourEntity, YourDbContext>, YourRoRepository<YourEntity, YourDbContext>>();
 services.AddScoped<IUnitOfWork<YourDbContext>, YourUnitOfWork<YourDbContext>>();
+
+// Set Service Locator after build the app
+app.Services.UseSingleScopePersistence();
 ```
 
 ## Contributions
@@ -120,6 +125,6 @@ Distributed under the [MIT License](https://github.com/muhirwanto-dev/singlescop
 
 ## Contact
 
-[@muhirwanto-dev](https://github.com/muhirwanto-dev) - [muhammadirwanto.dev@gmail.com](mailto:muhammadirwanto.dev@gmail.com)
+[@muhirwanto-dev](https://github.com/muhirwanto-dev)
 
 Project link: [https://github.com/muhirwanto-dev/singlescope-plugins/tree/main/source/SingleScope.Persistence.EFCore](https://github.com/muhirwanto-dev/singlescope-plugins/tree/main/source/SingleScope.Persistence.EFCore)

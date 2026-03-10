@@ -16,11 +16,8 @@ namespace SingleScope.Common.Extensions
             }
 
             // Use a regular expression to identify and process parts of the string outside of curly braces
-            return Regex.Replace(origin, @"[a-zA-Z]+(?=(?:[^{}]*{[^{}]*})*[^{}]*$)", match =>
-            {
-                // Convert the matched segment to kebab-case
-                return Regex.Replace(match.Value, "([a-z])([A-Z])", "$1-$2").ToLower();
-            });
+            return Regex.Replace(origin, @"[a-zA-Z]+(?=(?:[^{}]*{[^{}]*})*[^{}]*$)",
+                match => Regex.Replace(match.Value, "([a-z])([A-Z])", "$1-$2").ToLower());
         }
 
         [return: NotNullIfNotNull(nameof(message))]
@@ -42,12 +39,12 @@ namespace SingleScope.Common.Extensions
 
         public static SecureString? ToSecureString(this string? origin)
         {
-            var secured = new SecureString();
-
             if (string.IsNullOrWhiteSpace(origin))
             {
                 return null;
             }
+
+            var secured = new SecureString();
 
             foreach (char c in origin.ToCharArray())
             {

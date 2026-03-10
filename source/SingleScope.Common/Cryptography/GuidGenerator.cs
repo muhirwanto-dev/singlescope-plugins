@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace SingleScope.Common.Cryptography
@@ -18,13 +19,11 @@ namespace SingleScope.Common.Cryptography
         /// </example>
         public static Guid ComputeGuid(params string[] args)
         {
-            using (MD5 md5 = MD5.Create())
-            {
-                byte[] enc = Encoding.UTF8.GetBytes(string.Join("", args));
-                byte[] hash = md5.ComputeHash(enc);
+            using MD5 md5 = MD5.Create();
+            byte[] enc = Encoding.UTF8.GetBytes(string.Join("", args));
+            byte[] hash = md5.ComputeHash(enc);
 
-                return new Guid(hash);
-            }
+            return new Guid(hash);
         }
     }
 }

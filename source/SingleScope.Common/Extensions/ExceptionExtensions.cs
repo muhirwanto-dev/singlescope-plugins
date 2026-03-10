@@ -1,5 +1,7 @@
-﻿using System.Net;
+﻿using System;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SingleScope.Common.Extensions
 {
@@ -8,38 +10,32 @@ namespace SingleScope.Common.Extensions
         public static string GetDeepMessage(this Exception exception, bool writeNewLine = true)
         {
             var sb = new StringBuilder();
-            string? line = null;
 
-            if (exception is HttpRequestException httpException &&
-                httpException.StatusCode != null && httpException.StatusCode != HttpStatusCode.InternalServerError)
-            {
-                line = string.IsNullOrEmpty(httpException.Message) ? httpException.StatusCode.ToString() : httpException.Message;
-
-                if (writeNewLine)
-                {
-                    sb.AppendLine(line);
-                }
-                else
-                {
-                    sb.Append(line);
-                }
-            }
-            else if (exception is TaskCanceledException cte)
+            if (exception is TaskCanceledException cte)
             {
                 sb.Append(cte.Message);
 
                 return sb.ToString();
             }
+
+            string? line;
+
+            if (exception is HttpRequestException httpException)
+            {
+                line = httpException.Message;
+            }
             else
             {
-                if (writeNewLine)
-                {
-                    sb.AppendLine(exception.Message);
-                }
-                else
-                {
-                    sb.Append(exception.Message);
-                }
+                line = exception.Message;
+            }
+
+            if (writeNewLine)
+            {
+                sb.AppendLine(line);
+            }
+            else
+            {
+                sb.Append(line);
             }
 
             if (exception.InnerException != null)

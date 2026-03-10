@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
-
-namespace SingleScope.Persistence.Benchmarks.DataSource
+﻿namespace SingleScope.Persistence.Benchmarks.DataSource
 {
     internal class RwVirtualRepositoryImpl : RwVirtualRepository
     {
