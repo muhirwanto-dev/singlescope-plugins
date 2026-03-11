@@ -44,4 +44,4 @@ jobs:
         run: |
           ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"muhirwanto-dev_singlescope-plugins" /o:"muhirwanto-dev" /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
           dotnet build
-          ${{ runner.temp }}\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}
+          ${{ runner.temp }}\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
