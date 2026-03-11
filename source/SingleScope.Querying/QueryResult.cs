@@ -21,7 +21,7 @@ namespace SingleScope.Querying
         {
         }
 
-        public QueryResult(int totalDataCount = 0)
+        public QueryResult(int totalDataCount)
             : this(Array.Empty<T>(), totalDataCount, null)
         {
         }
