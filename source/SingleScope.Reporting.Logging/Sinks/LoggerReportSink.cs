@@ -24,7 +24,7 @@ namespace SingleScope.Reporting.Logging.Sinks
             return true;
         }
 
-        public Task HandleAsync(ReportingMode mode, Report report, CancellationToken cancellationToken)
+        public Task HandleAsync(ReportingMode mode, Report report, CancellationToken cancellationToken = default)
         {
             var message = report.Message;
 
