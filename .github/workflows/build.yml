@@ -51,6 +51,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"muhirwanto-dev_singlescope-plugins" /o:"muhirwanto-dev" /d:sonar.token="$SONAR_TOKEN"
+          ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"muhirwanto-dev_singlescope-plugins" /o:"muhirwanto-dev" /d:sonar.token="$env:SONAR_TOKEN"
           dotnet build --configuration Release
-          ${{ runner.temp }}\scanner\dotnet-sonarscanner end /d:sonar.token="$SONAR_TOKEN"
+          ${{ runner.temp }}\scanner\dotnet-sonarscanner end /d:sonar.token="$env:SONAR_TOKEN"
